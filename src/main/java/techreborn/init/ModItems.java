@@ -15,6 +15,9 @@ import techreborn.items.*;
 import techreborn.items.armor.ItemLapotronPack;
 import techreborn.items.armor.ItemLithiumBatpack;
 import techreborn.items.tools.*;
+import techreborn.items.component.ItemCoolantCell;
+import techreborn.items.component.ItemFuelRod;
+import techreborn.items.component.ItemReflector;
 import techreborn.powerSystem.PoweredItem;
 import ic2.api.item.IC2Items;
 
@@ -36,6 +39,21 @@ public class ModItems {
     public static Item parts;
     @Deprecated
     public static Item cells;
+    
+    public static Item neutronReflector;
+    public static Item coolantHe60k;
+    public static Item coolantHe180k;
+    public static Item coolantHe360k;
+    public static Item coolantNaK60k;
+    public static Item coolantNaK180k;
+    public static Item coolantNaK360k;
+    public static Item cellPlutonium1;
+    public static Item cellPlutonium2;
+    public static Item cellPlutonium4;
+    public static Item cellThorium1;
+    public static Item cellThorium2;
+    public static Item cellThorium4;
+    
     public static Item rockCutter;
     public static Item lithiumBatpack;
     public static Item lapotronpack;
@@ -112,7 +130,33 @@ public class ModItems {
 		        }
 	        }
         }
-
+        neutronReflector = new ItemReflector(0);
+        GameRegistry.registerItem(neutronReflector, "neutronReflector");
+        coolantHe60k = new ItemCoolantCell(60000, "He60k");
+        GameRegistry.registerItem(coolantHe60k, "coolantHe60k");
+        coolantHe180k = new ItemCoolantCell(180000, "He180k");
+        GameRegistry.registerItem(coolantHe180k, "coolantHe180k");
+        coolantHe360k = new ItemCoolantCell(360000, "He360k");
+        GameRegistry.registerItem(coolantHe360k, "coolantHe360k");
+        coolantNaK60k = new ItemCoolantCell(60000, "NaK60k");
+        GameRegistry.registerItem(coolantNaK60k, "coolantNaK60k");
+        coolantNaK180k = new ItemCoolantCell(180000, "NaK180k");
+        GameRegistry.registerItem(coolantNaK180k, "coolantNaK180k");
+        coolantNaK360k = new ItemCoolantCell(360000, "NaK360k");
+        GameRegistry.registerItem(coolantNaK360k, "coolantNaK360k");
+        cellPlutonium1 = new ItemFuelRod("cellPlutonium1", 1, 20000, 2, 2, 2, IC2Items.getItem("reactorDepletedUraniumSimple"));
+        GameRegistry.registerItem(cellPlutonium1, "cellPlutonium1");
+        cellPlutonium2 = new ItemFuelRod("cellPlutonium2", 2, 20000, 2, 2, 2, IC2Items.getItem("reactorDepletedUraniumDual"));
+        GameRegistry.registerItem(cellPlutonium2, "cellPlutonium2");
+        cellPlutonium4 = new ItemFuelRod("cellPlutonium4", 4, 20000, 2, 2, 2, IC2Items.getItem("reactorDepletedUraniumQuad"));
+        GameRegistry.registerItem(cellPlutonium4, "cellPlutonium4");
+        cellThorium1 = new ItemFuelRod("cellThorium1", 1, 25000, 0.2f, 2, 0.5f, null);
+        GameRegistry.registerItem(cellThorium1, "cellThorium1");
+        cellThorium2 = new ItemFuelRod("cellThorium2", 2, 25000, 0.2f, 2, 0.5f, null);
+        GameRegistry.registerItem(cellThorium2, "cellThorium2");
+        cellThorium4 = new ItemFuelRod("cellThorium4", 4, 25000, 0.2f, 2, 0.5f, null);
+        GameRegistry.registerItem(cellThorium4, "cellThorium4");
+        
         rockCutter = PoweredItem.createItem(ItemRockCutter.class);
         GameRegistry.registerItem(rockCutter, "rockCutter");
         lithiumBatpack = PoweredItem.createItem(ItemLithiumBatpack.class);

@@ -1,103 +1,96 @@
 package techreborn.items;
 
+import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import techreborn.client.TechRebornCreativeTabMisc;
 import techreborn.init.ModItems;
-
-import java.security.InvalidParameterException;
-import java.util.List;
+import techreborn.utils.RecipeUtils;
 
 public class ItemDusts extends ItemTR {
-    public static ItemStack getDustByName(String name, int count) {
-        for (int i = 0; i < types.length; i++) {
-            if (types[i].equalsIgnoreCase(name)) {
-                return new ItemStack(ModItems.dusts, count, i);
-            }
-        }
 
-        if (name.equalsIgnoreCase("glowstone")) {
-            return new ItemStack(Items.glowstone_dust, count);
-        }
-        if (name.equalsIgnoreCase("redstone")) {
-            return new ItemStack(Items.redstone, count);
-        }
-        if (name.equalsIgnoreCase("gunpowder")) {
-            return new ItemStack(Items.gunpowder, count);
-        }
-        throw new InvalidParameterException("The dust " + name + " could not be found.");
-    }
+	public static ItemStack getDustByName(String name, int count) {
+		int meta = RecipeUtils.getArrayPos(types, name);
+		if (meta == -1)
+			throw new IllegalArgumentException("The dust " + name + " could not be found.");
+		return new ItemStack(ModItems.dusts, count, meta);
+	}
 
-    public static ItemStack getDustByName(String name) {
-        return getDustByName(name, 1);
-    }
+	public static ItemStack getDustByName(String name) {
+		return getDustByName(name, 1);
+	}
 
-    public static final String[] types = new String[]
-            {"almandine", "aluminumBrass", "aluminum", "alumite", "andradite",
-                    "antimony", "ardite", "ashes", "basalt", "bauxite", "biotite",
-                    "brass", "bronze", "cadmium", "calcite", "charcoal", "chrome",
-                    "cinnabar", "clay", "coal", "cobalt", "copper", "cupronickel",
-                    "darkAshes", "darkIron", "diamond", "electrum", "emerald",
-                    "enderEye", "enderPearl", "endstone", "flint", "galena", "gold", "graphite",
-                    "grossular", "indium", "invar", "iridium", "iron", "kanthal", "lapis", "lazurite",
-                    "lead", "limestone", "lodestone", "magnesium", "magnetite", "manganese",
-                    "manyullyn", "marble", "mithril", "netherrack", "nichrome", "nickel",
-                    "obsidian", "osmium", "peridot", "phosphorous", "platinum", "potassiumFeldspar",
-                    "pyrite", "pyrope", "redGarnet", "redrock", "ruby", "saltpeter",
-                    "sapphire", "sawDust", "silicon", "silver", "sodalite", "spessartine", "sphalerite",
-                    "steel", "sulfur", "tellurium", "teslatite", "tetrahedrite", "tin",
-                    "titanium", "tungsten", "uvarovite", "vinteum", "voidstone", "yellowGarnet",
-                    "zinc", "greenSapphire", "olivine"};
+	public static final String[] types = new String[] { "almandine", "aluminum", "andradite", "ashes", "basalt",
+			"bauxite", "brass", "bronze", "calcite", "charcoal", "chromium", "cinnabar", "clay", "coal", "copper",
+			"darkAshes", "diamond", "electrum", "emerald", "enderEye", "enderPearl", "endstone", "flint", "flour",
+			"galena", "gold", "grossular", "invar", "iron", "lazurite", "lead", "magnesium", "manganese", "marble",
+			"netherrack", "nickel", "obsidian", "olivine", "osmium", "peridot", "platinum", "plutonium", "pyrite",
+			"pyrope", "redGarnet", "redrock", "ruby", "saltpeter", "sapphire", "sawDust", "silver", "sodalite",
+			"spessartine", "sphalerite", "steel", "sulfur", "thorium", "tin", "titanium", "tricalciumPhosphate",
+			"tungsten", "uranium", "uvarovite", "yellowGarnet", "zinc" };
 
-    private IIcon[] textures;
+	private IIcon[] textures;
 
-    public ItemDusts() {
-        setUnlocalizedName("techreborn.dust");
-        setHasSubtypes(true);
-        setCreativeTab(TechRebornCreativeTabMisc.instance);
-    }
+	public ItemDusts() {
+		setUnlocalizedName("techreborn.dust");
+		setHasSubtypes(true);
+		setCreativeTab(TechRebornCreativeTabMisc.instance);
+	}
 
-    @Override
-    // Registers Textures For All Dusts
-    public void registerIcons(IIconRegister iconRegister) {
-        textures = new IIcon[types.length];
+	@Override
+	@SideOnly(Side.CLIENT)
+	// Registers Textures For All Dusts
+	public void registerIcons(IIconRegister iconRegister) {
+		textures = new IIcon[types.length];
 
-        for (int i = 0; i < types.length; ++i) {
-            textures[i] = iconRegister.registerIcon("techreborn:" + "dust/"
-                    + types[i] + "Dust");
-        }
-    }
+		for (int i = 0; i < types.length; ++i) {
+			textures[i] = iconRegister.registerIcon("techreborn:" + "dust/" + types[i] + "Dust");
+		}
+	}
 
-    @Override
-    // Adds Texture what match's meta data
-    public IIcon getIconFromDamage(int meta) {
-        if (meta < 0 || meta >= textures.length) {
-            meta = 0;
-        }
+	@Override
+	@SideOnly(Side.CLIENT)
+	// Adds Texture what match's meta data
+	public IIcon getIconFromDamage(int meta) {
+		if (meta < 0 || meta >= textures.length) {
+			meta = 0;
+		}
 
-        return textures[meta];
-    }
+		return textures[meta];
+	}
 
-    @Override
-    // gets Unlocalized Name depending on meta data
-    public String getUnlocalizedName(ItemStack itemStack) {
-        int meta = itemStack.getItemDamage();
-        if (meta < 0 || meta >= types.length) {
-            meta = 0;
-        }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean hasEffect(ItemStack par1ItemStack, int pass) {
+		int meta = par1ItemStack.getItemDamage();
+		return meta == RecipeUtils.getArrayPos(types, "plutonium")
+				|| meta == RecipeUtils.getArrayPos(types, "thorium")
+				|| meta == RecipeUtils.getArrayPos(types, "uranium");
+	}
 
-        return super.getUnlocalizedName() + "." + types[meta];
-    }
+	@Override
+	// gets Unlocalized Name depending on meta data
+	public String getUnlocalizedName(ItemStack itemStack) {
+		int meta = itemStack.getItemDamage();
+		if (meta < 0 || meta >= types.length) {
+			meta = 0;
+		}
 
-    // Adds Dusts SubItems To Creative Tab
-    public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
-        for (int meta = 0; meta < types.length; ++meta) {
-            list.add(new ItemStack(item, 1, meta));
-        }
-    }
+		return super.getUnlocalizedName() + "." + types[meta];
+	}
+
+	// Adds Dusts SubItems To Creative Tab
+	@Override
+	public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
+		for (int meta = 0; meta < types.length; ++meta) {
+			list.add(new ItemStack(item, 1, meta));
+		}
+	}
 
 }

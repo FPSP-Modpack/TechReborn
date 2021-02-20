@@ -11,7 +11,7 @@ import techreborn.lib.ModInfo;
 
 public class ModFluids {
 
-    public static Fluid fluidberylium = new Fluid("fluidberylium");
+    public static Fluid fluidberylium = new Fluid("fluidberyllium");
     public static Block BlockFluidBerylium;
 
     public static Fluid fluidcalcium = new Fluid("fluidcalcium");
@@ -20,7 +20,7 @@ public class ModFluids {
     public static Fluid fluidcalciumcarbonate = new Fluid("fluidcalciumcarbonate");
     public static Block BlockFluidCalciumCarbonate;
 
-    public static Fluid fluidChlorite = new Fluid("fluidchlorite");
+    public static Fluid fluidChlorite = new Fluid("fluidchlorine");
     public static Block BlockFluidChlorite;
 
     public static Fluid fluidDeuterium = new Fluid("fluiddeuterium");
@@ -77,12 +77,12 @@ public class ModFluids {
     public static Fluid fluidTritium = new Fluid("fluidtritium");
     public static Block BlockFluidTritium;
 
-    public static Fluid fluidWolframium = new Fluid("fluidwolframium");
+    public static Fluid fluidWolframium = new Fluid("fluidtungsten");
     public static Block BlockFluidWolframium;
 
     public static void init() {
         FluidRegistry.registerFluid(fluidberylium);
-        BlockFluidBerylium = new BlockFluidTechReborn(fluidberylium, Material.water, "techreborn.berylium");
+        BlockFluidBerylium = new BlockFluidTechReborn(fluidberylium, Material.water, "techreborn.beryllium");
         GameRegistry.registerBlock(BlockFluidBerylium, ModInfo.MOD_ID + "_" + BlockFluidBerylium.getUnlocalizedName().substring(5));
         fluidberylium.setUnlocalizedName(BlockFluidBerylium.getUnlocalizedName());
 
@@ -97,7 +97,7 @@ public class ModFluids {
         fluidcalcium.setUnlocalizedName(BlockFluidCalciumCarbonate.getUnlocalizedName());
 
         FluidRegistry.registerFluid(fluidChlorite);
-        BlockFluidChlorite = new BlockFluidTechReborn(fluidChlorite, Material.water, "techreborn.chlorite");
+        BlockFluidChlorite = new BlockFluidTechReborn(fluidChlorite, Material.water, "techreborn.chlorine");
         GameRegistry.registerBlock(BlockFluidChlorite, ModInfo.MOD_ID + "_" + BlockFluidChlorite.getUnlocalizedName().substring(5));
         fluidChlorite.setUnlocalizedName(BlockFluidChlorite.getUnlocalizedName());
 

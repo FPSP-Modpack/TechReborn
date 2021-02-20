@@ -1,10 +1,10 @@
 package techreborn.config;
 
+import java.io.File;
+
 import cpw.mods.fml.common.Loader;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.config.Configuration;
-
-import java.io.File;
 
 public class ConfigTechReborn {
     private static ConfigTechReborn instance = null;
@@ -30,18 +30,6 @@ public class ConfigTechReborn {
 
     public static boolean BauxiteOreTrue;
     public static int BauxiteOreRare;
-
-    public static boolean TetrahedriteOreTrue;
-    public static int TetrahedriteOreRare;
-
-    public static boolean CassiteriteOreTrue;
-    public static int CassiteriteOreRare;
-
-    public static boolean LeadOreTrue;
-    public static int LeadOreRare;
-
-    public static boolean SilverOreTrue;
-    public static int SilverOreRare;
 
     public static boolean PyriteOreTrue;
     public static int PyriteOreRare;
@@ -211,18 +199,6 @@ public class ConfigTechReborn {
                 .get(CATEGORY_WORLD, StatCollector.translateToLocal("config.techreborn.allow.bauxiteOre"), true,
                         StatCollector.translateToLocal("config.techreborn.allow.bauxiteOre.tooltip"))
                 .getBoolean(true);
-        TetrahedriteOreTrue = config
-                .get(CATEGORY_WORLD, StatCollector.translateToLocal("config.techreborn.allow.copperOre"), true,
-                        StatCollector.translateToLocal("config.techreborn.allow.copperOre.tooltip"))
-                .getBoolean(true);
-        CassiteriteOreTrue = config
-                .get(CATEGORY_WORLD, StatCollector.translateToLocal("config.techreborn.allow.tinOre"), true,
-                        StatCollector.translateToLocal("config.techreborn.allow.tinOre.tooltip"))
-                .getBoolean(true);
-        LeadOreTrue = config.get(CATEGORY_WORLD, StatCollector.translateToLocal("config.techreborn.allow.leadOre"),
-                true, StatCollector.translateToLocal("config.techreborn.allow.leadOre.tooltip")).getBoolean(true);
-        SilverOreTrue = config.get(CATEGORY_WORLD, StatCollector.translateToLocal("config.techreborn.allow.silverOre"),
-                true, StatCollector.translateToLocal("config.techreborn.allow.silverOre.tooltip")).getBoolean(true);
         PyriteOreTrue = config.get(CATEGORY_WORLD, StatCollector.translateToLocal("config.techreborn.allow.pyriteOre"),
                 true, StatCollector.translateToLocal("config.techreborn.allow.pyriteOre.tooltip")).getBoolean(true);
         CinnabarOreTrue = config
@@ -295,20 +271,6 @@ public class ConfigTechReborn {
                 .get(CATEGORY_WORLD, StatCollector.translateToLocal("config.techreborn.sodaliteOre.rare"), 6,
                         StatCollector.translateToLocal("config.techreborn.sodaliteOre.rare.tooltip"))
                 .getInt();
-
-        TetrahedriteOreRare = config
-                .get(CATEGORY_WORLD, StatCollector.translateToLocal("config.techreborn.copperOre.rare"), 6,
-                        StatCollector.translateToLocal("config.techreborn.copperOre.rare.tooltip"))
-                .getInt();
-
-        CassiteriteOreRare = config.get(CATEGORY_WORLD, StatCollector.translateToLocal("config.techreborn.tinOre.rare"),
-                6, StatCollector.translateToLocal("config.techreborn.tinOre.rare.tooltip")).getInt();
-
-        LeadOreRare = config.get(CATEGORY_WORLD, StatCollector.translateToLocal("config.techreborn.leadOre.rare"), 6,
-                StatCollector.translateToLocal("config.techreborn.leadOre.rare.tooltip")).getInt();
-
-        SilverOreRare = config.get(CATEGORY_WORLD, StatCollector.translateToLocal("config.techreborn.silverOre.rare"),
-                6, StatCollector.translateToLocal("config.techreborn.silverOre.rare.tooltip")).getInt();
 
         FortuneSecondaryOreMultiplierPerLevel = config
                 .get(CATEGORY_WORLD,

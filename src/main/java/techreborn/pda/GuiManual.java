@@ -1,5 +1,8 @@
 package techreborn.pda;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -8,11 +11,13 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import techreborn.init.ModBlocks;
 import techreborn.init.ModItems;
-import techreborn.pda.pages.*;
+import techreborn.pda.pages.ContentsPage;
+import techreborn.pda.pages.CraftingInfoPage;
+import techreborn.pda.pages.IndexPage;
+import techreborn.pda.pages.ItemsPage;
+import techreborn.pda.pages.MultiBlockPage;
 
 @SideOnly(Side.CLIENT)
 public class GuiManual extends GuiScreen {
@@ -43,7 +48,6 @@ public class GuiManual extends GuiScreen {
         pageCollection.addPage(new ItemsPage("MACHINES", pageCollection, "MACHINES_PAGE"));
         pageCollection.addPage(new ItemsPage("POWER_GENERATION", pageCollection, "POWER_GENERATION_PAGE"));
         pageCollection.addPage(new ItemsPage("POWER_STORAGE", pageCollection, "POWER_STORAGE_PAGE"));
-        pageCollection.addPage(new VersionPage("VERSION", pageCollection, "VERSION PAGE", 777777));
         pageCollection.addPage(new MultiBlockPage("MULTIBLOCKS", pageCollection, "MULTIBLOCK_PAGE"));
 
         pageCollection.addPage(new CraftingInfoPage("POWER_STORAGE_PAGE." + getNextPageIndex(), pageCollection, new ItemStack(ModBlocks.Aesu), ""));

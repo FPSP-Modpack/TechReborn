@@ -1,5 +1,9 @@
 package techreborn;
 
+import java.io.File;
+
+import org.apache.commons.lang3.time.StopWatch;
+
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -12,12 +16,10 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.common.MinecraftForge;
-import org.apache.commons.lang3.time.StopWatch;
 import reborncore.common.multiblock.MultiblockEventHandler;
 import reborncore.common.multiblock.MultiblockServerTickHandler;
 import reborncore.common.packets.AddDiscriminatorEvent;
 import reborncore.common.util.LogHelper;
-import reborncore.common.util.VersionChecker;
 import techreborn.achievement.TRAchievements;
 import techreborn.api.recipe.RecipeHandler;
 import techreborn.api.recipe.recipeConfig.RecipeConfigManager;
@@ -28,15 +30,17 @@ import techreborn.compat.ICompatModule;
 import techreborn.config.ConfigTechReborn;
 import techreborn.events.OreUnifier;
 import techreborn.events.TRTickHandler;
-import techreborn.init.*;
+import techreborn.init.ModBlocks;
+import techreborn.init.ModFluids;
+import techreborn.init.ModItems;
+import techreborn.init.ModParts;
+import techreborn.init.ModRecipes;
 import techreborn.lib.ModInfo;
 import techreborn.packets.PacketAesu;
 import techreborn.packets.PacketIdsu;
 import techreborn.proxies.CommonProxy;
 import techreborn.tiles.idsu.IDSUManager;
 import techreborn.world.TROreGen;
-
-import java.io.File;
 
 @Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.MOD_VERSION, dependencies = ModInfo.MOD_DEPENDENCUIES, guiFactory = ModInfo.GUI_FACTORY_CLASS)
 public class Core {
@@ -47,8 +51,6 @@ public class Core {
 
     @Mod.Instance
     public static Core INSTANCE;
-
-    public VersionChecker versionChecker;
 
     public static LogHelper logHelper = new LogHelper(new ModInfo());
 
@@ -69,8 +71,6 @@ public class Core {
         }
 
         RecipeConfigManager.load(event.getModConfigurationDirectory());
-        versionChecker = new VersionChecker("TechReborn", new ModInfo());
-        versionChecker.checkVersionThreaded();
         logHelper.info("PreInitialization Complete");
     }
 

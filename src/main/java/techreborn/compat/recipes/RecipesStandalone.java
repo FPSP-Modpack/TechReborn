@@ -18,7 +18,11 @@ import techreborn.compat.ICompatModule;
 import techreborn.config.ConfigTechReborn;
 import techreborn.init.ModBlocks;
 import techreborn.init.ModItems;
-import techreborn.items.*;
+import techreborn.items.ItemCells;
+import techreborn.items.ItemDusts;
+import techreborn.items.ItemIngots;
+import techreborn.items.ItemParts;
+import techreborn.items.ItemPlates;
 
 public class RecipesStandalone implements ICompatModule {
     @Override
@@ -43,9 +47,8 @@ public class RecipesStandalone implements ICompatModule {
 
     }
 
-    public void addTRRecipes() {
+    static void addTRRecipes() {
         //General
-        CraftingHelper.addShapelessOreRecipe(new ItemStack(ModItems.manuel), "plateIron", Items.book);
 
         CraftingHelper.addShapedOreRecipe(
                 ItemParts.getPartByName("machineParts", 16),

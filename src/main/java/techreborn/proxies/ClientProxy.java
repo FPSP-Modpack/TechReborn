@@ -6,7 +6,6 @@ import reborncore.client.multiblock.MultiblockRenderEvent;
 import techreborn.client.ClientMultiBlocks;
 import techreborn.client.IconSupplier;
 import techreborn.client.StackToolTipEvent;
-import techreborn.client.VersionCheckerClient;
 import techreborn.client.hud.ChargeHud;
 import techreborn.client.keybindings.KeyBindings;
 

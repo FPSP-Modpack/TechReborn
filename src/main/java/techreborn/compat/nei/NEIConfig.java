@@ -2,8 +2,17 @@ package techreborn.compat.nei;
 
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
-import techreborn.api.recipe.machines.VacuumFreezerRecipe;
-import techreborn.compat.nei.recipes.*;
+import techreborn.compat.nei.recipes.AlloySmelterRecipeHandler;
+import techreborn.compat.nei.recipes.AssemblingMachineRecipeHandler;
+import techreborn.compat.nei.recipes.BlastFurnaceRecipeHandler;
+import techreborn.compat.nei.recipes.CentrifugeRecipeHandler;
+import techreborn.compat.nei.recipes.ChemicalReactorRecipeHandler;
+import techreborn.compat.nei.recipes.GrinderRecipeHandler;
+import techreborn.compat.nei.recipes.ImplosionCompressorRecipeHandler;
+import techreborn.compat.nei.recipes.IndustrialElectrolyzerRecipeHandler;
+import techreborn.compat.nei.recipes.IndustrialSawmillRecipeHandler;
+import techreborn.compat.nei.recipes.IronAlloySmelterRecipeHandler;
+import techreborn.compat.nei.recipes.VacuumFreezerRecipeHandler;
 import techreborn.lib.ModInfo;
 
 public class NEIConfig implements IConfigureNEI {

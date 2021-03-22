@@ -167,7 +167,8 @@ public class TileBlastFurnace extends TilePowerAcceptor implements IWrenchable, 
         return inventory.isItemValidForSlot(p_94041_1_, p_94041_2_);
     }
 
-    public Packet getDescriptionPacket() {
+    @Override
+	public Packet getDescriptionPacket() {
         NBTTagCompound nbtTag = new NBTTagCompound();
         writeToNBT(nbtTag);
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord,

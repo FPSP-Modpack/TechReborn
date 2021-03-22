@@ -1,5 +1,7 @@
 package techreborn.powerSystem;
 
+import java.util.Random;
+
 import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
@@ -8,8 +10,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import techreborn.api.power.IEnergyInterfaceTile;
 import techreborn.tiles.TileMachineBase;
-
-import java.util.Random;
 
 /**
  * This is done in a different class so the updateEntity can be striped for ic2 and this one will still get called.

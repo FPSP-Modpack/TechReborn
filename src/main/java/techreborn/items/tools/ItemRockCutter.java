@@ -1,5 +1,7 @@
 package techreborn.items.tools;
 
+import java.util.List;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -17,8 +19,6 @@ import techreborn.api.power.IEnergyItemInfo;
 import techreborn.client.TechRebornCreativeTab;
 import techreborn.config.ConfigTechReborn;
 import techreborn.powerSystem.PoweredItem;
-
-import java.util.List;
 
 public class ItemRockCutter extends ItemPickaxe implements IEnergyItemInfo {
 
@@ -85,7 +85,8 @@ public class ItemRockCutter extends ItemPickaxe implements IEnergyItemInfo {
         return false;
     }
 
-    public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+    @Override
+	public void onCreated(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
         par1ItemStack.addEnchantment(Enchantment.silkTouch, 1);
     }
 
@@ -115,7 +116,8 @@ public class ItemRockCutter extends ItemPickaxe implements IEnergyItemInfo {
         return 2;
     }
 
-    @SuppressWarnings(
+    @Override
+	@SuppressWarnings(
             {"rawtypes", "unchecked"})
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List itemList) {

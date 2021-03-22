@@ -1,5 +1,7 @@
 package techreborn.items.armor;
 
+import java.util.List;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -12,8 +14,6 @@ import techreborn.api.power.IEnergyItemInfo;
 import techreborn.client.TechRebornCreativeTab;
 import techreborn.config.ConfigTechReborn;
 import techreborn.powerSystem.PoweredItem;
-
-import java.util.List;
 
 public class ItemLapotronPack extends ItemArmor implements IEnergyItemInfo {
 
@@ -65,7 +65,8 @@ public class ItemLapotronPack extends ItemArmor implements IEnergyItemInfo {
         return tier;
     }
 
-    @SuppressWarnings(
+    @Override
+	@SuppressWarnings(
             {"rawtypes", "unchecked"})
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List itemList) {

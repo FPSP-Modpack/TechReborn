@@ -1,5 +1,7 @@
 package techreborn.items.tools;
 
+import java.util.List;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import ic2.api.item.ElectricItem;
@@ -18,8 +20,6 @@ import techreborn.api.power.IEnergyItemInfo;
 import techreborn.client.TechRebornCreativeTab;
 import techreborn.config.ConfigTechReborn;
 import techreborn.powerSystem.PoweredItem;
-
-import java.util.List;
 
 public class ItemAdvancedDrill extends ItemPickaxe implements IEnergyItemInfo {
 
@@ -111,7 +111,8 @@ public class ItemAdvancedDrill extends ItemPickaxe implements IEnergyItemInfo {
         return tier;
     }
 
-    @SuppressWarnings(
+    @Override
+	@SuppressWarnings(
             {"rawtypes", "unchecked"})
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List itemList) {

@@ -20,7 +20,6 @@ import reborncore.common.multiblock.MultiblockEventHandler;
 import reborncore.common.multiblock.MultiblockServerTickHandler;
 import reborncore.common.packets.AddDiscriminatorEvent;
 import reborncore.common.util.LogHelper;
-import techreborn.achievement.TRAchievements;
 import techreborn.api.recipe.RecipeHandler;
 import techreborn.api.recipe.recipeConfig.RecipeConfigManager;
 import techreborn.client.GuiHandler;
@@ -40,6 +39,7 @@ import techreborn.packets.PacketAesu;
 import techreborn.packets.PacketIdsu;
 import techreborn.proxies.CommonProxy;
 import techreborn.tiles.idsu.IDSUManager;
+import techreborn.world.DungeonLoot;
 import techreborn.world.TROreGen;
 
 @Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.MOD_VERSION, dependencies = ModInfo.MOD_DEPENDENCUIES, guiFactory = ModInfo.GUI_FACTORY_CLASS)
@@ -84,12 +84,6 @@ public class Core {
         ModItems.init();
         //Multiparts
         ModParts.init();
-        // Recipes
-        StopWatch watch = new StopWatch();
-        watch.start();
-        ModRecipes.init();
-        logHelper.all(watch + " : main recipes");
-        watch.stop();
         //Client only init, needs to be done before parts system
         proxy.init();
         // Compat
@@ -98,12 +92,10 @@ public class Core {
         }
         // WorldGen
         GameRegistry.registerWorldGenerator(new TROreGen(), 0);
-//		DungeonLoot.init();
+		DungeonLoot.init();
         // Register Gui Handler
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
 
-        // Achievements
-        TRAchievements.init();
         // Multiblock events
         MinecraftForge.EVENT_BUS.register(new MultiblockEventHandler());
         // IDSU manager
@@ -117,13 +109,19 @@ public class Core {
 
     @Mod.EventHandler
     public void postinit(FMLPostInitializationEvent event) throws Exception {
+        // Recipes
+        StopWatch watch = new StopWatch();
+        watch.start();
+        ModRecipes.init();
+        logHelper.all(watch + " : main recipes");
+        watch.stop();
         // Has to be done here as Buildcraft registers their recipes late
         for (ICompatModule compatModule : CompatManager.INSTANCE.compatModules) {
             compatModule.postInit(event);
         }
         logHelper.info(RecipeHandler.recipeList.size() + " recipes loaded");
 
-//        RecipeHandler.scanForDupeRecipes();
+        //RecipeHandler.scanForDupeRecipes();
 
         //RecipeConfigManager.save();
     }

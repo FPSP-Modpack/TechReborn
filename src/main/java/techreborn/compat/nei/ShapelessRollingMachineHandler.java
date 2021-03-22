@@ -1,6 +1,9 @@
 //Copy and pasted from https://github.com/Chicken-Bones/NotEnoughItems/blob/master/src/codechicken/nei/recipe/ShapelessRecipeHandler.java
 package techreborn.compat.nei;
 
+import java.awt.Rectangle;
+import java.util.List;
+
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.recipe.ShapelessRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -11,9 +14,6 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import techreborn.api.RollingMachineRecipe;
 import techreborn.client.gui.GuiRollingMachine;
 
-import java.awt.*;
-import java.util.List;
-
 public class ShapelessRollingMachineHandler extends ShapelessRecipeHandler {
 
     @Override
@@ -21,7 +21,8 @@ public class ShapelessRollingMachineHandler extends ShapelessRecipeHandler {
         return GuiRollingMachine.class;
     }
 
-    public String getRecipeName() {
+    @Override
+	public String getRecipeName() {
         return "Shapeless Rolling Machine";
     }
 

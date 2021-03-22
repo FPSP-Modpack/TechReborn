@@ -1,16 +1,22 @@
 package techreborn.compat;
 
+import java.util.ArrayList;
+
 import cpw.mods.fml.common.Loader;
 import ic2.api.info.IC2Classic;
 import techreborn.Core;
 import techreborn.compat.ee3.EmcValues;
 import techreborn.compat.fmp.ForgeMultipartCompat;
 import techreborn.compat.minetweaker.MinetweakerCompat;
-import techreborn.compat.recipes.*;
+import techreborn.compat.recipes.RecipesBiomesOPlenty;
+import techreborn.compat.recipes.RecipesBuildcraft;
+import techreborn.compat.recipes.RecipesForestry;
+import techreborn.compat.recipes.RecipesIC2;
+import techreborn.compat.recipes.RecipesStandalone;
+import techreborn.compat.recipes.RecipesThaumcraft;
+import techreborn.compat.recipes.RecipesThermalExpansion;
 import techreborn.compat.waila.CompatModuleWaila;
 import techreborn.config.ConfigTechReborn;
-
-import java.util.ArrayList;
 
 public class CompatManager {
 

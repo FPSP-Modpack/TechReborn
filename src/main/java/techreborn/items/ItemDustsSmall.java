@@ -26,7 +26,7 @@ public class ItemDustsSmall extends ItemTR {
 		return getSmallDustByName(name, 1);
 	}
 
-	public static final String[] types = new String[] { "almandine", "aluminum", "andradite", "ashes", "basalt",
+	public static final String[] types = new String[] { "almandine", "aluminium", "andradite", "ashes", "basalt",
 			"bauxite", "brass", "bronze", "calcite", "charcoal", "chromium", "cinnabar", "clay", "coal", "copper",
 			"darkAshes", "diamond", "electrum", "emerald", "enderEye", "enderPearl", "endstone", "flint", "galena",
 			"glowstone", "gold", "grossular", "gunpowder", "invar", "iron", "lazurite", "lead", "magnesium",

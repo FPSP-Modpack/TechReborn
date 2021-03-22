@@ -1,8 +1,8 @@
 package ic2.api.info;
 
+import cpw.mods.fml.common.Loader;
 import ic2.api.item.IWrenchHandler;
 import ic2.api.item.IWrenchHandler.IWrenchRegistry;
-import cpw.mods.fml.common.Loader;
 
 public class IC2Classic
 {

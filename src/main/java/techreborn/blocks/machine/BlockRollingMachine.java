@@ -26,7 +26,7 @@ public class BlockRollingMachine extends BlockMachineBase {
     private IIcon iconBottom;
 
     public BlockRollingMachine(Material material) {
-        super(material.rock);
+        super(Material.rock);
         setBlockName("techreborn.rollingmachine");
     }
 

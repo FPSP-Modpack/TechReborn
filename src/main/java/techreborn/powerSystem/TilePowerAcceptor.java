@@ -1,8 +1,11 @@
 package techreborn.powerSystem;
 
+import java.util.List;
+
+import com.mojang.realmsclient.gui.ChatFormatting;
+
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Optional;
 import ic2.api.energy.event.EnergyTileLoadEvent;
@@ -18,10 +21,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import reborncore.api.IListInfoProvider;
 import techreborn.api.power.IEnergyInterfaceTile;
-import techreborn.compat.CompatManager;
 import techreborn.config.ConfigTechReborn;
-
-import java.util.List;
 
 
 @Optional.InterfaceList(value = {

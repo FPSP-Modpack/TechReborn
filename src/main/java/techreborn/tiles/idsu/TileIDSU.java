@@ -1,10 +1,11 @@
 package techreborn.tiles.idsu;
 
+import org.apache.commons.lang3.StringUtils;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.apache.commons.lang3.StringUtils;
 import reborncore.common.misc.Functions;
 import techreborn.config.ConfigTechReborn;
 import techreborn.init.ModBlocks;
@@ -100,12 +101,14 @@ public class TileIDSU extends TilePowerAcceptor {
         return ret;
     }
 
-    public void readFromNBT(NBTTagCompound nbttagcompound) {
+    @Override
+	public void readFromNBT(NBTTagCompound nbttagcompound) {
         super.readFromNBT(nbttagcompound);
         this.ownerUdid = nbttagcompound.getString("ownerUdid");
     }
 
-    public void writeToNBT(NBTTagCompound nbttagcompound) {
+    @Override
+	public void writeToNBT(NBTTagCompound nbttagcompound) {
         super.writeToNBT(nbttagcompound);
         if (ownerUdid == null && StringUtils.isBlank(ownerUdid) || StringUtils.isEmpty(ownerUdid)) {
             return;
@@ -113,7 +116,8 @@ public class TileIDSU extends TilePowerAcceptor {
         nbttagcompound.setString("ownerUdid", this.ownerUdid);
     }
 
-    public void updateEntity() {
+    @Override
+	public void updateEntity() {
         super.updateEntity();
 
         if (ticks == ConfigTechReborn.aveargeEuOutTickTime) {

@@ -1,5 +1,9 @@
 package techreborn.client.gui;
 
+import java.awt.Color;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,9 +13,6 @@ import reborncore.common.packets.PacketHandler;
 import techreborn.client.container.ContainerIDSU;
 import techreborn.packets.PacketIdsu;
 import techreborn.tiles.idsu.TileIDSU;
-import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
 
 public class GuiIDSU extends GuiContainer {
 
@@ -54,7 +55,8 @@ public class GuiIDSU extends GuiContainer {
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
     }
 
-    protected void drawGuiContainerForegroundLayer(int p_146979_1_,
+    @Override
+	protected void drawGuiContainerForegroundLayer(int p_146979_1_,
                                                    int p_146979_2_) {
         this.fontRendererObj.drawString(StatCollector.translateToLocal("tile.techreborn.idsu.name"), 40, 10, Color.WHITE.getRGB());
         this.fontRendererObj.drawString(containerIDSU.euOut + " eu/tick", 10, 20, Color.WHITE.getRGB());

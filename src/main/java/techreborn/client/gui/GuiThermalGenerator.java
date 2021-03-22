@@ -1,5 +1,7 @@
 package techreborn.client.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import techreborn.client.container.ContainerThermalGenerator;
 import techreborn.tiles.TileThermalGenerator;
-import org.lwjgl.opengl.GL11;
 
 public class GuiThermalGenerator extends GuiContainer {
 
@@ -33,7 +34,8 @@ public class GuiThermalGenerator extends GuiContainer {
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
     }
 
-    protected void drawGuiContainerForegroundLayer(int p_146979_1_,
+    @Override
+	protected void drawGuiContainerForegroundLayer(int p_146979_1_,
                                                    int p_146979_2_) {
         String name = StatCollector.translateToLocal("tile.techreborn.thermalGenerator.name");
         this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);

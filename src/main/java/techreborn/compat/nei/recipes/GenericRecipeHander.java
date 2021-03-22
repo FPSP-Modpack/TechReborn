@@ -1,22 +1,23 @@
 package techreborn.compat.nei.recipes;
 
-import codechicken.lib.gui.GuiDraw;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.item.ItemStack;
-import org.lwjgl.opengl.GL11;
-import reborncore.common.util.ItemUtils;
-import techreborn.api.recipe.IBaseRecipeType;
-import techreborn.api.recipe.RecipeHandler;
-
-import java.awt.*;
+import java.awt.Point;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import org.lwjgl.opengl.GL11;
+
+import codechicken.lib.gui.GuiDraw;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.TemplateRecipeHandler;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.item.ItemStack;
+import reborncore.common.util.ItemUtils;
+import techreborn.api.recipe.IBaseRecipeType;
+import techreborn.api.recipe.RecipeHandler;
 
 public abstract class GenericRecipeHander extends TemplateRecipeHandler {
 
@@ -102,7 +103,8 @@ public abstract class GenericRecipeHander extends TemplateRecipeHandler {
 //				new Rectangle(0, 0, 20, 20), getNeiBaseRecipe().getRecipeName(), new Object[0]));
 //	}
 
-    public void loadCraftingRecipes(String outputId, Object... results) {
+    @Override
+	public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals(getNeiBaseRecipe().getRecipeName())) {
             for (IBaseRecipeType recipeType : RecipeHandler.getRecipeClassFromName(getNeiBaseRecipe().getRecipeName())) {
                 addCached(recipeType);

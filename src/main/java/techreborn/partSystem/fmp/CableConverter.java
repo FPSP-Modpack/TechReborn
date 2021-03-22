@@ -1,5 +1,7 @@
 package techreborn.partSystem.fmp;
 
+import java.util.Arrays;
+
 import codechicken.lib.packet.PacketCustom;
 import codechicken.lib.raytracer.RayTracer;
 import codechicken.lib.vec.BlockCoord;
@@ -28,8 +30,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import reborncore.common.packets.AddDiscriminatorEvent;
 import reborncore.common.packets.PacketHandler;
 import techreborn.partSystem.parts.CablePart;
-
-import java.util.Arrays;
 
 public class CableConverter implements MultiPartRegistry.IPartConverter {
     @Override

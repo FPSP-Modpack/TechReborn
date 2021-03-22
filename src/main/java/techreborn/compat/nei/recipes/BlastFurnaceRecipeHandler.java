@@ -1,5 +1,8 @@
 package techreborn.compat.nei.recipes;
 
+import java.awt.Rectangle;
+import java.util.List;
+
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
@@ -9,9 +12,6 @@ import techreborn.api.recipe.IBaseRecipeType;
 import techreborn.api.recipe.machines.BlastFurnaceRecipe;
 import techreborn.client.gui.GuiBlastFurnace;
 import techreborn.lib.Reference;
-
-import java.awt.*;
-import java.util.List;
 
 public class BlastFurnaceRecipeHandler extends GenericRecipeHander implements INeiBaseRecipe {
     @Override

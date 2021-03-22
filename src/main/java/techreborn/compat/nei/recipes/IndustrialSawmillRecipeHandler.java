@@ -1,5 +1,8 @@
 package techreborn.compat.nei.recipes;
 
+import java.awt.Rectangle;
+import java.util.List;
+
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
@@ -12,9 +15,6 @@ import techreborn.api.recipe.IBaseRecipeType;
 import techreborn.api.recipe.machines.IndustrialSawmillRecipe;
 import techreborn.client.gui.GuiIndustrialSawmill;
 import techreborn.lib.Reference;
-
-import java.awt.*;
-import java.util.List;
 
 public class IndustrialSawmillRecipeHandler extends GenericRecipeHander implements INeiBaseRecipe {
     @Override

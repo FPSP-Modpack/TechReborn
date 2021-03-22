@@ -6,18 +6,31 @@ import techreborn.lib.Reference;
 
 public class ChemicalReactorRecipe extends BaseRecipe {
 
-    public ChemicalReactorRecipe(ItemStack input1, ItemStack input2, ItemStack output1, int tickTime, int euPerTick) {
-        super(Reference.chemicalReactorRecipe, tickTime, euPerTick);
-        if (input1 != null)
-            inputs.add(input1);
-        if (input2 != null)
-            inputs.add(input2);
-        if (output1 != null)
-            addOutput(output1);
-    }
+	private boolean useOreDictionary = true;
 
-    @Override
-    public String getUserFreindlyName() {
-        return "Chemical Reactor";
-    }
+	public ChemicalReactorRecipe(ItemStack input1, ItemStack input2, ItemStack output1, int tickTime, int euPerTick) {
+		super(Reference.chemicalReactorRecipe, tickTime, euPerTick);
+		if (input1 != null)
+			inputs.add(input1);
+		if (input2 != null)
+			inputs.add(input2);
+		if (output1 != null)
+			addOutput(output1);
+	}
+
+	public ChemicalReactorRecipe(ItemStack input1, ItemStack input2, ItemStack output1, int tickTime, int euPerTick,
+			boolean useOreDict) {
+		this(input1, input2, output1, tickTime, euPerTick);
+		this.useOreDictionary = useOreDict;
+	}
+
+	@Override
+	public String getUserFreindlyName() {
+		return "Chemical Reactor";
+	}
+
+	@Override
+	public boolean useOreDic() {
+		return this.useOreDictionary;
+	}
 }

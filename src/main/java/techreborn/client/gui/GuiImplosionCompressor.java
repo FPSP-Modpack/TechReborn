@@ -1,5 +1,7 @@
 package techreborn.client.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,7 +10,6 @@ import net.minecraft.util.StatCollector;
 import reborncore.client.gui.GuiUtil;
 import techreborn.client.container.ContainerImplosionCompressor;
 import techreborn.tiles.TileImplosionCompressor;
-import org.lwjgl.opengl.GL11;
 
 public class GuiImplosionCompressor extends GuiContainer {
 
@@ -58,7 +59,8 @@ public class GuiImplosionCompressor extends GuiContainer {
         }
     }
 
-    protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
+    @Override
+	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
         String name = StatCollector.translateToLocal("tile.techreborn.implosioncompressor.name");
         this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
         this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);

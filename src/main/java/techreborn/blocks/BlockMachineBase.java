@@ -1,5 +1,8 @@
 package techreborn.blocks;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import cpw.mods.fml.common.Loader;
 import ic2.api.item.IC2Items;
 import net.minecraft.block.Block;
@@ -21,13 +24,14 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.BlockFluidBase;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fluids.IFluidHandler;
 import techreborn.client.TechRebornCreativeTab;
 import techreborn.init.ModBlocks;
 import techreborn.tiles.TileMachineBase;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class BlockMachineBase extends BlockContainer {
 
@@ -44,7 +48,8 @@ public class BlockMachineBase extends BlockContainer {
         return new TileMachineBase();
     }
 
-    public void onBlockAdded(World world, int x, int y, int z) {
+    @Override
+	public void onBlockAdded(World world, int x, int y, int z) {
 
         super.onBlockAdded(world, x, y, z);
         this.setDefaultDirection(world, x, y, z);
@@ -81,11 +86,12 @@ public class BlockMachineBase extends BlockContainer {
 
     }
 
-    public void onBlockPlacedBy(World world, int x, int y, int z,
+    @Override
+	public void onBlockPlacedBy(World world, int x, int y, int z,
                                 EntityLivingBase player, ItemStack itemstack) {
 
         int l = MathHelper
-                .floor_double((double) (player.rotationYaw * 4.0F / 360F) + 0.5D) & 3;
+                .floor_double(player.rotationYaw * 4.0F / 360F + 0.5D) & 3;
 
         if (l == 0) {
             setTileRotation(world, x, y, z, 2);

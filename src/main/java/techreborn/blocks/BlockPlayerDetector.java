@@ -1,6 +1,9 @@
 package techreborn.blocks;
 
 
+import java.util.List;
+import java.util.Random;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -19,9 +22,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import techreborn.client.TechRebornCreativeTab;
 import techreborn.tiles.TilePlayerDectector;
-
-import java.util.List;
-import java.util.Random;
 
 public class BlockPlayerDetector extends BlockMachineBase {
 

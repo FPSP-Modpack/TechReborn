@@ -1,5 +1,9 @@
 package techreborn.api;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -10,10 +14,6 @@ import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class RollingMachineRecipe {
 
@@ -105,7 +105,7 @@ public class RollingMachineRecipe {
 
     public ItemStack findMatchingRecipe(InventoryCrafting inv, World world) {
         for (int k = 0; k < recipes.size(); k++) {
-            IRecipe irecipe = (IRecipe) recipes.get(k);
+            IRecipe irecipe = recipes.get(k);
             if (irecipe.matches(inv, world)) {
                 return irecipe.getCraftingResult(inv);
             }

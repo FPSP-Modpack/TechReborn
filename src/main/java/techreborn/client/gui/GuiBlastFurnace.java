@@ -1,5 +1,7 @@
 package techreborn.client.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
@@ -10,13 +12,13 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 import reborncore.client.gui.GuiUtil;
 import reborncore.client.multiblock.Multiblock;
+import reborncore.client.multiblock.MultiblockRenderEvent;
 import reborncore.client.multiblock.MultiblockSet;
 import reborncore.common.misc.Location;
 import techreborn.client.container.ContainerBlastFurnace;
 import techreborn.init.ModBlocks;
 import techreborn.proxies.ClientProxy;
 import techreborn.tiles.TileBlastFurnace;
-import org.lwjgl.opengl.GL11;
 
 
 public class GuiBlastFurnace extends GuiContainer {
@@ -43,7 +45,7 @@ public class GuiBlastFurnace extends GuiContainer {
         buttonList.add(button);
         super.initGui();
 		ChunkCoordinates coordinates = new ChunkCoordinates(blastfurnace.xCoord - (ForgeDirection.getOrientation(blastfurnace.getRotation()).offsetX * 2), blastfurnace.yCoord - 1, blastfurnace.zCoord - (ForgeDirection.getOrientation(blastfurnace.getRotation()).offsetZ * 2));
-		if(coordinates.equals(ClientProxy.multiblockRenderEvent.anchor) && blastfurnace.getHeat() != 0){
+		if(coordinates.equals(MultiblockRenderEvent.anchor) && blastfurnace.getHeat() != 0){
 			ClientProxy.multiblockRenderEvent.setMultiblock(null);
 			button.displayString = "B";
 		} else {
@@ -78,7 +80,8 @@ public class GuiBlastFurnace extends GuiContainer {
 
     }
 
-    protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
+    @Override
+	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
         super.drawGuiContainerForegroundLayer(p_146979_1_, p_146979_2_);
         String name = StatCollector.translateToLocal("tile.techreborn.blastfurnace.name");
         this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
@@ -136,7 +139,7 @@ public class GuiBlastFurnace extends GuiContainer {
 					MultiblockSet set = new MultiblockSet(multiblock);
 					ClientProxy.multiblockRenderEvent.setMultiblock(set);
 					ClientProxy.multiblockRenderEvent.partent = new Location(blastfurnace.xCoord, blastfurnace.yCoord, blastfurnace.zCoord, blastfurnace.getWorldObj());
-					ClientProxy.multiblockRenderEvent.anchor = new ChunkCoordinates(blastfurnace.xCoord - (ForgeDirection.getOrientation(blastfurnace.getRotation()).offsetX * 2), blastfurnace.yCoord - 1, blastfurnace.zCoord - (ForgeDirection.getOrientation(blastfurnace.getRotation()).offsetZ * 2));
+					MultiblockRenderEvent.anchor = new ChunkCoordinates(blastfurnace.xCoord - (ForgeDirection.getOrientation(blastfurnace.getRotation()).offsetX * 2), blastfurnace.yCoord - 1, blastfurnace.zCoord - (ForgeDirection.getOrientation(blastfurnace.getRotation()).offsetZ * 2));
 				}
 				button.displayString = "A";
 			} else {

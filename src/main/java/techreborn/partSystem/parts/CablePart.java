@@ -1,5 +1,10 @@
 package techreborn.partSystem.parts;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,11 +31,6 @@ import techreborn.partSystem.IModPart;
 import techreborn.partSystem.IPartDesc;
 import techreborn.partSystem.ModPart;
 import techreborn.partSystem.ModPartUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class CablePart extends ModPart implements IEnergyConductor, INetworkTileEntityEventListener, IPartDesc {
     public Vecs3dCube[] boundingBoxes = new Vecs3dCube[14];
@@ -467,7 +467,8 @@ public class CablePart extends ModPart implements IEnergyConductor, INetworkTile
         world.func_147479_m(x, y, z);
     }
 
-    public double getConductionLoss() {
+    @Override
+	public double getConductionLoss() {
         switch (this.type) {
             case 0:
                 return 0.2D;
@@ -503,16 +504,19 @@ public class CablePart extends ModPart implements IEnergyConductor, INetworkTile
         }
     }
 
-    public double getInsulationEnergyAbsorption() {
-        return (double) getMaxCapacity(this.type);
+    @Override
+	public double getInsulationEnergyAbsorption() {
+        return getMaxCapacity(this.type);
     }
 
-    public double getInsulationBreakdownEnergy() {
+    @Override
+	public double getInsulationBreakdownEnergy() {
         return 9001.0D;
     }
 
-    public double getConductorBreakdownEnergy() {
-        return (double) (getMaxCapacity(this.type) + 1);
+    @Override
+	public double getConductorBreakdownEnergy() {
+        return getMaxCapacity(this.type) + 1;
     }
 
     @Override
@@ -541,10 +545,10 @@ public class CablePart extends ModPart implements IEnergyConductor, INetworkTile
     public void onNetworkEvent(int i) {
         switch (i) {
             case 0:
-                this.worldObj.playSoundEffect((double) ((float) this.xCoord + 0.5F), (double) ((float) this.yCoord + 0.5F), (double) ((float) this.zCoord + 0.5F), "random.fizz", 0.5F, 2.6F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.8F);
+                this.worldObj.playSoundEffect(this.xCoord + 0.5F, this.yCoord + 0.5F, this.zCoord + 0.5F, "random.fizz", 0.5F, 2.6F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.8F);
 
                 for (int l = 0; l < 8; ++l) {
-                    this.worldObj.spawnParticle("largesmoke", (double) this.xCoord + Math.random(), (double) this.yCoord + 1.2D, (double) this.zCoord + Math.random(), 0.0D, 0.0D, 0.0D);
+                    this.worldObj.spawnParticle("largesmoke", this.xCoord + Math.random(), this.yCoord + 1.2D, this.zCoord + Math.random(), 0.0D, 0.0D, 0.0D);
                 }
 
                 return;

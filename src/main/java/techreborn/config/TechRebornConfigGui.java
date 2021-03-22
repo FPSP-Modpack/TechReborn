@@ -1,5 +1,8 @@
 package techreborn.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cpw.mods.fml.client.config.DummyConfigElement;
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.GuiConfigEntries;
@@ -9,9 +12,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TechRebornConfigGui extends GuiConfig {
     public TechRebornConfigGui(GuiScreen top) {

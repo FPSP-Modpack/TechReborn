@@ -1,5 +1,8 @@
 package techreborn.blocks;
 
+import java.util.List;
+import java.util.Random;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -19,9 +22,6 @@ import techreborn.client.texture.CasingConnectedTextureGenerator;
 import techreborn.config.ConfigTechReborn;
 import techreborn.init.ModBlocks;
 import techreborn.tiles.TileMachineCasing;
-
-import java.util.List;
-import java.util.Random;
 
 public class BlockMachineCasing extends BlockMultiblockBase {
 
@@ -428,10 +428,10 @@ public class BlockMachineCasing extends BlockMultiblockBase {
     @Override
     public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
         Block b = par1IBlockAccess.getBlock(par2, par3, par4);
-        return b == (Block) this ? false : super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, par5);
+        return b == this ? false : super.shouldSideBeRendered(par1IBlockAccess, par2, par3, par4, par5);
     }
 
     public boolean shouldConnectToBlock(IBlockAccess blockAccess, int x, int y, int z, Block block, int meta) {
-        return block == (Block) this;
+        return block == this;
     }
 }

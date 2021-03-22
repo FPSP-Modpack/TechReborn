@@ -1,14 +1,15 @@
 package techreborn.client.gui;
 
+import java.awt.Color;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import techreborn.client.container.ContainerLesu;
 import techreborn.tiles.lesu.TileLesu;
-import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
 
 public class GuiLesu extends GuiContainer {
 
@@ -38,7 +39,8 @@ public class GuiLesu extends GuiContainer {
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
     }
 
-    protected void drawGuiContainerForegroundLayer(int p_146979_1_,
+    @Override
+	protected void drawGuiContainerForegroundLayer(int p_146979_1_,
                                                    int p_146979_2_) {
         this.fontRendererObj.drawString(StatCollector.translateToLocal("tile.techreborn.lesu.name"), 40, 10, Color.WHITE.getRGB());
         this.fontRendererObj.drawString(GetEUString(containerLesu.euOut) + "/t", 10, 20, Color.WHITE.getRGB());

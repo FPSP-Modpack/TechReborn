@@ -1,10 +1,10 @@
 package techreborn.partSystem.fmp;
 
 
+import java.io.IOException;
+
 import io.netty.buffer.ByteBuf;
 import reborncore.common.packets.SimplePacket;
-
-import java.io.IOException;
 
 public class PacketFMPPlacePart extends SimplePacket {
 

@@ -1,5 +1,7 @@
 package techreborn.items.tools;
 
+import java.util.List;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -14,8 +16,6 @@ import techreborn.api.power.IEnergyItemInfo;
 import techreborn.client.TechRebornCreativeTab;
 import techreborn.config.ConfigTechReborn;
 import techreborn.powerSystem.PoweredItem;
-
-import java.util.List;
 
 public class ItemCloakingDevice extends Item implements IEnergyItemInfo {
     public static int Teir = ConfigTechReborn.CloakingDeviceTier;
@@ -73,7 +73,8 @@ public class ItemCloakingDevice extends Item implements IEnergyItemInfo {
         return Teir;
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    @Override
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         ItemStack itemstack1 = player.getCurrentArmor(3);
 
         if (itemstack1 == null) {
@@ -96,7 +97,8 @@ public class ItemCloakingDevice extends Item implements IEnergyItemInfo {
                 + "techreborn.cloakingdevice");
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List itemList) {
         ItemStack itemStack = new ItemStack(this, 1);
         itemList.add(itemStack);
@@ -107,13 +109,15 @@ public class ItemCloakingDevice extends Item implements IEnergyItemInfo {
     }
 
 
-    public double getDurabilityForDisplay(ItemStack stack) {
+    @Override
+	public double getDurabilityForDisplay(ItemStack stack) {
         double charge = (PoweredItem.getEnergy(stack) / getMaxPower(stack));
         return 1 - charge;
 
     }
 
-    public boolean showDurabilityBar(ItemStack stack) {
+    @Override
+	public boolean showDurabilityBar(ItemStack stack) {
         return true;
     }
 

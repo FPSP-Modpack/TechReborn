@@ -1,5 +1,7 @@
 package techreborn.client.hud;
 
+import org.lwjgl.opengl.GL11;
+
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -12,7 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import org.lwjgl.opengl.GL11;
 import reborncore.common.util.Color;
 import techreborn.api.power.IEnergyInterfaceItem;
 import techreborn.client.keybindings.KeyBindings;
@@ -28,7 +29,7 @@ public class ChargeHud {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onRenderExperienceBar(RenderGameOverlayEvent event) {
-        if (key.config.isPressed()) {
+        if (KeyBindings.config.isPressed()) {
             showHud = !showHud;
         }
 

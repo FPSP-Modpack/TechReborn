@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -16,6 +17,12 @@ import techreborn.utils.RecipeUtils;
 public class ItemDusts extends ItemTR {
 
 	public static ItemStack getDustByName(String name, int count) {
+		if (name.equalsIgnoreCase("glowstone"))
+			return new ItemStack(Items.glowstone_dust);
+		if (name.equalsIgnoreCase("redstone"))
+			return new ItemStack(Items.redstone);
+		if (name.equalsIgnoreCase("gunpowder"))
+			return new ItemStack(Items.gunpowder);
 		int meta = RecipeUtils.getArrayPos(types, name);
 		if (meta == -1)
 			throw new IllegalArgumentException("The dust " + name + " could not be found.");
@@ -26,7 +33,7 @@ public class ItemDusts extends ItemTR {
 		return getDustByName(name, 1);
 	}
 
-	public static final String[] types = new String[] { "almandine", "aluminum", "andradite", "ashes", "basalt",
+	public static final String[] types = new String[] { "almandine", "aluminium", "andradite", "ashes", "basalt",
 			"bauxite", "brass", "bronze", "calcite", "charcoal", "chromium", "cinnabar", "clay", "coal", "copper",
 			"darkAshes", "diamond", "electrum", "emerald", "enderEye", "enderPearl", "endstone", "flint", "flour",
 			"galena", "gold", "grossular", "invar", "iron", "lazurite", "lead", "magnesium", "manganese", "marble",
@@ -69,8 +76,7 @@ public class ItemDusts extends ItemTR {
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack par1ItemStack, int pass) {
 		int meta = par1ItemStack.getItemDamage();
-		return meta == RecipeUtils.getArrayPos(types, "plutonium")
-				|| meta == RecipeUtils.getArrayPos(types, "thorium")
+		return meta == RecipeUtils.getArrayPos(types, "plutonium") || meta == RecipeUtils.getArrayPos(types, "thorium")
 				|| meta == RecipeUtils.getArrayPos(types, "uranium");
 	}
 

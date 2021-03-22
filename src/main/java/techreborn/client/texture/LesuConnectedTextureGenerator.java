@@ -1,5 +1,10 @@
 package techreborn.client.texture;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -11,10 +16,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import reborncore.client.texture.ConnectedTexture;
 import techreborn.lib.ModInfo;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class LesuConnectedTextureGenerator extends TextureAtlasSprite {
 
@@ -126,7 +127,7 @@ public class LesuConnectedTextureGenerator extends TextureAtlasSprite {
         }
 
         type_image[0] = output_image;
-        this.loadSprite(type_image, animation, (float) Minecraft.getMinecraft().gameSettings.anisotropicFiltering > 1.0F);
+        this.loadSprite(type_image, animation, Minecraft.getMinecraft().gameSettings.anisotropicFiltering > 1.0F);
         return false;
     }
 

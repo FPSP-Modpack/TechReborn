@@ -1,23 +1,25 @@
 package techreborn.compat.nei;
 
-import codechicken.lib.gui.GuiDraw;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.item.ItemStack;
-import org.lwjgl.opengl.GL11;
-import reborncore.common.util.ItemUtils;
-import techreborn.api.reactor.FusionReactorRecipe;
-import techreborn.api.reactor.FusionReactorRecipeHelper;
-import techreborn.client.gui.GuiFusionReactor;
-
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import org.lwjgl.opengl.GL11;
+
+import codechicken.lib.gui.GuiDraw;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.TemplateRecipeHandler;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.item.ItemStack;
+import reborncore.common.util.ItemUtils;
+import techreborn.api.reactor.FusionReactorRecipe;
+import techreborn.api.reactor.FusionReactorRecipeHelper;
+import techreborn.client.gui.GuiFusionReactor;
 
 public class FustionReacorRecipeHandler  extends TemplateRecipeHandler {
 
@@ -81,7 +83,8 @@ public class FustionReacorRecipeHandler  extends TemplateRecipeHandler {
     }
 
 
-    public void loadCraftingRecipes(String outputId, Object... results) {
+    @Override
+	public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals(getRecipeName())) {
             for (FusionReactorRecipe recipeType : FusionReactorRecipeHelper.reactorRecipes) {
                 addCached(recipeType);

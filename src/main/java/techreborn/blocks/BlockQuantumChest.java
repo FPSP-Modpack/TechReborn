@@ -61,7 +61,8 @@ public class BlockQuantumChest extends BlockContainer {
         this.iconBottom = icon.registerIcon("techreborn:machine/machine_bottom");
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int metadata) {
 
         return metadata == 0 && side == 3 ? this.iconFront
@@ -71,7 +72,8 @@ public class BlockQuantumChest extends BlockContainer {
 
     }
 
-    public void onBlockAdded(World world, int x, int y, int z) {
+    @Override
+	public void onBlockAdded(World world, int x, int y, int z) {
 
         super.onBlockAdded(world, x, y, z);
         this.setDefaultDirection(world, x, y, z);
@@ -107,11 +109,12 @@ public class BlockQuantumChest extends BlockContainer {
 
     }
 
-    public void onBlockPlacedBy(World world, int x, int y, int z,
+    @Override
+	public void onBlockPlacedBy(World world, int x, int y, int z,
                                 EntityLivingBase player, ItemStack itemstack) {
 
         int l = MathHelper
-                .floor_double((double) (player.rotationYaw * 4.0F / 360F) + 0.5D) & 3;
+                .floor_double(player.rotationYaw * 4.0F / 360F + 0.5D) & 3;
 
         if (l == 0) {
             world.setBlockMetadataWithNotify(x, y, z, 2, 2);

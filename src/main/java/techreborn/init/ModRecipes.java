@@ -1,32 +1,53 @@
 package techreborn.init;
 
+import static net.minecraftforge.fluids.FluidRegistry.WATER;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
-import org.apache.commons.lang3.ArrayUtils;
 import reborncore.common.util.CraftingHelper;
 import reborncore.common.util.OreUtil;
 import techreborn.Core;
-import techreborn.api.TechRebornAPI;
 import techreborn.api.reactor.FusionReactorRecipe;
 import techreborn.api.reactor.FusionReactorRecipeHelper;
 import techreborn.api.recipe.RecipeHandler;
-import techreborn.api.recipe.machines.*;
+import techreborn.api.recipe.machines.AlloySmelterRecipe;
+import techreborn.api.recipe.machines.BlastFurnaceRecipe;
+import techreborn.api.recipe.machines.CentrifugeRecipe;
+import techreborn.api.recipe.machines.ChemicalReactorRecipe;
+import techreborn.api.recipe.machines.GrinderRecipe;
+import techreborn.api.recipe.machines.IndustrialElectrolyzerRecipe;
+import techreborn.api.recipe.machines.IndustrialSawmillRecipe;
+import techreborn.api.recipe.machines.VacuumFreezerRecipe;
 import techreborn.blocks.BlockOre;
 import techreborn.blocks.BlockStorage;
 import techreborn.blocks.BlockStorage2;
 import techreborn.config.ConfigTechReborn;
-import techreborn.items.*;
+import techreborn.items.ItemCells;
+import techreborn.items.ItemDusts;
+import techreborn.items.ItemDustsSmall;
+import techreborn.items.ItemGems;
+import techreborn.items.ItemIngots;
+import techreborn.items.ItemNuggets;
+import techreborn.items.ItemParts;
+import techreborn.items.ItemPlates;
 import techreborn.utils.RecipeUtils;
 
-import java.security.InvalidParameterException;
-
-public class
-        ModRecipes {
+public class ModRecipes {
+	
     public static ConfigTechReborn config;
 
     public static void init() {
@@ -38,7 +59,6 @@ public class
         addUUrecipes();
 
         addAlloySmelterRecipes();
-        addPlateCuttingMachineRecipes();
         addIndustrialCentrifugeRecipes();
         addChemicalReactorRecipes();
         addIndustrialElectrolyzerRecipes();
@@ -46,63 +66,22 @@ public class
         addIndustrialSawmillRecipes();
         addBlastFurnaceRecipes();
         addIndustrialGrinderRecipes();
-        addImplosionCompressorRecipes();
         addReactorRecipes();
     }
 
     static void addReactorRecipes(){
 
-        FusionReactorRecipeHelper.registerRecipe(new FusionReactorRecipe(ItemCells.getCellByName("tritium"), ItemCells.getCellByName("deuterium"), ItemCells.getCellByName("helium"), 40000000, 32768, 1024));
-        FusionReactorRecipeHelper.registerRecipe(new FusionReactorRecipe(ItemCells.getCellByName("tritium"), ItemCells.getCellByName("deuterium"), ItemCells.getCellByName("helium3"), 60000000, 32768, 2048));
-        FusionReactorRecipeHelper.registerRecipe(new FusionReactorRecipe(ItemCells.getCellByName("wolframium"), ItemCells.getCellByName("Berylium"), ItemDusts.getDustByName("platinum"), 80000000, -2048, 1024));
+        FusionReactorRecipeHelper.registerRecipe(new FusionReactorRecipe(ItemCells.getCellByName("tritium"), ItemCells.getCellByName("deuterium"), ItemCells.getCellByName("heliumplasma"), 40000000, 4096, 128));
+        FusionReactorRecipeHelper.registerRecipe(new FusionReactorRecipe(ItemCells.getCellByName("helium3"), ItemCells.getCellByName("deuterium"), ItemCells.getCellByName("heliumplasma"), 60000000, 2048, 128));
+        FusionReactorRecipeHelper.registerRecipe(new FusionReactorRecipe(ItemCells.getCellByName("beryllium"), ItemCells.getCellByName("tungsten"), ItemDusts.getDustByName("platinum"), 100000000, -32768, 512));
     }
 
     static void addGeneralShapedRecipes() {
 
-        // Storage Blocks
-        for (String name : ArrayUtils.addAll(BlockStorage.types, BlockStorage2.types)) {
-            CraftingHelper.addShapedOreRecipe(BlockStorage.getStorageBlockByName(name),
-                    "AAA", "AAA", "AAA",
-                    'A', "ingot" + name.substring(0, 1).toUpperCase() + name.substring(1));
-        }
-
-        CraftingHelper.addShapedOreRecipe(BlockStorage.getStorageBlockByName("sapphire"),
-                "AAA", "AAA", "AAA",
-                'A', "gemSapphire");
-
-        CraftingHelper.addShapedOreRecipe(BlockStorage.getStorageBlockByName("ruby"),
-                "AAA", "AAA", "AAA",
-                'A', "gemRuby");
-
-
-        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.parts, 1, 40),
-                "PLP", "RGB", "PYP",
-                'P', "plateAluminum",
-                'L', "dyeLime",
-                'R', "dyeRed",
-                'G', "paneGlass",
-                'B', "dyeBlue",
-                'Y', Items.glowstone_dust);
-
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("dataStorageCircuit"),
-                "EEE", "ECE", "EEE",
-                'E', new ItemStack(Items.emerald),
-                'C', ItemParts.getPartByName("basicCircuitBoard"));
-
-        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.parts, 4, 8),
-                "DSD", "S S", "DSD",
-                'D', "dustDiamond",
-                'S', "ingotSteel");
-
-        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.parts, 1, 15),
-                "AAA", "AMA", "AAA",
-                'A', "ingotAluminium",
-                'M', new ItemStack(ModItems.parts, 1, 13));
-
         CraftingHelper.addShapedOreRecipe(new ItemStack(ModBlocks.Supercondensator),
                 "EOE", "SAS", "EOE",
                 'E', ItemParts.getPartByName("energyFlowCircuit"),
-                'O', ModItems.lapotronicOrb,
+                'O', new ItemStack(ModItems.lapotronicOrb, 1, OreDictionary.WILDCARD_VALUE),
                 'S', ItemParts.getPartByName("superconductor"),
                 'A', ModBlocks.HighAdvancedMachineBlock);
 
@@ -119,104 +98,59 @@ public class
 
         CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("destructoPack"),
                 "CIC", "IBI", "CIC",
-                'C', ItemParts.getPartByName("basicCircuitBoard"),
-                'I', "ingotAluminum",
-                'B', new ItemStack(Items.lava_bucket)
-        );
+                'C', "circuitAdvanced",
+                'I', "plateIron",
+                'B', new ItemStack(Items.lava_bucket));
 
-        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.cloakingDevice),
-                "CIC", "IOI", "CIC",
-                'C', "ingotChrome",
-                'I', "plateIridium",
-                'O', new ItemStack(ModItems.lapotronicOrb)
-        );
+        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("destructoPack"),
+                "CIC", "IBI", "CIC",
+                'C', "circuitAdvanced",
+                'I', "plateAluminium",
+                'B', new ItemStack(Items.lava_bucket));
 
         CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.rockCutter),
                 "DT ", "DT ", "DCB",
-                'D', ItemParts.getPartByName("rockCutterBlade"),
-                'T', "ingotTitanium",
-                'C', ItemParts.getPartByName("basicCircuitBoard"),
-                'B', new ItemStack(Items.diamond)
-        );
-
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("rockCutterBlade"),
-                "SDS", "SDS", "SDS",
-                'D', new ItemStack(Items.diamond),
-                'S', "ingotSteel"
-        );
-
-        for (String part : ItemParts.types) {
-            if (part.endsWith("Gear")) {
-                CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName(part),
-                        " O ", "OIO", " O ",
-                        'I', new ItemStack(Items.iron_ingot),
-                        'O', "ingot" + capitalizeFirstLetter(part.replace("Gear", ""))
-                );
-            }
-        }
-
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("nichromeHeatingCoil"),
-                " N ", "NCN", " N ",
-                'N', "ingotNickel",
-                'C', "ingotChrome"
-        );
-
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("kanthalHeatingCoil"),
-                "III", "CAA", "AAA",
-                'I', "ingotSteel",
-                'C', "ingotChrome",
-                'A', "ingotAluminum"
-        );
-
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("heliumCoolantSimple"),
-                " T ", "TCT", " T ",
-                'T', "ingotTin",
-                'C', ItemCells.getCellByName("helium", 1, true)
-        );
+                'D', "dustDiamond",
+                'T', "plateTitanium",
+                'C', "circuitBasic",
+                'B', "battery10k");
         
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("heliumCoolantSimple"),
+        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.coolantHe60k),
                 " T ", "TCT", " T ",
                 'T', "ingotTin",
                 'C', ItemCells.getCellByName("helium", 1, false)
         );
 
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("HeliumCoolantTriple"),
+        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.coolantHe180k),
                 "TTT", "CCC", "TTT",
                 'T', "ingotTin",
-                'C', ItemParts.getPartByName("heliumCoolantSimple")
+                'C', new ItemStack(ModItems.coolantHe60k)
         );
 
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("HeliumCoolantSix"),
+        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.coolantHe360k),
+                "THT", "TCT", "THT",
+                'T', "ingotTin",
+                'C', "plateCopper",
+                'H', new ItemStack(ModItems.coolantHe180k)
+        );
+
+        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.coolantNaK180k),
+                "TTT", "CCC", "TTT",
+                'T', "ingotTin",
+                'C', new ItemStack(ModItems.coolantNaK60k)
+        );
+
+        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.coolantNaK360k),
                 "THT", "TCT", "THT",
                 'T', "ingotTin",
                 'C', "ingotCopper",
-                'H', ItemParts.getPartByName("HeliumCoolantTriple")
-        );
-
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("NaKCoolantTriple"),
-                "TTT", "CCC", "TTT",
-                'T', "ingotTin",
-                'C', ItemParts.getPartByName("NaKCoolantSimple")
-        );
-
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("NaKCoolantSix"),
-                "THT", "TCT", "THT",
-                'T', "ingotTin",
-                'C', "ingotCopper",
-                'H', ItemParts.getPartByName("NaKCoolantTriple")
+                'H', new ItemStack(ModItems.coolantNaK180k)
         );
 
         CraftingHelper.addShapedOreRecipe(new ItemStack(ModBlocks.Aesu),
                 "LLL", "LCL", "LLL",
-                'L', new ItemStack(ModItems.lapotronicOrb),
+                'L', new ItemStack(ModItems.lapotronicOrb, 1, OreDictionary.WILDCARD_VALUE),
                 'C', new ItemStack(ModBlocks.ComputerCube)
-        );
-
-        CraftingHelper.addShapedOreRecipe(new ItemStack(ModBlocks.Idsu),
-                "PAP", "ACA", "PAP",
-                'P', ItemPlates.getPlateByName("iridium"),
-                'C', new ItemStack(Blocks.ender_chest),
-                'A', new ItemStack(ModBlocks.Aesu)
         );
 
         CraftingHelper.addShapedOreRecipe(new ItemStack(ModBlocks.FusionControlComputer),
@@ -227,38 +161,19 @@ public class
         );
 
         CraftingHelper.addShapedOreRecipe(new ItemStack(ModBlocks.LightningRod),
-                "CAC", "ACA", "CAC",
-                'A', new ItemStack(ModBlocks.MachineCasing, 1, 2),
-                'S', ItemParts.getPartByName("superConductor"),
-                'C', ItemParts.getPartByName("energyFlowCircuit")
+                "CAC", "ASA", "CAC",
+                'A', "machineElite",
+                'S', new ItemStack(ModBlocks.Supercondensator),
+                'C', "circuitMaster"
         );
 
         CraftingHelper.addShapedOreRecipe(new ItemStack(ModBlocks.FusionCoil),
                 "CSC", "NAN", "CRC",
-                'A', new ItemStack(ModBlocks.MachineCasing, 1, 2),
+                'A', "machineElite",
                 'N', ItemParts.getPartByName("nichromeHeatingCoil"),
                 'C', ItemParts.getPartByName("energyFlowCircuit"),
                 'S', ItemParts.getPartByName("superConductor"),
-                'R', ItemParts.getPartByName("iridiumNeutronReflector")
-        );
-
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("iridiumNeutronReflector"),
-                "PPP", "PIP", "PPP",
-                'P', ItemParts.getPartByName("thickNeutronReflector"),
-                'I', "ingotIridium"
-        );
-
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("thickNeutronReflector"),
-                " P ", "PCP", " P ",
-                'P', ItemParts.getPartByName("neutronReflector"),
-                'C', ItemCells.getCellByName("Berylium")
-        );
-
-        CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("neutronReflector"),
-                "TCT", "CPC", "TCT",
-                'T', "dustTin",
-                'C', "dustCoal",
-                'P', "plateCopper"
+                'R', new ItemStack(ModItems.neutronReflector)
         );
 
         CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("dataOrb"),
@@ -270,54 +185,27 @@ public class
         CraftingHelper.addShapedOreRecipe(ItemParts.getPartByName("computerMonitor"),
                 "AGA", "RCB", "AYA",
                 'A', "plateAluminum",
-                'G', new ItemStack(Items.dye, 1, 2),
-                'R', new ItemStack(Items.dye, 1, 1),
-                'B', new ItemStack(Items.dye, 1, 5),
-                'Y', new ItemStack(Items.glowstone_dust)
+                'G', "dyeLime",
+                'R', "dyeRed",
+                'C', "paneGlassColorless",
+                'B', "dyeBlue",
+                'Y', "dustGlowstone");
+        
+        CraftingHelper.addShapedOreRecipe(new ItemStack(ModBlocks.chargeBench),
+        		"ABA", "CDC", "AEA",
+        		'A', "circuitMaster",
+        		'B', ModBlocks.ComputerCube,
+        		'C', "chestWood",
+        		'D', new ItemStack(ModItems.lapotronicOrb, 1, OreDictionary.WILDCARD_VALUE),
+        		'E', "machineAdvanced"
         );
-
-
-        Core.logHelper.info("Shapped Recipes Added");
-    }
-
-    public static String capitalizeFirstLetter(String original) {
-        if (original.length() == 0)
-            return original;
-        return original.substring(0, 1).toUpperCase() + original.substring(1);
-    }
-
-    static void addShapelessRecipes() {
-
-        for (String name : ArrayUtils.addAll(BlockStorage.types, BlockStorage2.types)) {
-            ItemStack item = null;
-            try {
-                item = ItemIngots.getIngotByName(name, 9);
-            } catch (InvalidParameterException e) {
-                try {
-                    item = ItemGems.getGemByName(name, 9);
-                } catch (InvalidParameterException e2) {
-                    continue;
-                }
-            }
-
-            if (item == null) {
-                continue;
-            }
-
-            GameRegistry.addShapelessRecipe(BlockStorage.getStorageBlockByName(name), item, item, item, item, item, item, item, item, item);
-            GameRegistry.addShapelessRecipe(item, BlockStorage.getStorageBlockByName(name, 9));
-
-        }
-
-        for (String name : ItemDustsSmall.types) {
-            GameRegistry.addShapelessRecipe(ItemDustsSmall.getSmallDustByName(name, 4), ItemDusts.getDustByName(name));
-            GameRegistry.addShapelessRecipe(ItemDusts.getDustByName(name, 1), ItemDustsSmall.getSmallDustByName(name), ItemDustsSmall.getSmallDustByName(name), ItemDustsSmall.getSmallDustByName(name), ItemDustsSmall.getSmallDustByName(name));
-        }
-
-        Core.logHelper.info("Shapless Recipes Added");
-    }
-
-    static void addMachineRecipes() {
+        
+        CraftingHelper.addShapedOreRecipe(new ItemStack(ModBlocks.playerDetector),
+        		" D ", "ACA", " D ",
+        		'D', "circuitData",
+        		'A', "circuitAdvanced",
+        		'C', ModBlocks.ComputerCube);
+        
         CraftingHelper.addShapedOreRecipe(new ItemStack(ModBlocks.quantumTank),
                 "EPE", "PCP", "EPE",
                 'P', "platePlatinum",
@@ -336,234 +224,248 @@ public class
                 'D', ItemParts.getPartByName("dataOrb"),
                 'C', ItemParts.getPartByName("computerMonitor"));
 
-        CraftingHelper.addShapedOreRecipe(new ItemStack(ModBlocks.AlloySmelter),
-                "IHI", "CFC", "IHI",
-                'I', "plateInvar",
-                'C', "circuitBasic",
-                'H', new ItemStack(ModItems.parts, 1, 17),
-                'F', ModBlocks.AlloyFurnace);
-
         CraftingHelper.addShapedOreRecipe(new ItemStack(ModBlocks.LesuStorage),
                 "LLL", "LCL", "LLL",
-                'L', "blockLapis",
+                'L', "chunkLazurite",
                 'C', "circuitBasic");
+        
+        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.coolantHe180k),
+        		"TTT", "CCC", "TTT",
+        		'T', "ingotTin",
+        		'C', ModItems.coolantNaK60k);
+        
+        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.coolantNaK360k),
+        		"TCT", "TPT", "TCT",
+        		'T', "ingotTin",
+        		'C', ModItems.coolantNaK180k,
+        		'P', "plateCopper");
+        
+        ItemStack holyPlanks = ItemPlates.getPlateByName("wood");
+        holyPlanks.addEnchantment(Enchantment.smite, 10);
+        holyPlanks.setStackDisplayName("The holy Planks of Sengir");
+        CraftingHelper.addShapedOreRecipe(holyPlanks,
+        		"SSS", "SES", "SSS",
+        		'S', "itemNetherStar",
+        		'E', Blocks.dragon_egg);
 
-        TechRebornAPI.addRollingOreMachinceRecipe(ItemParts.getPartByName("cupronickelHeatingCoil"),
-                "NCN", "C C", "NCN",
-                'N', "ingotCupronickel",
-                'C', "ingotCopper");
 
+        Core.logHelper.info("Shapped Recipes Added");
+    }
 
-        RecipeHandler.addRecipe(new VacuumFreezerRecipe(ItemIngots.getIngotByName("hotTungstensteel"), ItemIngots.getIngotByName("tungstensteel"), 440, 128));
-        RecipeHandler.addRecipe(new VacuumFreezerRecipe(ItemCells.getCellByName("water"), ItemCells.getCellByName("cell"), 60, 128));
+    public static String capitalizeFirstLetter(String original) {
+        if (original.length() == 0)
+            return original;
+        return original.substring(0, 1).toUpperCase() + original.substring(1);
+    }
+
+    static void addShapelessRecipes() {
+
+        // Storage Blocks
+    	List<Pair<String, String>> blocks = new ArrayList<>();
+    	for(String name : BlockStorage.types) {
+    		blocks.add(Pair.of(name, "ingot" + capitalizeFirstLetter(name)));
+    	}
+    	blocks.add(Pair.of("ruby", "gemRuby"));
+    	blocks.add(Pair.of("sapphire", "gemSapphire"));
+    	blocks.add(Pair.of("peridot", "gemPeridot"));
+    	blocks.add(Pair.of("yellowGarnet", "gemYellowGarnet"));
+    	blocks.add(Pair.of("redGarnet", "gemRedGarnet"));
+    	blocks.add(Pair.of("olivine", "gemOlivine"));
+    	for(Pair<String, String> p : blocks) {
+    		String x = p.getValue();
+    		CraftingHelper.addShapelessOreRecipe(BlockStorage.getStorageBlockByName(p.getKey()), x, x, x, x, x, x, x, x, x);
+    	}
+    	CraftingHelper.addShapelessOreRecipe(BlockStorage2.getStorageBlockByName("iridium_reinforced_tungstensteel", 1), BlockStorage2.getStorageBlockByName("iridium_reinforced_stone", 1), "plateTungstensteel");
+    	CraftingHelper.addShapelessOreRecipe(BlockStorage2.getStorageBlockByName("iridium_reinforced_tungstensteel", 1), "blockTungstensteel", "ingotIridium");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("iridium"), "nuggetIridium", "nuggetIridium", "nuggetIridium", "nuggetIridium", "nuggetIridium", "nuggetIridium", "nuggetIridium", "nuggetIridium", "nuggetIridium");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("silver"), "nuggetSilver", "nuggetSilver", "nuggetSilver", "nuggetSilver", "nuggetSilver", "nuggetSilver", "nuggetSilver", "nuggetSilver", "nuggetSilver");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("aluminium"), "nuggetAluminium", "nuggetAluminium", "nuggetAluminium", "nuggetAluminium", "nuggetAluminium", "nuggetAluminium", "nuggetAluminium", "nuggetAluminium", "nuggetAluminium");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("titanium"), "nuggetTitanium", "nuggetTitanium", "nuggetTitanium", "nuggetTitanium", "nuggetTitanium", "nuggetTitanium", "nuggetTitanium", "nuggetTitanium", "nuggetTitanium");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("chromium"), "nuggetChromium", "nuggetChromium", "nuggetChromium", "nuggetChromium", "nuggetChromium", "nuggetChromium", "nuggetChromium", "nuggetChromium", "nuggetChromium");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("electrum"), "nuggetElectrum", "nuggetElectrum", "nuggetElectrum", "nuggetElectrum", "nuggetElectrum", "nuggetElectrum", "nuggetElectrum", "nuggetElectrum", "nuggetElectrum");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("tungsten"), "nuggetTungsten", "nuggetTungsten", "nuggetTungsten", "nuggetTungsten", "nuggetTungsten", "nuggetTungsten", "nuggetTungsten", "nuggetTungsten", "nuggetTungsten");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("lead"), "nuggetLead", "nuggetLead", "nuggetLead", "nuggetLead", "nuggetLead", "nuggetLead", "nuggetLead", "nuggetLead", "nuggetLead");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("zinc"), "nuggetZinc", "nuggetZinc", "nuggetZinc", "nuggetZinc", "nuggetZinc", "nuggetZinc", "nuggetZinc", "nuggetZinc", "nuggetZinc");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("brass"), "nuggetBrass", "nuggetBrass", "nuggetBrass", "nuggetBrass", "nuggetBrass", "nuggetBrass", "nuggetBrass", "nuggetBrass", "nuggetBrass");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("steel"), "nuggetSteel", "nuggetSteel", "nuggetSteel", "nuggetSteel", "nuggetSteel", "nuggetSteel", "nuggetSteel", "nuggetSteel", "nuggetSteel");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("platinum"), "nuggetPlatinum", "nuggetPlatinum", "nuggetPlatinum", "nuggetPlatinum", "nuggetPlatinum", "nuggetPlatinum", "nuggetPlatinum", "nuggetPlatinum", "nuggetPlatinum");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("nickel"), "nuggetNickel", "nuggetNickel", "nuggetNickel", "nuggetNickel", "nuggetNickel", "nuggetNickel", "nuggetNickel", "nuggetNickel", "nuggetNickel");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("invar"), "nuggetInvar", "nuggetInvar", "nuggetInvar", "nuggetInvar", "nuggetInvar", "nuggetInvar", "nuggetInvar", "nuggetInvar", "nuggetInvar");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("osmium"), "nuggetOsmium", "nuggetOsmium", "nuggetOsmium", "nuggetOsmium", "nuggetOsmium", "nuggetOsmium", "nuggetOsmium", "nuggetOsmium", "nuggetOsmium");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("iridium", 9), "blockIridium");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("silver", 9), "blockSilver");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("aluminium", 9), "blockAluminium");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("titanium", 9), "blockTitanium");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("chromium", 9), "blockChromium");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("electrum", 9), "blockElectrum");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("tungsten", 9), "blockTungsten");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("lead", 9), "blockLead");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("zinc", 9), "blockZinc");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("brass", 9), "blockBrass");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("steel", 9), "blockSteel");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("platinum", 9), "blockPlatinum");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("nickel", 9), "blockNickel");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("invar", 9), "blockInvar");
+    	CraftingHelper.addShapelessOreRecipe(ItemIngots.getIngotByName("osmium", 9), "blockOsmium");
+    	CraftingHelper.addShapelessOreRecipe(ItemGems.getGemByName("ruby", 9), "blockRuby");
+    	CraftingHelper.addShapelessOreRecipe(ItemGems.getGemByName("sapphire", 9), "blockSapphire");
+    	CraftingHelper.addShapelessOreRecipe(ItemGems.getGemByName("peridot", 9), "blockPeridot");
+    	CraftingHelper.addShapelessOreRecipe(ItemGems.getGemByName("olivine", 9), "blockOlivine");
+    	CraftingHelper.addShapelessOreRecipe(ItemGems.getGemByName("redGarnet", 9), "blockRedGarnet");
+    	CraftingHelper.addShapelessOreRecipe(ItemGems.getGemByName("yellowGarnet", 9), "blockYellowGarnet");
+    	CraftingHelper.addShapelessOreRecipe(ItemDusts.getDustByName("electrum", 2), "dustSilver", "dustGold");
+    	CraftingHelper.addShapelessOreRecipe(ItemDusts.getDustByName("electrum"), "dustSmallSilver", "dustSmallSilver", "dustSmallGold", "dustSmallGold");
+    	CraftingHelper.addShapelessOreRecipe(ItemDusts.getDustByName("brass", 4), "dustCopper", "dustCopper", "dustCopper", "dustZinc");
+    	CraftingHelper.addShapelessOreRecipe(ItemDusts.getDustByName("brass"), "dustSmallCopper", "dustSmallCopper", "dustSmallCopper", "dustSmallZinc");
+    	CraftingHelper.addShapelessOreRecipe(ItemDusts.getDustByName("invar", 3), "dustIron", "dustIron", "dustNickel");
+    	CraftingHelper.addShapelessOreRecipe(ItemDustsSmall.getSmallDustByName("invar", 3), "dustSmallIron", "dustSmallIron", "dustSmallNickel");
+    	CraftingHelper.addShapelessOreRecipe(ItemDustsSmall.getSmallDustByName("bronze", 2), "dustSmallCopper", "dustSmallCopper", "dustSmallTin");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("iridium", 9), "ingotIridium");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("silver", 9), "ingotSilver");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("aluminium", 9), "ingotAluminium");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("titanium", 9), "ingotTitanium");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("chromium", 9), "ingotChromium");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("electrum", 9), "ingotElectrum");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("tungsten", 9), "ingotTungsten");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("lead", 9), "ingotLead");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("zinc", 9), "ingotZinc");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("brass", 9), "ingotBrass");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("steel", 9), "ingotSteel");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("platinum", 9), "ingotPlatinum");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("nickel", 9), "ingotNickel");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("invar", 9), "ingotInvar");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("osmium", 9), "ingotOsmium");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("iron", 9), "ingotIron");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("copper", 9), "ingotCopper");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("tin", 9), "ingotTin");
+    	CraftingHelper.addShapelessOreRecipe(ItemNuggets.getNuggetByName("bronze", 9), "ingotBronze");
+
+        for (String name : ItemDustsSmall.types) {
+            GameRegistry.addShapelessRecipe(ItemDustsSmall.getSmallDustByName(name, 4), ItemDusts.getDustByName(name));
+            GameRegistry.addShapelessRecipe(ItemDusts.getDustByName(name, 1), ItemDustsSmall.getSmallDustByName(name), ItemDustsSmall.getSmallDustByName(name), ItemDustsSmall.getSmallDustByName(name), ItemDustsSmall.getSmallDustByName(name));
+        }
+
+        Core.logHelper.info("Shapless Recipes Added");
+    }
+
+    static void addMachineRecipes() {
+        RecipeHandler.addRecipe(new VacuumFreezerRecipe(ItemIngots.getIngotByName("hotTungstensteel"), ItemIngots.getIngotByName("tungstensteel"), 450, 128));
+        RecipeHandler.addRecipe(new VacuumFreezerRecipe(ItemCells.getCellByName("heliumPlasma"), ItemCells.getCellByName("helium"), 100, 128));
+        RecipeHandler.addRecipe(new VacuumFreezerRecipe(new ItemStack(ModItems.coolantHe60k, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.coolantHe60k), 7000, 128));
+        RecipeHandler.addRecipe(new VacuumFreezerRecipe(new ItemStack(ModItems.coolantHe180k, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.coolantHe180k), 20000, 128));
+        RecipeHandler.addRecipe(new VacuumFreezerRecipe(new ItemStack(ModItems.coolantHe360k, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.coolantHe360k), 39000, 128));
+        RecipeHandler.addRecipe(new VacuumFreezerRecipe(new ItemStack(ModItems.coolantNaK60k, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.coolantNaK60k), 5000, 128));
+        RecipeHandler.addRecipe(new VacuumFreezerRecipe(new ItemStack(ModItems.coolantNaK180k, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.coolantNaK180k), 15000, 128));
+        RecipeHandler.addRecipe(new VacuumFreezerRecipe(new ItemStack(ModItems.coolantNaK360k, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.coolantNaK360k), 30000, 128));
     }
 
     static void addSmeltingRecipes() {
-        GameRegistry.addSmelting(ItemDusts.getDustByName("iron", 1), new ItemStack(Items.iron_ingot), 1F);
-        GameRegistry.addSmelting(ItemDusts.getDustByName("gold", 1), new ItemStack(Items.gold_ingot), 1F);
+    	GameRegistry.addSmelting(BlockOre.getOreByName("sheldonite"), ItemIngots.getIngotByName("platinum"), 0);
+        GameRegistry.addSmelting(OreUtil.getStackFromName("oreSaltpeter"), ItemDusts.getDustByName("saltpeter", 3), 0);
+        GameRegistry.addSmelting(BlockOre.getOreByName("tungsten"), ItemDusts.getDustByName("tungsten"), 0);
+        GameRegistry.addSmelting(BlockOre.getOreByName("pyrite"), new ItemStack(Items.iron_ingot), 0);
+        
+        GameRegistry.addSmelting(ItemDusts.getDustByName("iron", 1), new ItemStack(Items.iron_ingot), 0);
+        GameRegistry.addSmelting(ItemDusts.getDustByName("gold", 1), new ItemStack(Items.gold_ingot), 0);
+        GameRegistry.addSmelting(ItemDusts.getDustByName("silver"), ItemIngots.getIngotByName("silver"), 0);
+        GameRegistry.addSmelting(ItemDusts.getDustByName("electrum"), ItemIngots.getIngotByName("electrum"), 0);
+        GameRegistry.addSmelting(ItemDusts.getDustByName("lead"), ItemIngots.getIngotByName("lead"), 0);
+        GameRegistry.addSmelting(ItemDusts.getDustByName("zinc"), ItemIngots.getIngotByName("zinc"), 0);
+        GameRegistry.addSmelting(ItemDusts.getDustByName("brass"), ItemIngots.getIngotByName("brass"), 0);
+        GameRegistry.addSmelting(ItemDusts.getDustByName("platinum"), ItemIngots.getIngotByName("platinum"), 0);
+        GameRegistry.addSmelting(ItemDusts.getDustByName("nickel"), ItemIngots.getIngotByName("nickel"), 0);
+        GameRegistry.addSmelting(ItemDusts.getDustByName("invar"), ItemIngots.getIngotByName("invar"), 0);
+		if (OreUtil.doesOreExistAndValid("ingotUranium"))
+			GameRegistry.addSmelting(ItemDusts.getDustByName("uranium"), OreUtil.getStackFromName("ingotUranium"), 0);
+        
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("tungstensteel"), ItemIngots.getIngotByName("tungstensteel"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("silver"), ItemIngots.getIngotByName("silver"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("aluminium"), ItemIngots.getIngotByName("aluminium"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("titanium"), ItemIngots.getIngotByName("titanium"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("electrum"), ItemIngots.getIngotByName("electrum"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("tungsten"), ItemIngots.getIngotByName("tungsten"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("lead"), ItemIngots.getIngotByName("lead"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("zinc"), ItemIngots.getIngotByName("zinc"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("brass"), ItemIngots.getIngotByName("brass"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("steel"), ItemIngots.getIngotByName("steel"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("platinum"), ItemIngots.getIngotByName("platinum"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("nickel"), ItemIngots.getIngotByName("nickel"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("invar"), ItemIngots.getIngotByName("invar"), 0);
+        GameRegistry.addSmelting(ItemPlates.getPlateByName("osmium"), ItemIngots.getIngotByName("osmium"), 0);
 
         Core.logHelper.info("Smelting Recipes Added");
     }
 
     static void addAlloySmelterRecipes() {
-
-        //Bronze
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("copper", 3), ItemIngots.getIngotByName("tin", 1), ItemIngots.getIngotByName("bronze", 4), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("copper", 3), ItemDusts.getDustByName("tin", 1), ItemIngots.getIngotByName("bronze", 4), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("copper", 3), ItemIngots.getIngotByName("tin", 1), ItemIngots.getIngotByName("bronze", 4), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("copper", 3), ItemDusts.getDustByName("tin", 1), ItemIngots.getIngotByName("bronze", 4), 200, 16));
-
-        //Electrum
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.gold_ingot, 1), ItemIngots.getIngotByName("silver", 1), ItemIngots.getIngotByName("electrum", 2), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.gold_ingot, 1), ItemDusts.getDustByName("silver", 1), ItemIngots.getIngotByName("electrum", 2), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("gold", 1), ItemIngots.getIngotByName("silver", 1), ItemIngots.getIngotByName("electrum", 2), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("gold", 1), ItemDusts.getDustByName("silver", 1), ItemIngots.getIngotByName("electrum", 2), 200, 16));
-
-        //Invar
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.iron_ingot, 2), ItemIngots.getIngotByName("nickel", 1), ItemIngots.getIngotByName("invar", 3), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.iron_ingot, 2), ItemDusts.getDustByName("nickel", 1), ItemIngots.getIngotByName("invar", 3), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("iron", 2), ItemIngots.getIngotByName("nickel", 1), ItemIngots.getIngotByName("invar", 3), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("iron", 2), ItemDusts.getDustByName("nickel", 1), ItemIngots.getIngotByName("invar", 3), 200, 16));
-
-        //Cupronickel
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("copper", 1), ItemIngots.getIngotByName("nickel", 1), ItemIngots.getIngotByName("cupronickel", 2), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("copper", 1), ItemDusts.getDustByName("nickel", 1), ItemIngots.getIngotByName("cupronickel", 2), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("copper", 1), ItemIngots.getIngotByName("nickel", 1), ItemIngots.getIngotByName("cupronickel", 2), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("copper", 1), ItemDusts.getDustByName("nickel", 1), ItemIngots.getIngotByName("cupronickel", 2), 200, 16));
-
-        //Nichrome
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("chrome", 1), ItemIngots.getIngotByName("nickel", 4), ItemIngots.getIngotByName("nichrome", 5), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("chrome", 1), ItemDusts.getDustByName("nickel", 4), ItemIngots.getIngotByName("nichrome", 5), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("chrome", 1), ItemIngots.getIngotByName("nickel", 4), ItemIngots.getIngotByName("nichrome", 5), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("chrome", 1), ItemDusts.getDustByName("nickel", 4), ItemIngots.getIngotByName("nichrome", 5), 200, 16));
-
-        //Magnalium
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("magnesium", 1), ItemIngots.getIngotByName("aluminum", 4), ItemIngots.getIngotByName("magnalium", 3), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("magnesium", 1), ItemDusts.getDustByName("aluminum", 4), ItemIngots.getIngotByName("magnalium", 3), 200, 16));
-
-        //Battery Alloy
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("lead", 4), ItemIngots.getIngotByName("antimony", 1), ItemIngots.getIngotByName("batteryAlloy", 5), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("lead", 4), ItemDusts.getDustByName("antimony", 1), ItemIngots.getIngotByName("batteryAlloy", 5), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("lead", 4), ItemIngots.getIngotByName("antimony", 1), ItemIngots.getIngotByName("batteryAlloy", 5), 200, 16));
-        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("lead", 4), ItemDusts.getDustByName("antimony", 1), ItemIngots.getIngotByName("batteryAlloy", 5), 200, 16));
-
-        //Brass
-        if (OreUtil.doesOreExistAndValid("ingotBrass")) {
-            ItemStack brassStack = OreDictionary.getOres("ingotBrass").get(0);
-            brassStack.stackSize = 4;
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("copper", 3), ItemIngots.getIngotByName("zinc", 1), brassStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("copper", 3), ItemDusts.getDustByName("zinc", 1), brassStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("copper", 3), ItemIngots.getIngotByName("zinc", 1), brassStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("copper", 3), ItemDusts.getDustByName("zinc", 1), brassStack, 200, 16));
-        }
-
-        //Red Alloy
-        if (OreUtil.doesOreExistAndValid("ingotRedAlloy")) {
-            ItemStack redAlloyStack = OreDictionary.getOres("ingotRedAlloy").get(0);
-            redAlloyStack.stackSize = 1;
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.redstone, 4), ItemIngots.getIngotByName("copper", 1), redAlloyStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.redstone, 4), new ItemStack(Items.iron_ingot, 1), redAlloyStack, 200, 16));
-        }
-
-        //Blue Alloy
-        if (OreUtil.doesOreExistAndValid("ingotBlueAlloy")) {
-            ItemStack blueAlloyStack = OreDictionary.getOres("ingotBlueAlloy").get(0);
-            blueAlloyStack.stackSize = 1;
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("teslatite", 4), ItemIngots.getIngotByName("silver", 1), blueAlloyStack, 200, 16));
-        }
-
-        //Blue Alloy
-        if (OreUtil.doesOreExistAndValid("ingotPurpleAlloy") && OreUtil.doesOreExistAndValid("dustInfusedTeslatite")) {
-            ItemStack purpleAlloyStack = OreDictionary.getOres("ingotPurpleAlloy").get(0);
-            purpleAlloyStack.stackSize = 1;
-            ItemStack infusedTeslatiteStack = OreDictionary.getOres("ingotPurpleAlloy").get(0);
-            infusedTeslatiteStack.stackSize = 8;
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("redAlloy", 1), ItemIngots.getIngotByName("blueAlloy", 1), purpleAlloyStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.gold_ingot, 1), infusedTeslatiteStack, purpleAlloyStack, 200, 16));
-        }
-
-        //Aluminum Brass
-        if (OreUtil.doesOreExistAndValid("ingotAluminumBrass")) {
-            ItemStack aluminumBrassStack = OreDictionary.getOres("ingotAluminumBrass").get(0);
-            aluminumBrassStack.stackSize = 4;
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("copper", 3), ItemIngots.getIngotByName("aluminum", 1), aluminumBrassStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("copper", 3), ItemDusts.getDustByName("aluminum", 1), aluminumBrassStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("copper", 3), ItemIngots.getIngotByName("aluminum", 1), aluminumBrassStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("copper", 3), ItemDusts.getDustByName("aluminum", 1), aluminumBrassStack, 200, 16));
-        }
-
-        //Manyullyn
-        if (OreUtil.doesOreExistAndValid("ingotManyullyn") && OreUtil.doesOreExistAndValid("ingotCobalt") && OreUtil.doesOreExistAndValid("ingotArdite")) {
-            ItemStack manyullynStack = OreDictionary.getOres("ingotManyullyn").get(0);
-            manyullynStack.stackSize = 1;
-            ItemStack cobaltStack = OreDictionary.getOres("ingotCobalt").get(0);
-            cobaltStack.stackSize = 1;
-            ItemStack arditeStack = OreDictionary.getOres("ingotArdite").get(0);
-            arditeStack.stackSize = 1;
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(cobaltStack, arditeStack, manyullynStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(cobaltStack, ItemDusts.getDustByName("ardite", 1), manyullynStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("cobalt", 1), arditeStack, manyullynStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemDusts.getDustByName("cobalt", 1), ItemDusts.getDustByName("ardite", 1), manyullynStack, 200, 16));
-        }
-
-        //Conductive Iron
-        if (OreUtil.doesOreExistAndValid("ingotConductiveIron")) {
-            ItemStack conductiveIronStack = OreDictionary.getOres("ingotConductiveIron").get(0);
-            conductiveIronStack.stackSize = 1;
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.redstone, 1), new ItemStack(Items.iron_ingot, 1), conductiveIronStack, 200, 16));
-        }
-
-        //Redstone Alloy
-        if (OreUtil.doesOreExistAndValid("ingotRedstoneAlloy") && OreUtil.doesOreExistAndValid("itemSilicon")) {
-            ItemStack redstoneAlloyStack = OreDictionary.getOres("ingotRedstoneAlloy").get(0);
-            redstoneAlloyStack.stackSize = 1;
-            ItemStack siliconStack = OreDictionary.getOres("itemSilicon").get(0);
-            siliconStack.stackSize = 1;
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.redstone, 1), siliconStack, redstoneAlloyStack, 200, 16));
-        }
-
-        //Pulsating Iron
-        if (OreUtil.doesOreExistAndValid("ingotPhasedIron")) {
-            ItemStack pulsatingIronStack = OreDictionary.getOres("ingotPhasedIron").get(0);
-            pulsatingIronStack.stackSize = 1;
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.iron_ingot, 1), new ItemStack(Items.ender_pearl, 1), pulsatingIronStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.iron_ingot, 1), ItemDusts.getDustByName("enderPearl", 1), pulsatingIronStack, 200, 16));
-        }
-
-        //Vibrant Alloy
-        if (OreUtil.doesOreExistAndValid("ingotEnergeticAlloy") && OreUtil.doesOreExistAndValid("ingotPhasedGold")) {
-            ItemStack energeticAlloyStack = OreDictionary.getOres("ingotEnergeticAlloy").get(0);
-            energeticAlloyStack.stackSize = 1;
-            ItemStack vibrantAlloyStack = OreDictionary.getOres("ingotPhasedGold").get(0);
-            vibrantAlloyStack.stackSize = 1;
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(energeticAlloyStack, new ItemStack(Items.ender_pearl, 1), vibrantAlloyStack, 200, 16));
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(energeticAlloyStack, ItemDusts.getDustByName("enderPearl", 1), vibrantAlloyStack, 200, 16));
-        }
-
-        //Soularium
-        if (OreUtil.doesOreExistAndValid("ingotSoularium")) {
-            ItemStack soulariumStack = OreDictionary.getOres("ingotSoularium").get(0);
-            soulariumStack.stackSize = 1;
-            RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Blocks.soul_sand, 1), new ItemStack(Items.gold_ingot, 1), soulariumStack, 200, 16));
-        }
-
-    }
-
-    static void addPlateCuttingMachineRecipes() {
-        //Obsidian
-        RecipeHandler.addRecipe(new PlateCuttingMachineRecipe(new ItemStack(Blocks.obsidian), ItemPlates.getPlateByName("obsidian", 9), 100, 4));
+        RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.gold_ingot, 1), ItemIngots.getIngotByName("silver", 1), ItemIngots.getIngotByName("electrum", 2), 100, 16));
+        RecipeHandler.addRecipe(new AlloySmelterRecipe(ItemIngots.getIngotByName("copper", 3), ItemIngots.getIngotByName("zinc", 1), ItemIngots.getIngotByName("brass", 4), 200, 16));
+        RecipeHandler.addRecipe(new AlloySmelterRecipe(new ItemStack(Items.iron_ingot, 2), ItemIngots.getIngotByName("nickel", 1), ItemIngots.getIngotByName("invar", 3), 150, 16));
     }
 
     static void addIndustrialSawmillRecipes() {
-        ItemStack pulpStack = OreDictionary.getOres("pulpWood").get(0);
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 0), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 0), pulpStack, null, 200, 30, false));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 0), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 0), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
-
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 1), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 1), pulpStack, null, 200, 30, false));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 1), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 1), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
-
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 2), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 2), pulpStack, null, 200, 30, false));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 2), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 2), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
-
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 3), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 3), pulpStack, null, 200, 30, false));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log, 1, 3), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 3), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
-
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 0), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 4), pulpStack, null, 200, 30, false));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 0), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 4), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
-
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 1), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Blocks.planks, 6, 5), pulpStack, null, 200, 30, false));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(new ItemStack(Blocks.log2, 1, 1), new ItemStack(Items.water_bucket), null, new ItemStack(Blocks.planks, 6, 5), pulpStack, new ItemStack(Items.bucket), 200, 30, false));
+    	boolean ic2Enabled = Loader.isModLoaded("IC2");
+        //Credits to KingLemming (https://github.com/CoFH/ThermalExpansion/blob/1.7.10/src/main/java/cofh/thermalexpansion/util/crafting/SawmillManager.java#L171-L217)
+        Container tempContainer = new Container() { @Override public boolean canInteractWith(EntityPlayer p) { return false; }};
+        InventoryCrafting tempCrafting = new InventoryCrafting(tempContainer, 3, 3);
+        for (int i = 0; i < 9; i++) tempCrafting.setInventorySlotContents(i, null);
+        List<ItemStack> logs = OreDictionary.getOres("logWood");
+		for (int i = 0; i < logs.size(); i++) {
+			ItemStack logEntry = logs.get(i);
+			if (logEntry.getItemDamage() == OreDictionary.WILDCARD_VALUE) {
+				for (int j = 0; j < 16; j++) {
+					ItemStack log = logEntry.copy();
+					log.setItemDamage(j);
+					tempCrafting.setInventorySlotContents(0, log);
+					ItemStack resultEntry = RecipeUtils.findMatchingRecipeSimple(tempCrafting, null);
+					if (resultEntry != null) {
+						ItemStack result = resultEntry.copy();
+						result.stackSize *= 1.5;
+						RecipeHandler.addRecipe(new IndustrialSawmillRecipe(log, null, new FluidStack(WATER, 1000), result, ItemDusts.getDustByName("sawDust"), null, 200, 32, false));
+						RecipeHandler.addRecipe(new IndustrialSawmillRecipe(log, new ItemStack(Items.water_bucket), null, result, ItemDusts.getDustByName("sawDust"), new ItemStack(Items.bucket), 200, 32, false));
+						if (ic2Enabled) {
+							RecipeHandler.addRecipe(new IndustrialSawmillRecipe(log, ic2.api.item.IC2Items.getItem("waterCell"), null, result, ItemDusts.getDustByName("sawDust"), ic2.api.item.IC2Items.getItem("cell"), 200, 32, false));
+						}
+					}
+				}
+			} else {
+				ItemStack log = logEntry.copy();
+				tempCrafting.setInventorySlotContents(0, log);
+				ItemStack resultEntry = RecipeUtils.findMatchingRecipeSimple(tempCrafting, null);
+				if (resultEntry != null) {
+					ItemStack result = resultEntry.copy();
+					result.stackSize *= 1.5;
+					RecipeHandler.addRecipe(new IndustrialSawmillRecipe(log, null, new FluidStack(WATER, 1000), result, ItemDusts.getDustByName("sawDust"), null, 200, 32, false));
+					RecipeHandler.addRecipe(new IndustrialSawmillRecipe(log, new ItemStack(Items.water_bucket), null, result, ItemDusts.getDustByName("sawDust"), new ItemStack(Items.bucket), 200, 32, false));
+					if (ic2Enabled) {
+						RecipeHandler.addRecipe(new IndustrialSawmillRecipe(log, ic2.api.item.IC2Items.getItem("waterCell"), null, result, ItemDusts.getDustByName("sawDust"), ic2.api.item.IC2Items.getItem("cell"), 200, 32, false));
+					}
+				}
+			}
+		}
     }
 
     static void addBlastFurnaceRecipes() {
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("titanium"), null, ItemIngots.getIngotByName("titanium"), null, 3600, 120, 1500));
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsSmall.getSmallDustByName("titanium", 4), null, ItemIngots.getIngotByName("titanium"), null, 3600, 120, 1500));
-//		RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsTiny.getTinyDustByName("titanium", 9), null, ItemIngots.getIngotByName("titanium"), null, 3600, 120, 1500));
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("aluminum"), null, ItemIngots.getIngotByName("aluminum"), null, 2200, 120, 1700));
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsSmall.getSmallDustByName("aluminum", 4), null, ItemIngots.getIngotByName("aluminum"), null, 2200, 120, 1700));
-//		RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsTiny.getTinyDustByName("aluminum", 9), null, ItemIngots.getIngotByName("aluminum"), null, 2200, 120, 1700));
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("kanthal"), null, ItemIngots.getIngotByName("kanthal"), null, 5500, 120, 2500));
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsSmall.getSmallDustByName("kanthal", 4), null, ItemIngots.getIngotByName("kanthal"), null, 5500, 120, 2500));
-//		RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsTiny.getTinyDustByName("kanthal", 9), null, ItemIngots.getIngotByName("kanthal"), null, 5500, 120, 2500));
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("tungsten"), null, ItemIngots.getIngotByName("tungsten"), null, 18000, 120, 2500));
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsSmall.getSmallDustByName("tungsten", 4), null, ItemIngots.getIngotByName("tungsten"), null, 18000, 120, 2500));
-//		RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsTiny.getTinyDustByName("tungsten", 9), null, ItemIngots.getIngotByName("tungsten"), null, 18000, 120, 2500));
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("chrome"), null, ItemIngots.getIngotByName("chrome"), null, 4420, 120, 1700));
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsSmall.getSmallDustByName("chrome", 4), null, ItemIngots.getIngotByName("chrome"), null, 4420, 120, 1700));
-//		RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsTiny.getTinyDustByName("chrome", 9), null, ItemIngots.getIngotByName("chrome"), null, 4420, 120, 1700));
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("steel"), null, ItemIngots.getIngotByName("steel"), null, 2800, 120, 1000));
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsSmall.getSmallDustByName("steel", 4), null, ItemIngots.getIngotByName("steel"), null, 2800, 120, 1000));
-//		RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsTiny.getTinyDustByName("steel", 9), null, ItemIngots.getIngotByName("steel"), null, 2800, 120, 1000));
-
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("galena", 2), null, ItemIngots.getIngotByName("silver"), ItemIngots.getIngotByName("lead"), 80, 120, 1500));
-
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(new ItemStack(Items.iron_ingot), ItemDusts.getDustByName("coal", 2), ItemIngots.getIngotByName("steel"), ItemDusts.getDustByName("darkAshes", 2), 500, 120, 1000));
-
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemIngots.getIngotByName("tungsten"), ItemIngots.getIngotByName("steel"), ItemIngots.getIngotByName("hotTungstensteel"), ItemDusts.getDustByName("darkAshes", 4), 500, 500, 3000));
-
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(new ItemStack(Blocks.iron_ore), ItemDusts.getDustByName("calcite"), new ItemStack(Items.iron_ingot, 3), ItemDusts.getDustByName("darkAshes"), 140, 120, 1000));
-
-        RecipeHandler.addRecipe(new BlastFurnaceRecipe(BlockOre.getOreByName("Pyrite"), ItemDusts.getDustByName("calcite"), new ItemStack(Items.iron_ingot, 2), ItemDusts.getDustByName("darkAshes"), 140, 120, 1000));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("titanium"), null, ItemIngots.getIngotByName("titanium"), null, 1000, 128, 1500));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsSmall.getSmallDustByName("titanium", 4), null, ItemIngots.getIngotByName("titanium"), null, 1000, 128, 1500));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("aluminium"), null, ItemIngots.getIngotByName("aluminium"), null, 200, 128, 1700));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsSmall.getSmallDustByName("aluminium", 4), null, ItemIngots.getIngotByName("aluminium"), null, 200, 128, 1700));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("tungsten"), null, ItemIngots.getIngotByName("tungsten"), null, 2000, 128, 2500));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsSmall.getSmallDustByName("tungsten", 4), null, ItemIngots.getIngotByName("tungsten"), null, 2000, 128, 2500));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("chromium"), null, ItemIngots.getIngotByName("chromium"), null, 800, 128, 1700));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsSmall.getSmallDustByName("chromium", 4), null, ItemIngots.getIngotByName("chromium"), null, 800, 128, 1700));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("steel"), null, ItemIngots.getIngotByName("steel"), null, 100, 128, 1000));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsSmall.getSmallDustByName("steel", 4), null, ItemIngots.getIngotByName("steel"), null, 100, 128, 1000));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDusts.getDustByName("galena", 2), null, ItemIngots.getIngotByName("silver"), ItemIngots.getIngotByName("lead"), 20, 128, 1500));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemDustsSmall.getSmallDustByName("galena", 8), null, ItemIngots.getIngotByName("silver"), ItemIngots.getIngotByName("lead"), 20, 128, 1500));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(new ItemStack(Items.iron_ingot), ItemDusts.getDustByName("coal", 2), ItemIngots.getIngotByName("steel"), ItemDusts.getDustByName("darkAshes", 2), 500, 128, 1000));
+        RecipeHandler.addRecipe(new BlastFurnaceRecipe(ItemIngots.getIngotByName("tungsten"), ItemIngots.getIngotByName("steel"), ItemIngots.getIngotByName("hotTungstensteel"), ItemDusts.getDustByName("darkAshes", 4), 2000, 128, 3000));
+        
+        if(Loader.isModLoaded("Railcraft")) {
+        	for(ItemStack s : OreDictionary.getOres("dustAluminium"))
+        		mods.railcraft.api.crafting.RailcraftCraftingManager.blastFurnace.addRecipe(s, true, false, 1700, ItemIngots.getIngotByName("aluminium"));
+        	for(ItemStack s : OreDictionary.getOres("dustSteel"))
+        		mods.railcraft.api.crafting.RailcraftCraftingManager.blastFurnace.addRecipe(s, true, false, 100, ItemIngots.getIngotByName("steel"));
+        }
     }
 
     static void addUUrecipes() {
@@ -833,75 +735,184 @@ public class
     static void addIndustrialCentrifugeRecipes() {
 
         //Mycelium Byproducts
-        RecipeHandler.addRecipe(new CentrifugeRecipe(new ItemStack(Blocks.mycelium, 8), null, new ItemStack(Blocks.brown_mushroom, 2), new ItemStack(Blocks.red_mushroom, 2), new ItemStack(Items.clay_ball, 1), new ItemStack(Blocks.sand, 4), 1640, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(new ItemStack(Blocks.mycelium, 8), null, new ItemStack(Blocks.brown_mushroom, 2), new ItemStack(Blocks.red_mushroom, 2), new ItemStack(Items.clay_ball, 1), new ItemStack(Blocks.sand, 4), 1650, 5));
 
         //Blaze Powder Byproducts
-        RecipeHandler.addRecipe(new CentrifugeRecipe(new ItemStack(Items.blaze_powder), null, ItemDusts.getDustByName("darkAshes", 1), ItemDusts.getDustByName("sulfur", 1), null, null, 1240, 5));
+        if (!Loader.isModLoaded("IC2")) {
+            RecipeHandler.addRecipe(new CentrifugeRecipe(new ItemStack(Items.blaze_powder, 4), null, ItemDusts.getDustByName("darkAshes", 1), ItemDusts.getDustByName("sulfur", 1), null, null, 1240, 5));
+        }
 
         //Magma Cream Products
-        RecipeHandler.addRecipe(new CentrifugeRecipe(new ItemStack(Items.magma_cream, 1), null, new ItemStack(Items.blaze_powder, 1), new ItemStack(Items.slime_ball, 1), null, null, 2500, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(new ItemStack(Items.magma_cream, 1), null, new ItemStack(Items.blaze_powder, 1), new ItemStack(Items.slime_ball, 1), null, null, 500, 5));
 
         //Dust Byproducts
-//		RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("platinum", 1), null, ItemDustsTiny.getTinyDustByName("Iridium", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, null, 3000, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("electrum", 2), null, ItemDusts.getDustByName("silver", 1), ItemDusts.getDustByName("gold", 1), null, null, 2400, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("invar", 3), null, ItemDusts.getDustByName("iron", 2), ItemDusts.getDustByName("nickel", 1), null, null, 1340, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("marble", 8), null, ItemDusts.getDustByName("magnesium", 1), ItemDusts.getDustByName("calcite", 7), null, null, 1280, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("redrock", 4), null, ItemDusts.getDustByName("calcite", 2), ItemDusts.getDustByName("flint", 1), ItemDusts.getDustByName("clay", 1), null, 640, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("basalt", 16), null, ItemDusts.getDustByName("peridot", 1), ItemDusts.getDustByName("calcite", 3), ItemDusts.getDustByName("magnesium", 8), ItemDusts.getDustByName("darkAshes", 4), 2680, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("yellowGarnet", 16), null, ItemDusts.getDustByName("andradite", 5), ItemDusts.getDustByName("grossular", 8), ItemDusts.getDustByName("uvarovite", 3), null, 2940, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("redGarnet", 16), null, ItemDusts.getDustByName("pyrope", 3), ItemDusts.getDustByName("almandine", 5), ItemDusts.getDustByName("spessartine", 8), null, 2940, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("darkAshes", 2), null, ItemDusts.getDustByName("ashes", 2), null, null, null, 240, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("manyullyn", 2), null, ItemDusts.getDustByName("cobalt", 1), ItemDusts.getDustByName("ardite", 1), null, null, 1240, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("nichrome", 5), null, ItemDusts.getDustByName("nickel", 4), ItemDusts.getDustByName("chrome", 1), null, null, 2240, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("cupronickel", 2), null, ItemDusts.getDustByName("copper", 1), ItemDusts.getDustByName("nickel", 1), null, null, 960, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("kanthal", 3), null, ItemDusts.getDustByName("iron", 1), ItemDusts.getDustByName("aluminum", 1), ItemDusts.getDustByName("chrome", 1), null, 1040, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("brass", 4), null, ItemDusts.getDustByName("zinc", 1), ItemDusts.getDustByName("copper", 3), null, null, 2000, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("aluminumBrass", 4), null, ItemDusts.getDustByName("aluminum", 1), ItemDusts.getDustByName("copper", 3), null, null, 2000, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("copper", 3),  null, ItemDustsSmall.getSmallDustByName("gold"), ItemDustsSmall.getSmallDustByName("nickel"), null, null, 2400, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("gold", 3),  null, ItemDustsSmall.getSmallDustByName("copper"), ItemDustsSmall.getSmallDustByName("nickel"), null, null, 2400, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("iron", 2),  null, ItemDustsSmall.getSmallDustByName("tin"), ItemDustsSmall.getSmallDustByName("nickel"), null, null, 1500, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("silver", 2),  null, ItemDustsSmall.getSmallDustByName("lead"), null, null, null, 2400, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("tin", 2),  null, ItemDustsSmall.getSmallDustByName("zinc"), ItemDustsSmall.getSmallDustByName("iron"), null, null, 2100, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("lead", 3),  null, ItemDustsSmall.getSmallDustByName("silver"), null, null, null, 2400, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("zinc"),  null, ItemDustsSmall.getSmallDustByName("tin"), null, null, null, 1050, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("nickel", 3),  null, ItemDustsSmall.getSmallDustByName("iron"), ItemDustsSmall.getSmallDustByName("gold"), ItemDustsSmall.getSmallDustByName("copper"), null, 3450, 5));
         RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("bronze", 4), null, ItemDusts.getDustByName("tin", 1), ItemDusts.getDustByName("copper", 3), null, null, 2420, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("netherrack", 16), null, new ItemStack(Items.redstone, 1), ItemDusts.getDustByName("sulfur", 4), ItemDusts.getDustByName("basalt", 1), new ItemStack(Items.gold_nugget, 1), 2400, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("enderEye", 1), null, ItemDusts.getDustByName("enderPearl", 1), new ItemStack(Items.blaze_powder, 1), null, null, 1280, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("tetrahedrite", 8), null, ItemDusts.getDustByName("copper", 3), ItemDusts.getDustByName("antimony", 1), ItemDusts.getDustByName("sulfur", 3), ItemDusts.getDustByName("iron", 1), 3640, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("lapis", 16), null, ItemDusts.getDustByName("lazurite", 12), ItemDusts.getDustByName("sodalite", 2), ItemDusts.getDustByName("pyrite", 7), ItemDusts.getDustByName("calcite", 1), 3580, 5));
-
-
-//        RecipeHandler.addRecipe(new CentrifugeRecipe(new ItemStack(Items.glowstone_dust, 16), RecipeUtils.getEmptyCell(1), ItemCells.getCellByName("helium", 1, false), ItemDusts.getDustByName("gold", 8), new ItemStack(Items.redstone), null, 25000, 20));
-//		RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("endstone", 16), RecipeUtils.getEmptyCell(2), ItemCells.getCellByName("helium3", 1, false), ItemCells.getCellByName("helium", 1, false), ItemDustsTiny.getTinyDustByName("Tungsten"), new ItemStack(Blocks.sand, 12), 4800, 5));
+		RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("bronze"), null, ItemDustsSmall.getSmallDustByName("copper", 6), ItemDustsSmall.getSmallDustByName("tin", 2), null, null, 1500, 5));
+		RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("brass"), null, ItemDustsSmall.getSmallDustByName("copper", 3), ItemDustsSmall.getSmallDustByName("zinc"), null, null, 1500, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("electrum", 2), null, ItemDusts.getDustByName("silver", 1), ItemDusts.getDustByName("gold", 1), null, null, 2400, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("electrum"), null, ItemDustsSmall.getSmallDustByName("gold", 2), ItemDustsSmall.getSmallDustByName("silver", 2), null, null, 975, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("invar", 3), null, ItemDusts.getDustByName("iron", 2), ItemDusts.getDustByName("nickel", 1), null, null, 1000, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("marble", 8), null, ItemDusts.getDustByName("magnesium", 1), ItemDusts.getDustByName("calcite", 7), null, null, 1055, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("basalt", 16), null, ItemDusts.getDustByName("olivine", 1), ItemDusts.getDustByName("calcite", 3), ItemDusts.getDustByName("flint", 8), ItemDusts.getDustByName("darkAshes", 4), 2040, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("yellowGarnet", 16), null, ItemDusts.getDustByName("andradite", 5), ItemDusts.getDustByName("grossular", 8), ItemDusts.getDustByName("uvarovite", 3), null, 3500, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("redGarnet", 16), null, ItemDusts.getDustByName("pyrope", 3), ItemDusts.getDustByName("almandine", 5), ItemDusts.getDustByName("spessartine", 8), null, 3000, 5));
+		RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("platinum"), null, ItemNuggets.getNuggetByName("iridium"), ItemDustsSmall.getSmallDustByName("nickel"), null, null, 3000, 5));
+        if (!Loader.isModLoaded("ThermalExpansion")) {
+            RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("darkAshes", 2), null, ItemDusts.getDustByName("ashes", 2), null, null, null, 240, 5));
+        }
+        if (!Loader.isModLoaded("IC2")) {
+			RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("netherrack", 16), null, new ItemStack(Items.redstone, 1), ItemDusts.getDustByName("sulfur", 4), ItemDusts.getDustByName("coal", 1), new ItemStack(Items.gold_nugget, 1), 2400, 5));
+		}
+		RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("enderEye", 2), null, ItemDusts.getDustByName("enderPearl", 1), new ItemStack(Items.blaze_powder, 1), null, null, 1850, 5));
+		RecipeHandler.addRecipe(new CentrifugeRecipe(new ItemStack(Items.dye, 4, 4), null, ItemDusts.getDustByName("lazurite", 3), ItemDustsSmall.getSmallDustByName("pyrite"), ItemDustsSmall.getSmallDustByName("calcite"), ItemDustsSmall.getSmallDustByName("sodalite", 2), 1500, 5, false));
+		
     }
 
     static void addIndustrialGrinderRecipes() {
-        for(String ore : OreUtil.oreNames){
-            if(OreUtil.hasIngot(ore) && OreUtil.hasDustSmall(ore) && OreUtil.hasBlock(ore)){
-                RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("block" + capitalizeFirstLetter(ore)), null, new FluidStack(FluidRegistry.WATER, 1000), OreUtil.getStackFromName("ingot" + capitalizeFirstLetter(ore)), OreUtil.getStackFromName("dustSmall" + capitalizeFirstLetter(ore), 6), OreUtil.getStackFromName("dustSmall" + capitalizeFirstLetter(ore), 2), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("block" + capitalizeFirstLetter(ore)), new ItemStack(Items.water_bucket), null, OreUtil.getStackFromName("ingot" + capitalizeFirstLetter(ore)), OreUtil.getStackFromName("dustSmall" + capitalizeFirstLetter(ore), 6), OreUtil.getStackFromName("dustSmall" + capitalizeFirstLetter(ore), 2), new ItemStack(Items.bucket), 100, 120));
-            }
+        //Ruby Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("ruby"), null, new FluidStack(WATER, 1000), ItemGems.getGemByName("ruby", 1), ItemDustsSmall.getSmallDustByName("Ruby", 6), ItemDustsSmall.getSmallDustByName("redGarnet", 2), null, 100, 128));
+        if(OreUtil.doesOreExistAndValid("oreNetherRuby")) {
+            RecipeHandler.addRecipe(new GrinderRecipe(OreDictionary.getOres("oreNetherRuby").get(0), null, new FluidStack(WATER, 1000), ItemGems.getGemByName("ruby", 2), ItemDustsSmall.getSmallDustByName("Ruby", 12), ItemDustsSmall.getSmallDustByName("redGarnet", 2), null, 100, 128));
         }
 
+        //Sapphire Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("sapphire"), null, new FluidStack(WATER, 1000), ItemGems.getGemByName("sapphire", 1), ItemDustsSmall.getSmallDustByName("Sapphire", 6), ItemDustsSmall.getSmallDustByName("peridot", 2), null, 100, 128));
+        if(OreUtil.doesOreExistAndValid("oreNetherSapphire")) {
+            RecipeHandler.addRecipe(new GrinderRecipe(OreDictionary.getOres("oreNetherSapphire").get(0), null, new FluidStack(WATER, 1000), ItemGems.getGemByName("sapphire", 2), ItemDustsSmall.getSmallDustByName("Sapphire", 12), ItemDustsSmall.getSmallDustByName("peridot", 2), null, 100, 128));
+        }
+        
+        //Peridot Ore
+        if(OreUtil.doesOreExistAndValid("orePeridot")) {
+        	RecipeHandler.addRecipe(new GrinderRecipe(OreDictionary.getOres("orePeridot").get(0), null, new FluidStack(WATER, 1000), ItemGems.getGemByName("peridot"), ItemDustsSmall.getSmallDustByName("peridot", 6), ItemDustsSmall.getSmallDustByName("sapphire", 2), null, 100, 128));
+        }
+        if(OreUtil.doesOreExistAndValid("oreNetherPeridot")) {
+        	RecipeHandler.addRecipe(new GrinderRecipe(OreDictionary.getOres("oreNetherPeridot").get(0), null, new FluidStack(WATER, 1000), ItemGems.getGemByName("peridot", 2), ItemDustsSmall.getSmallDustByName("peridot", 12), ItemDustsSmall.getSmallDustByName("sapphire", 2), null, 100, 128));
+        }
+        
+        //Olivine Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("olivine"), null, new FluidStack(WATER, 1000), ItemGems.getGemByName("olivine"), ItemDustsSmall.getSmallDustByName("olivine", 6), ItemDustsSmall.getSmallDustByName("emerald", 2), null, 100, 128));
+
+        //Lapis Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.lapis_ore), null, new FluidStack(WATER, 1000), new ItemStack(Items.dye, 12, 4), ItemDusts.getDustByName("lazurite", 3), null, null, 100, 128));
+        if(OreUtil.doesOreExistAndValid("oreNetherLapis")) {
+            RecipeHandler.addRecipe(new GrinderRecipe(OreDictionary.getOres("oreNetherLapis").get(0), null, new FluidStack(WATER, 1000), new ItemStack(Items.dye, 18, 4), ItemDusts.getDustByName("lazurite", 3), null, null, 100, 128));
+        }
+        
+        //Sheldonite (Platinum) Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("sheldonite"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("platinum", 2), ItemDusts.getDustByName("nickel"), ItemNuggets.getNuggetByName("iridium", 2), null, 100, 128));
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("sheldonite"), null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("platinum", 3), ItemDusts.getDustByName("nickel"), ItemNuggets.getNuggetByName("iridium", 2), null, 100, 128));
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("sheldonite"), new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("platinum", 3), ItemDusts.getDustByName("nickel"), ItemNuggets.getNuggetByName("iridium", 2), new ItemStack(Items.bucket), 100, 128));
+        
+        //Sodalite Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("sodalite"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("sodalite", 12),  ItemDusts.getDustByName("aluminium", 3), null, null, 100, 128));
+        
+        //Netherrack
+        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.netherrack, 16), null, new FluidStack(WATER, 1000), new ItemStack(Items.gold_nugget), ItemDusts.getDustByName("netherrack", 16), null, null, 1600, 128, false));
+        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.netherrack, 8), null, new FluidStack(ModFluids.fluidMercury, 1000), new ItemStack(Items.gold_nugget), ItemDusts.getDustByName("netherrack", 8), null, null, 800, 128, false));
+        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.netherrack, 8), new ItemStack(ModItems.bucketMercury), null, new ItemStack(Items.gold_nugget), ItemDusts.getDustByName("netherrack", 8), null, new ItemStack(Items.bucket), 800, 128, false));
+        
+        //Saltpeter Ore
+        if(OreUtil.doesOreExistAndValid("oreSaltpeter")) {
+        	RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreSaltpeter"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("saltpeter", 7), null, null, null, 100, 128));
+        }
+
+        //Cinnabar Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("cinnabar"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("cinnabar", 5), ItemDustsSmall.getSmallDustByName("redstone", 2), ItemDustsSmall.getSmallDustByName("glowstone", 1), null, 100, 128));
+
+        //Sphalerite Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("sphalerite"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("sphalerite", 5), ItemDusts.getDustByName("Zinc", 1), ItemDustsSmall.getSmallDustByName("YellowGarnet", 1), null, 100, 128));
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("sphalerite"), null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("sphalerite", 5), ItemDusts.getDustByName("zinc", 3), ItemDustsSmall.getSmallDustByName("YellowGarnet", 1), null, 100, 128));
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("sphalerite"), new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("sphalerite", 5), ItemDusts.getDustByName("zinc", 3), ItemDustsSmall.getSmallDustByName("YellowGarnet", 1), new ItemStack(Items.bucket), 100, 128));
+
+        //Bauxite Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("bauxite"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("bauxite", 4), ItemDusts.getDustByName("aluminium"), null, null, 100, 128));
+
+        //Tungsten Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("tungsten"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("tungsten", 2), ItemDustsSmall.getSmallDustByName("iron", 3), ItemDustsSmall.getSmallDustByName("manganese", 3), null, 100, 128));
+        
+        //Lead Ore
+        if(OreUtil.doesOreExistAndValid("oreLead")) {
+        	RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreLead"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("lead", 2), ItemDustsSmall.getSmallDustByName("silver"), null, null, 100, 128));
+        	RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreLead"), null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("lead", 2), ItemDusts.getDustByName("silver"), null, null, 100, 128));
+        	RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreLead"), new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("lead", 2), ItemDusts.getDustByName("silver"), null, new ItemStack(Items.bucket), 100, 128));
+        }
+        if(OreUtil.doesOreExistAndValid("oreNetherLead")) {
+        	RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherLead"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("lead", 4), ItemDustsSmall.getSmallDustByName("silver"), null, null, 100, 128));
+        	RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherLead"), null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("lead", 4), ItemDusts.getDustByName("silver"), null, null, 100, 128));
+        	RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherLead"), new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("lead", 4), ItemDusts.getDustByName("silver"), null, new ItemStack(Items.bucket), 100, 128));
+        }
+        
+        //Coal Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.coal_ore, 1), null, new FluidStack(WATER, 1000), new ItemStack(Items.coal, 1), ItemDusts.getDustByName("coal"), ItemDustsSmall.getSmallDustByName("thorium"), null, 100, 128));
+        if(OreUtil.doesOreExistAndValid("oreNetherCoal")) {
+            RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherCoal"), null, new FluidStack(WATER, 1000), new ItemStack(Items.coal, 2), ItemDusts.getDustByName("coal", 2), ItemDustsSmall.getSmallDustByName("thorium"), null, 100, 128));
+        }
+        
+        //Iron Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.iron_ore, 1), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("iron", 2), ItemDustsSmall.getSmallDustByName("Nickel", 1), ItemDustsSmall.getSmallDustByName("Tin", 1), null, 100, 128));
+        if(OreUtil.doesOreExistAndValid("oreNetherIron")) {
+            RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherIron"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("iron", 4), ItemDustsSmall.getSmallDustByName("Nickel", 1), ItemDustsSmall.getSmallDustByName("Tin", 1), null, 100, 128));
+        }
+        
+        //Gold Ore
+        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.gold_ore, 1), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("gold", 2), ItemDustsSmall.getSmallDustByName("Copper", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, 100, 128));
+        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.gold_ore, 1), null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("gold", 2), ItemDusts.getDustByName("copper", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, 100, 128));
+        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.gold_ore, 1), new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("gold", 2), ItemDusts.getDustByName("copper", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), new ItemStack(Items.bucket), 100, 128));
+        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.gold_ore, 1), null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("gold", 3), ItemDustsSmall.getSmallDustByName("Copper", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, 100, 128));
+        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.gold_ore, 1), new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("gold", 3), ItemDustsSmall.getSmallDustByName("Copper", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), new ItemStack(Items.bucket), 100, 128));
+        if(OreUtil.doesOreExistAndValid("oreNetherGold")) {
+            RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherGold"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("gold", 4), ItemDustsSmall.getSmallDustByName("Copper", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, 100, 128));
+            RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherGold"), null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("gold", 5), ItemDustsSmall.getSmallDustByName("Copper", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, 100, 128));
+            RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherGold"), new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("gold", 5), ItemDustsSmall.getSmallDustByName("Copper", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), new ItemStack(Items.bucket), 100, 128));
+            RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherGold"), null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("gold", 4), ItemDusts.getDustByName("copper", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, 100, 128));
+            RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherGold"), new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("gold", 4), ItemDusts.getDustByName("copper", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), new ItemStack(Items.bucket), 100, 128));
+        }
+        
         //Copper Ore
         if (OreUtil.doesOreExistAndValid("oreCopper")) {
             try {
                 ItemStack oreStack = OreDictionary.getOres("oreCopper").get(0);
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("copper", 2), ItemDustsSmall.getSmallDustByName("Gold", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("copper", 2), ItemDustsSmall.getSmallDustByName("Gold", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), new ItemStack(Items.bucket), 100, 120));
-
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("copper", 2), ItemDusts.getDustByName("gold", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("copper", 2), ItemDusts.getDustByName("gold", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), new ItemStack(Items.bucket), 100, 120));
-
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("copper", 2), ItemDustsSmall.getSmallDustByName("Gold", 1), ItemDusts.getDustByName("nickel", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, ItemCells.getCellByName("mercury", 1), null, ItemDusts.getDustByName("copper", 2), ItemDustsSmall.getSmallDustByName("Gold", 1), ItemDusts.getDustByName("nickel", 1), new ItemStack(Items.bucket), 100, 120));
+                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("copper", 2), ItemDustsSmall.getSmallDustByName("Gold", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("copper", 3), ItemDustsSmall.getSmallDustByName("gold", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("copper", 3), ItemDustsSmall.getSmallDustByName("gold", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), new ItemStack(Items.bucket), 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("copper", 2), ItemDusts.getDustByName("Gold", 1), null, null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("copper", 2), ItemDusts.getDustByName("Gold", 1), null, new ItemStack(Items.bucket), 100, 128));
             } catch (Exception e) {
                 Core.logHelper.info("Failed to Load Grinder Recipe for Copper Ore");
             }
+        }
+        if(OreUtil.doesOreExistAndValid("oreNetherCopper")) {
+            ItemStack oreStack = OreDictionary.getOres("oreNetherCopper").get(0);
+            RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("copper", 4), ItemDustsSmall.getSmallDustByName("Gold", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, 100, 128));
+            RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("copper", 5), ItemDusts.getDustByName("gold", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), null, 100, 128));
+            RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("copper", 5), ItemDusts.getDustByName("gold", 1), ItemDustsSmall.getSmallDustByName("Nickel", 1), new ItemStack(Items.bucket), 100, 128));
+            RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("copper", 4), ItemDusts.getDustByName("Gold", 1), null, null, 100, 128));
+            RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("copper", 4), ItemDusts.getDustByName("Gold", 1), null, new ItemStack(Items.bucket), 100, 128));
         }
 
         //Tin Ore
         if (OreUtil.doesOreExistAndValid("oreTin")) {
             try {
-                ItemStack oreStack = OreDictionary.getOres("oreTin").get(0);
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("tin", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDustsSmall.getSmallDustByName("Zinc", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("tin", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDustsSmall.getSmallDustByName("Zinc", 1), new ItemStack(Items.bucket), 100, 120));
-
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("tin", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDusts.getDustByName("zinc", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("tin", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDusts.getDustByName("zinc", 1), new ItemStack(Items.bucket), 100, 120));
+                RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreTin"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("tin", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDustsSmall.getSmallDustByName("Zinc", 1), null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreTin"), null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("tin", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDusts.getDustByName("zinc", 1), null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreTin"), new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("tin", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDusts.getDustByName("zinc", 1), new ItemStack(Items.bucket), 100, 128));
+            } catch (Exception e) {
+                Core.logHelper.info("Failed to Load Grinder Recipe for Tin Ore");
+            }
+        }
+        if (OreUtil.doesOreExistAndValid("oreNetherTin")) {
+            try {
+                RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherTin"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("tin", 4), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDustsSmall.getSmallDustByName("Zinc", 1), null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherTin"), null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("tin", 4), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDusts.getDustByName("zinc", 1), null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreNetherTin"), new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("tin", 4), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDusts.getDustByName("zinc", 1), new ItemStack(Items.bucket), 100, 128));
             } catch (Exception e) {
                 Core.logHelper.info("Failed to Load Grinder Recipe for Tin Ore");
             }
@@ -910,15 +921,10 @@ public class
         //Nickel Ore
         if (OreUtil.doesOreExistAndValid("oreNickel")) {
             try {
-                ItemStack oreStack = OreDictionary.getOres("oreNickel").get(0);
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("nickel", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDustsSmall.getSmallDustByName("Platinum", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("nickel", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDustsSmall.getSmallDustByName("Platinum", 1), new ItemStack(Items.bucket), 100, 120));
-
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("nickel", 3), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDustsSmall.getSmallDustByName("Platinum", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("nickel", 3), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDustsSmall.getSmallDustByName("Platinum", 1), new ItemStack(Items.bucket), 100, 120));
-
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("nickel", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDusts.getDustByName("platinum", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("nickel", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDusts.getDustByName("platinum", 1), new ItemStack(Items.bucket), 100, 120));
+                ItemStack oreStack = OreUtil.getStackFromName("oreNickel");
+                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("nickel", 3), ItemDustsSmall.getSmallDustByName("platinum"), ItemDustsSmall.getSmallDustByName("copper"), null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("nickel", 3), ItemDusts.getDustByName("platinum"), null, null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("nickel", 3), ItemDusts.getDustByName("platinum"), null, new ItemStack(Items.bucket), 100, 128));
             } catch (Exception e) {
                 Core.logHelper.info("Failed to Load Grinder Recipe for Nickel Ore");
             }
@@ -927,12 +933,9 @@ public class
         //Zinc Ore
         if (OreUtil.doesOreExistAndValid("oreZinc")) {
             try {
-                ItemStack oreStack = OreDictionary.getOres("oreZinc").get(0);
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("zinc", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDustsSmall.getSmallDustByName("Tin", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("zinc", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDustsSmall.getSmallDustByName("Tin", 1), new ItemStack(Items.bucket), 100, 120));
-
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("zinc", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDusts.getDustByName("iron", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("zinc", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDusts.getDustByName("iron", 1), new ItemStack(Items.bucket), 100, 120));
+                RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreZinc"), null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("zinc", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDustsSmall.getSmallDustByName("Tin", 1), null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreZinc"), null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("zinc", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDusts.getDustByName("iron", 1), null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreZinc"), new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("zinc", 2), ItemDustsSmall.getSmallDustByName("Iron", 1), ItemDusts.getDustByName("iron", 1), new ItemStack(Items.bucket), 100, 128));
             } catch (Exception e) {
                 Core.logHelper.info("Failed to Load Grinder Recipe for Zinc Ore");
             }
@@ -942,247 +945,39 @@ public class
         if (OreUtil.doesOreExistAndValid("oreSilver")) {
             try {
                 ItemStack oreStack = OreDictionary.getOres("oreSilver").get(0);
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("silver", 2), ItemDustsSmall.getSmallDustByName("Lead", 1), ItemDustsSmall.getSmallDustByName("Sulfur", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("silver", 2), ItemDustsSmall.getSmallDustByName("Lead", 1), ItemDustsSmall.getSmallDustByName("Sulfur", 1), new ItemStack(Items.bucket), 100, 120));
-
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("silver", 3), ItemDustsSmall.getSmallDustByName("Lead", 1), ItemDustsSmall.getSmallDustByName("Sulfur", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("silver", 3), ItemDustsSmall.getSmallDustByName("Lead", 1), ItemDustsSmall.getSmallDustByName("Sulfur", 1), new ItemStack(Items.bucket), 100, 120));
+                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("silver", 2), ItemDustsSmall.getSmallDustByName("Lead", 2), null, null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("silver", 3), ItemDustsSmall.getSmallDustByName("Lead", 2), null, null, 100, 128));
+                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("silver", 3), ItemDustsSmall.getSmallDustByName("Lead", 2), null, new ItemStack(Items.bucket), 100, 128));
             } catch (Exception e) {
                 Core.logHelper.info("Failed to Load Grinder Recipe for Silver Ore");
             }
         }
-
-        //Lead Ore
-        if (OreUtil.doesOreExistAndValid("oreLead")) {
-            try {
-                ItemStack oreStack = OreDictionary.getOres("oreLead").get(0);
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("lead", 2), ItemDustsSmall.getSmallDustByName("Silver", 1), ItemDustsSmall.getSmallDustByName("Sulfur", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("lead", 2), ItemDustsSmall.getSmallDustByName("Silver", 1), ItemDustsSmall.getSmallDustByName("Sulfur", 1), new ItemStack(Items.bucket), 100, 120));
-
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("lead", 2), ItemDusts.getDustByName("silver", 1), ItemDustsSmall.getSmallDustByName("Sulfur", 1), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("lead", 2), ItemDusts.getDustByName("silver", 1), ItemDustsSmall.getSmallDustByName("Sulfur", 1), new ItemStack(Items.bucket), 100, 120));
-            } catch (Exception e) {
-                Core.logHelper.info("Failed to Load Grinder Recipe for Lead Ore");
-            }
+        if(OreUtil.doesOreExistAndValid("oreNetherSilver")) {
+            ItemStack oreStack = OreDictionary.getOres("oreNetherSilver").get(0);
+            RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(WATER, 1000), ItemDusts.getDustByName("silver", 4), ItemDustsSmall.getSmallDustByName("Lead", 2), null, null, 100, 128));
+            RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("silver", 5), ItemDustsSmall.getSmallDustByName("Lead", 2), null, null, 100, 128));
+            RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("silver", 5), ItemDustsSmall.getSmallDustByName("Lead", 2), null, new ItemStack(Items.bucket), 100, 128));
         }
 
         //Apatite Ore
-        if (OreUtil.doesOreExistAndValid("oreApatite") & OreUtil.doesOreExistAndValid("gemApatite")) {
+        if (OreUtil.doesOreExistAndValid("oreApatite") && OreUtil.doesOreExistAndValid("gemApatite")) {
             try {
-                ItemStack oreStack = OreDictionary.getOres("oreApatite").get(0);
-                ItemStack gemStack = OreDictionary.getOres("gemApatite").get(0);
-                gemStack.stackSize = 6;
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), gemStack, gemStack, ItemDustsSmall.getSmallDustByName("Phosphorous", 4), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, gemStack, gemStack, ItemDustsSmall.getSmallDustByName("Phosphorous", 4), new ItemStack(Items.bucket), 100, 120));
+                RecipeHandler.addRecipe(new GrinderRecipe(OreUtil.getStackFromName("oreApatite"), null, new FluidStack(WATER, 1000), OreUtil.getStackFromName("gemApatite", 12), ItemDusts.getDustByName("tricalciumPhosphate"), null, null, 100, 128));
             } catch (Exception e) {
                 Core.logHelper.info("Failed to Load Grinder Recipe for Apatite Ore");
             }
         }
-
-        //Nether Quartz Ore
-        if (OreUtil.doesOreExistAndValid("dustNetherQuartz")) {
-            try {
-                ItemStack dustStack = OreDictionary.getOres("dustNetherQuartz").get(0);
-                dustStack.stackSize = 4;
-                RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.quartz_ore, 1), null, new FluidStack(FluidRegistry.WATER, 1000), new ItemStack(Items.quartz, 2), dustStack, ItemDustsSmall.getSmallDustByName("Netherrack", 2), null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(Blocks.quartz_ore, 1), new ItemStack(Items.water_bucket), null, new ItemStack(Items.quartz, 2), dustStack, ItemDustsSmall.getSmallDustByName("Netherrack", 2), new ItemStack(Items.bucket), 100, 120));
-            } catch (Exception e) {
-                Core.logHelper.info("Failed to Load Grinder Recipe for Nether Quartz Ore");
-            }
-        }
-
-        //Certus Quartz Ore
-        if (OreUtil.doesOreExistAndValid("oreCertusQuartz")) {
-            try {
-                ItemStack oreStack = OreDictionary.getOres("oreCertusQuartz").get(0);
-                ItemStack gemStack = OreDictionary.getOres("crystalCertusQuartz").get(0);
-                ItemStack dustStack = OreDictionary.getOres("dustCertusQuartz").get(0);
-                dustStack.stackSize = 2;
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), gemStack, dustStack, null, null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, gemStack, dustStack, null, new ItemStack(Items.bucket), 100, 120));
-            } catch (Exception e) {
-                Core.logHelper.info("Failed to Load Grinder Recipe for Certus Quartz Ore");
-            }
-        }
-
-        //Charged Certus Quartz Ore
-        if (OreUtil.doesOreExistAndValid("oreChargedCertusQuartz")) {
-            try {
-                ItemStack oreStack = OreDictionary.getOres("oreChargedCertusQuartz").get(0);
-                ItemStack gemStack = OreDictionary.getOres("crystalChargedCertusQuartz").get(0);
-                ItemStack dustStack = OreDictionary.getOres("dustCertusQuartz").get(0);
-                dustStack.stackSize = 2;
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), gemStack, dustStack, null, null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, gemStack, dustStack, null, new ItemStack(Items.bucket), 100, 120));
-            } catch (Exception e) {
-                Core.logHelper.info("Failed to Load Grinder Recipe for Charged Certus Quartz Ore");
-            }
-        }
-
-        //Amethyst Ore
-        if (OreUtil.doesOreExistAndValid("oreAmethyst") && OreUtil.doesOreExistAndValid("gemAmethyst")) {
-            try {
-                ItemStack oreStack = OreDictionary.getOres("oreAmethyst").get(0);
-                ItemStack gemStack = OreDictionary.getOres("gemAmethyst").get(0);
-                gemStack.stackSize = 2;
-                ItemStack dustStack = OreDictionary.getOres("gemAmethyst").get(0);
-                dustStack.stackSize = 1;
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), gemStack, dustStack, null, null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, gemStack, dustStack, null, new ItemStack(Items.bucket), 100, 120));
-            } catch (Exception e) {
-                Core.logHelper.info("Failed to Load Grinder Recipe for Certus Quartz Ore");
-            }
-        }
-
-        //Topaz Ore
-        if (OreUtil.doesOreExistAndValid("oreTopaz") && OreUtil.doesOreExistAndValid("gemTopaz")) {
-            try {
-                ItemStack oreStack = OreDictionary.getOres("oreTopaz").get(0);
-                ItemStack gemStack = OreDictionary.getOres("gemTopaz").get(0);
-                gemStack.stackSize = 2;
-                ItemStack dustStack = OreDictionary.getOres("gemTopaz").get(0);
-                dustStack.stackSize = 1;
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), gemStack, dustStack, null, null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, gemStack, dustStack, null, new ItemStack(Items.bucket), 100, 120));
-            } catch (Exception e) {
-                Core.logHelper.info("Failed to Load Grinder Recipe for Topaz Ore");
-            }
-        }
-
-        //Tanzanite Ore
-        if (OreUtil.doesOreExistAndValid("oreTanzanite") && OreUtil.doesOreExistAndValid("gemTanzanite")) {
-            try {
-                ItemStack oreStack = OreDictionary.getOres("oreTanzanite").get(0);
-                ItemStack gemStack = OreDictionary.getOres("gemTanzanite").get(0);
-                gemStack.stackSize = 2;
-                ItemStack dustStack = OreDictionary.getOres("gemTanzanite").get(0);
-                dustStack.stackSize = 1;
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), gemStack, dustStack, null, null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, gemStack, dustStack, null, new ItemStack(Items.bucket), 100, 120));
-            } catch (Exception e) {
-                Core.logHelper.info("Failed to Load Grinder Recipe for Tanzanite Ore");
-            }
-        }
-
-        //Malachite Ore
-        if (OreUtil.doesOreExistAndValid("oreMalachite") && OreUtil.doesOreExistAndValid("gemMalachite")) {
-            try {
-                ItemStack oreStack = OreDictionary.getOres("oreMalachite").get(0);
-                ItemStack gemStack = OreDictionary.getOres("gemMalachite").get(0);
-                gemStack.stackSize = 2;
-                ItemStack dustStack = OreDictionary.getOres("gemMalachite").get(0);
-                dustStack.stackSize = 1;
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, null, new FluidStack(FluidRegistry.WATER, 1000), gemStack, dustStack, null, null, 100, 120));
-                RecipeHandler.addRecipe(new GrinderRecipe(oreStack, new ItemStack(Items.water_bucket), null, gemStack, dustStack, null, new ItemStack(Items.bucket), 100, 120));
-            } catch (Exception e) {
-                Core.logHelper.info("Failed to Load Grinder Recipe for Malachite Ore");
-            }
-        }
-
-        //Galena Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 0), null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("galena", 2), ItemDustsSmall.getSmallDustByName("Sulfur", 1), ItemDustsSmall.getSmallDustByName("Silver", 1), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 0), new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("galena", 2), ItemDustsSmall.getSmallDustByName("Sulfur", 1), ItemDustsSmall.getSmallDustByName("Silver", 1), new ItemStack(Items.bucket), 100, 120));
-
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 0), null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("galena", 2), ItemDustsSmall.getSmallDustByName("Sulfur", 1), ItemDusts.getDustByName("silver", 1), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 0), new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("galena", 2), ItemDustsSmall.getSmallDustByName("Sulfur", 1), ItemDusts.getDustByName("silver", 1), new ItemStack(Items.bucket), 100, 120));
-
-
-        //Ruby Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 2), null, new FluidStack(FluidRegistry.WATER, 1000), ItemGems.getGemByName("ruby", 1), ItemDustsSmall.getSmallDustByName("Ruby", 6), ItemDustsSmall.getSmallDustByName("Chrome", 2), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 2), new ItemStack(Items.water_bucket), null, ItemGems.getGemByName("ruby", 1), ItemDustsSmall.getSmallDustByName("Ruby", 6), ItemDustsSmall.getSmallDustByName("Chrome", 2), new ItemStack(Items.bucket), 100, 120));
-
-        //Sapphire Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 3), null, new FluidStack(FluidRegistry.WATER, 1000), ItemGems.getGemByName("sapphire", 1), ItemDustsSmall.getSmallDustByName("Sapphire", 6), ItemDustsSmall.getSmallDustByName("Aluminum", 2), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 3), new ItemStack(Items.water_bucket), null, ItemGems.getGemByName("sapphire", 1), ItemDustsSmall.getSmallDustByName("Sapphire", 6), ItemDustsSmall.getSmallDustByName("Aluminum", 2), new ItemStack(Items.bucket), 100, 120));
-
-        //Bauxite Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 4), null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("bauxite", 2), ItemDustsSmall.getSmallDustByName("Grossular", 4), ItemDustsSmall.getSmallDustByName("Titanium", 4), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 4), new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("bauxite", 2), ItemDustsSmall.getSmallDustByName("Grossular", 4), ItemDustsSmall.getSmallDustByName("Titanium", 4), new ItemStack(Items.bucket), 100, 120));
-
-        //Pyrite Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 5), null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("pyrite", 2), ItemDustsSmall.getSmallDustByName("Sulfur", 1), ItemDustsSmall.getSmallDustByName("Phosphorous", 1), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 5), new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("pyrite", 2), ItemDustsSmall.getSmallDustByName("Sulfur", 1), ItemDustsSmall.getSmallDustByName("Phosphorous", 1), new ItemStack(Items.bucket), 100, 120));
-
-        //Cinnabar Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 6), null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("cinnabar", 2), ItemDustsSmall.getSmallDustByName("Redstone", 1), ItemDustsSmall.getSmallDustByName("Glowstone", 1), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 6), new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("cinnabar", 2), ItemDustsSmall.getSmallDustByName("Redstone", 1), ItemDustsSmall.getSmallDustByName("Glowstone", 1), new ItemStack(Items.bucket), 100, 120));
-
-        //Sphalerite Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 7), null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("sphalerite", 2), ItemDustsSmall.getSmallDustByName("Zinc", 1), ItemDustsSmall.getSmallDustByName("YellowGarnet", 1), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 7), new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("sphalerite", 2), ItemDustsSmall.getSmallDustByName("Zinc", 1), ItemDustsSmall.getSmallDustByName("YellowGarnet", 1), new ItemStack(Items.bucket), 100, 120));
-
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 7), null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("sphalerite", 2), ItemDusts.getDustByName("zinc", 1), ItemDustsSmall.getSmallDustByName("YellowGarnet", 1), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 7), new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("sphalerite", 2), ItemDusts.getDustByName("zinc", 1), ItemDustsSmall.getSmallDustByName("YellowGarnet", 1), new ItemStack(Items.bucket), 100, 120));
-
-        //Tungsten Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 8), null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("tungsten", 2), ItemDustsSmall.getSmallDustByName("Manganese", 1), ItemDustsSmall.getSmallDustByName("Silver", 1), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 8), new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("tungsten", 2), ItemDustsSmall.getSmallDustByName("Manganese", 1), ItemDustsSmall.getSmallDustByName("Silver", 1), new ItemStack(Items.bucket), 100, 120));
-
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 8), null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("tungsten", 2), ItemDustsSmall.getSmallDustByName("Manganese", 1), ItemDusts.getDustByName("silver", 2), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 8), new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("tungsten", 2), ItemDustsSmall.getSmallDustByName("Manganese", 1), ItemDusts.getDustByName("silver", 2), new ItemStack(Items.bucket), 100, 120));
-
-        //Sheldonite Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 9), null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("platinum", 2), ItemDustsSmall.getSmallDustByName("Iridium", 1), ItemDustsSmall.getSmallDustByName("Iridium", 1), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 9), new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("platinum", 2), ItemDustsSmall.getSmallDustByName("Iridium", 1), ItemDustsSmall.getSmallDustByName("Iridium", 1), new ItemStack(Items.bucket), 100, 120));
-
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 9), null, new FluidStack(ModFluids.fluidMercury, 1000), ItemDusts.getDustByName("platinum", 3), ItemDustsSmall.getSmallDustByName("Iridium", 1), ItemDustsSmall.getSmallDustByName("Iridium", 1), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 9), new ItemStack(ModItems.bucketMercury), null, ItemDusts.getDustByName("platinum", 3), ItemDustsSmall.getSmallDustByName("Iridium", 1), ItemDustsSmall.getSmallDustByName("Iridium", 1), new ItemStack(Items.bucket), 100, 120));
-
-        //Peridot Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 10), null, new FluidStack(FluidRegistry.WATER, 1000), ItemGems.getGemByName("peridot", 1), ItemDustsSmall.getSmallDustByName("Peridot", 6), ItemDustsSmall.getSmallDustByName("Pyrope", 2), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 10), new ItemStack(Items.water_bucket), null, ItemGems.getGemByName("peridot", 1), ItemDustsSmall.getSmallDustByName("Peridot", 6), ItemDustsSmall.getSmallDustByName("Pyrope", 2), new ItemStack(Items.bucket), 100, 120));
-
-        //Sodalite Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 11), null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("sodalite", 12), ItemDustsSmall.getSmallDustByName("Lazurite", 4), ItemDustsSmall.getSmallDustByName("Lapis", 4), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 11), new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("sodalite", 12), ItemDustsSmall.getSmallDustByName("Lazurite", 4), ItemDustsSmall.getSmallDustByName("Lapis", 4), new ItemStack(Items.bucket), 100, 120));
-
-        //Tetrahedrite Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 12), null, new FluidStack(FluidRegistry.WATER, 1000), ItemDusts.getDustByName("tetrahedrite", 2), ItemDustsSmall.getSmallDustByName("Antimony", 1), ItemDustsSmall.getSmallDustByName("Zinc", 1), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 12), new ItemStack(Items.water_bucket), null, ItemDusts.getDustByName("tetrahedrite", 2), ItemDustsSmall.getSmallDustByName("Antimony", 1), ItemDustsSmall.getSmallDustByName("Zinc", 1), new ItemStack(Items.bucket), 100, 120));
-
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 12), null, new FluidStack(ModFluids.fluidSodiumpersulfate, 1000), ItemDusts.getDustByName("tetrahedrite", 3), ItemDustsSmall.getSmallDustByName("Antimony", 1), ItemDustsSmall.getSmallDustByName("Zinc", 1), null, 100, 120));
-        RecipeHandler.addRecipe(new GrinderRecipe(new ItemStack(ModBlocks.ore, 1, 12), new ItemStack(ModItems.bucketSodiumpersulfate), null, ItemDusts.getDustByName("tetrahedrite", 3), ItemDustsSmall.getSmallDustByName("Antimony", 1), ItemDustsSmall.getSmallDustByName("Zinc", 1), new ItemStack(Items.bucket), 100, 120));
-    }
-
-    static void addImplosionCompressorRecipes() {
     }
 
     static void addChemicalReactorRecipes() {
-        RecipeHandler.addRecipe(new ChemicalReactorRecipe(ItemCells.getCellByName("calcium", 1), ItemCells.getCellByName("carbon", 1), ItemCells.getCellByName("calciumCarbonate", 2), 240, 30));
-        RecipeHandler.addRecipe(new ChemicalReactorRecipe(new ItemStack(Items.gold_nugget, 8), new ItemStack(Items.melon, 1), new ItemStack(Items.speckled_melon, 1), 40, 30));
-        RecipeHandler.addRecipe(new ChemicalReactorRecipe(ItemCells.getCellByName("nitrogen", 1), ItemCells.getCellByName("carbon", 1), ItemCells.getCellByName("nitrocarbon", 2), 1500, 30));
-        RecipeHandler.addRecipe(new ChemicalReactorRecipe(ItemCells.getCellByName("carbon", 1), ItemCells.getCellByName("hydrogen", 4), ItemCells.getCellByName("methane", 5), 3500, 30));
-        RecipeHandler.addRecipe(new ChemicalReactorRecipe(ItemCells.getCellByName("sulfur", 1), ItemCells.getCellByName("sodium", 1), ItemCells.getCellByName("sodiumSulfide", 2), 100, 30));
-        RecipeHandler.addRecipe(new ChemicalReactorRecipe(new ItemStack(Items.blaze_powder, 1), new ItemStack(Items.ender_pearl, 1), new ItemStack(Items.ender_eye, 1), 40, 30));
-        RecipeHandler.addRecipe(new ChemicalReactorRecipe(new ItemStack(Items.gold_nugget, 8), new ItemStack(Items.carrot, 1), new ItemStack(Items.golden_carrot, 1), 40, 30));
-        RecipeHandler.addRecipe(new ChemicalReactorRecipe(ItemCells.getCellByName("glyceryl", 1), ItemCells.getCellByName("diesel", 4), ItemCells.getCellByName("nitroDiesel", 5), 1000, 30));
-        RecipeHandler.addRecipe(new ChemicalReactorRecipe(new ItemStack(Items.gold_ingot, 8), new ItemStack(Items.apple, 1), new ItemStack(Items.golden_apple, 1), 40, 30));
-        RecipeHandler.addRecipe(new ChemicalReactorRecipe(new ItemStack(Blocks.gold_block, 8), new ItemStack(Items.apple, 1), new ItemStack(Items.golden_apple, 1, 1), 40, 30));
-        RecipeHandler.addRecipe(new ChemicalReactorRecipe(new ItemStack(Items.blaze_powder, 1), new ItemStack(Items.slime_ball, 1), new ItemStack(Items.magma_cream, 1), 40, 30));
+        RecipeHandler.addRecipe(new ChemicalReactorRecipe(ItemCells.getCellByName("calcium", 1), ItemCells.getCellByName("carbon", 1), ItemCells.getCellByName("calciumCarbonate", 2), 250, 32));
+        RecipeHandler.addRecipe(new ChemicalReactorRecipe(ItemCells.getCellByName("nitrogen", 1), ItemCells.getCellByName("carbon", 1), ItemCells.getCellByName("nitrocarbon", 2), 1500, 32));
+        RecipeHandler.addRecipe(new ChemicalReactorRecipe(ItemCells.getCellByName("carbon", 1), ItemCells.getCellByName("hydrogen", 4), ItemCells.getCellByName("methane", 5), 3500, 32));
+        RecipeHandler.addRecipe(new ChemicalReactorRecipe(ItemCells.getCellByName("sulfur", 1), ItemCells.getCellByName("sodium", 1), ItemCells.getCellByName("sodiumSulfide", 2), 100, 32));
+        RecipeHandler.addRecipe(new ChemicalReactorRecipe(ItemCells.getCellByName("glyceryl", 1), ItemCells.getCellByName("diesel", 4), ItemCells.getCellByName("nitroDiesel", 5), 250, 32));
     }
 
     static void addIndustrialElectrolyzerRecipes() {
-
-
-        RecipeHandler.addRecipe(new IndustrialElectrolyzerRecipe(
-                ItemCells.getCellByName("nitrocarbon", 2),
-                null,
-                ItemCells.getCellByName("nitrogen"),
-                ItemCells.getCellByName("carbon"),
-                null,
-                null,
-                80, 60
-        ));
-
-        RecipeHandler.addRecipe(new IndustrialElectrolyzerRecipe(
-                ItemDusts.getDustByName("pyrite", 3),
-                null,
-                ItemDusts.getDustByName("iron"),
-                ItemDusts.getDustByName("sulfur"),
-                null,
-                null,
-                120, 128
-        ));
 
         RecipeHandler.addRecipe(new IndustrialElectrolyzerRecipe(
                 ItemDusts.getDustByName("sphalerite", 2),
@@ -1191,9 +986,16 @@ public class
                 ItemDusts.getDustByName("sulfur"),
                 null,
                 null,
-                150, 100
-        ));
+                150, 100));
 
+        RecipeHandler.addRecipe(new IndustrialElectrolyzerRecipe(
+        		ItemDusts.getDustByName("galena", 2),
+        		null,
+        		ItemDustsSmall.getSmallDustByName("silver", 3),
+        		ItemDustsSmall.getSmallDustByName("lead", 3),
+        		ItemDustsSmall.getSmallDustByName("sulfur", 2),
+        		null,
+        		1000, 120));
 
     }
 

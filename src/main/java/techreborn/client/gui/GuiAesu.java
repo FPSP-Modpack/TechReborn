@@ -1,5 +1,9 @@
 package techreborn.client.gui;
 
+import java.awt.Color;
+
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,9 +13,6 @@ import reborncore.common.packets.PacketHandler;
 import techreborn.client.container.ContainerAesu;
 import techreborn.packets.PacketAesu;
 import techreborn.tiles.TileAesu;
-import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
 
 public class GuiAesu extends GuiContainer {
 
@@ -53,12 +54,13 @@ public class GuiAesu extends GuiContainer {
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
     }
 
-    protected void drawGuiContainerForegroundLayer(int p_146979_1_,
+    @Override
+	protected void drawGuiContainerForegroundLayer(int p_146979_1_,
                                                    int p_146979_2_) {
         this.fontRendererObj.drawString(StatCollector.translateToLocal("tile.techreborn.aesu.name"), 40, 10, Color.WHITE.getRGB());
-        this.fontRendererObj.drawString((int) containerAesu.euOut + " eu/tick", 10, 20, Color.WHITE.getRGB());
-        this.fontRendererObj.drawString((int) containerAesu.storedEu + " eu", 10, 30, Color.WHITE.getRGB());
-        this.fontRendererObj.drawString((int) containerAesu.euChange + " eu change", 10, 40, Color.WHITE.getRGB());
+        this.fontRendererObj.drawString(containerAesu.euOut + " eu/tick", 10, 20, Color.WHITE.getRGB());
+        this.fontRendererObj.drawString(containerAesu.storedEu + " eu", 10, 30, Color.WHITE.getRGB());
+        this.fontRendererObj.drawString(containerAesu.euChange + " eu change", 10, 40, Color.WHITE.getRGB());
     }
 
     @Override

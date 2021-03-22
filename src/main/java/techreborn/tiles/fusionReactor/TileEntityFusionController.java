@@ -1,7 +1,6 @@
 package techreborn.tiles.fusionReactor;
 
 import ic2.api.item.IC2Items;
-import ic2.core.item.ItemFluidCell;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -39,7 +38,7 @@ public class TileEntityFusionController extends TilePowerAcceptor implements IIn
 
     @Override
     public double getMaxPower() {
-        return 100000000;
+        return 500000000;
     }
 
     @Override
@@ -63,7 +62,7 @@ public class TileEntityFusionController extends TilePowerAcceptor implements IIn
         if(!(hasStartedCrafting&&currentRecipe.getEuTick()>0)){
             return 0;
         }
-        return 1000000;
+        return 500000000;
     }
 
     @Override
@@ -71,7 +70,7 @@ public class TileEntityFusionController extends TilePowerAcceptor implements IIn
         if((hasStartedCrafting&&currentRecipe.getEuTick()>0)){
             return 0;
         }
-        return 8192;
+        return 50000;
     }
 
     @Override

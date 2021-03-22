@@ -1,12 +1,12 @@
 package techreborn.init;
 
+import java.util.HashMap;
+
 import cpw.mods.fml.common.Loader;
 import net.minecraft.item.ItemStack;
 import techreborn.partSystem.IPartProvider;
 import techreborn.partSystem.ModPartRegistry;
 import techreborn.partSystem.parts.CablePart;
-
-import java.util.HashMap;
 
 public class ModParts {
 

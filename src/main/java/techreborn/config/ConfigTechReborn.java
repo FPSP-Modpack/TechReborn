@@ -325,15 +325,15 @@ public class ConfigTechReborn {
                 .getInt();
         LapotronPackCharge = config
                 .get(CATEGORY_POWER, StatCollector.translateToLocal("config.techreborn.lapotronPackMaxCharge"),
-                        100000000, StatCollector.translateToLocal("config.techreborn.lapotronPackMaxCharge.tooltop"))
+                        1000000000, StatCollector.translateToLocal("config.techreborn.lapotronPackMaxCharge.tooltop"))
                 .getInt();
         LapotronicOrbMaxCharge = config
                 .get(CATEGORY_POWER, StatCollector.translateToLocal("config.techreborn.lapotronicOrbMaxCharge"),
-                        10000000, StatCollector.translateToLocal("config.techreborn.lapotronicOrbMaxCharge"))
+                        100000000, StatCollector.translateToLocal("config.techreborn.lapotronicOrbMaxCharge"))
                 .getInt();
         LithiumBatpackCharge = config
                 .get(CATEGORY_POWER, StatCollector.translateToLocal("config.techreborn.lithiumBatpackMaxCharge"),
-                        4000000, StatCollector.translateToLocal("config.techreborn.lithiumBatpackMaxCharge.tooltip"))
+                        600000, StatCollector.translateToLocal("config.techreborn.lithiumBatpackMaxCharge.tooltip"))
                 .getInt();
         OmniToolCharge = config
                 .get(CATEGORY_POWER, StatCollector.translateToLocal("config.techreborn.omniToolMaxCharge"), 20000,

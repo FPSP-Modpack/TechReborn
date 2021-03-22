@@ -40,7 +40,8 @@ public class BlockHeatGenerator extends BlockMachineBase {
         return new TileHeatGenerator();
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int metadata) {
 
         return metadata == 0 && side == 3 ? this.iconFront

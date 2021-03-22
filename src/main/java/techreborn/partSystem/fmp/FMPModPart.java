@@ -4,6 +4,9 @@
 
 package techreborn.partSystem.fmp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import codechicken.lib.data.MCDataInput;
 import codechicken.lib.data.MCDataOutput;
 import codechicken.lib.raytracer.IndexedCuboid6;
@@ -24,9 +27,6 @@ import reborncore.common.misc.vecmath.Vecs3d;
 import reborncore.common.misc.vecmath.Vecs3dCube;
 import techreborn.partSystem.IPartDesc;
 import techreborn.partSystem.ModPart;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FMPModPart extends TMultiPart implements TSlottedPart,
         JNormalOcclusion, ISidedHollowConnect {
@@ -155,7 +155,8 @@ public class FMPModPart extends TMultiPart implements TSlottedPart,
         iModPart.nearByChange();
     }
 
-    public void onRemoved() {
+    @Override
+	public void onRemoved() {
         iModPart.onRemoved();
         super.onRemoved();
 

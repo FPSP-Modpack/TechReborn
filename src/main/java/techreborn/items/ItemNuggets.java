@@ -26,7 +26,7 @@ public class ItemNuggets extends Item {
 		return getNuggetByName(name, 1);
 	}
 
-	public static final String[] types = new String[] { "aluminum", "brass", "bronze", "chromium", "copper", "electrum",
+	public static final String[] types = new String[] { "aluminium", "brass", "bronze", "chromium", "copper", "electrum",
 			"invar", "iridium", "iron", "lead", "nickel", "osmium", "platinum", "silver", "steel", "tin", "titanium",
 			"tungsten", "zinc" };
 

@@ -1,11 +1,11 @@
 package techreborn.world;
 
+import java.util.Arrays;
+
 import net.minecraft.item.Item;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
 import techreborn.items.ItemIngots;
-
-import java.util.Arrays;
 
 public class DungeonLoot {
 

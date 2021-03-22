@@ -1,6 +1,8 @@
 package techreborn.compat.minetweaker;
 
-import minetweaker.IUndoableAction;
+import java.util.ArrayList;
+import java.util.List;
+
 import minetweaker.MineTweakerAPI;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
@@ -12,9 +14,6 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 import techreborn.api.RollingMachineRecipe;
 import techreborn.api.TechRebornAPI;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ZenClass("mods.techreborn.rollingMachine")
 public class MTRollingMachine {
@@ -112,6 +111,6 @@ public class MTRollingMachine {
     }
 
     public static String toString(IOreDictEntry entry) {
-        return ((IOreDictEntry) entry).getName();
+        return entry.getName();
     }
 }

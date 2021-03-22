@@ -25,7 +25,7 @@ public class ItemIngots extends Item {
 		return getIngotByName(name, 1);
 	}
 
-	public static final String[] types = new String[] { "aluminum", "brass", "chromium", "copper", "electrum", "invar",
+	public static final String[] types = new String[] { "aluminium", "brass", "chromium", "copper", "electrum", "invar",
 			"iridium", "lead", "nickel", "osmium", "platinum", "plutonium", "silver", "steel", "thorium", "titanium",
 			"tungsten", "hotTungstensteel", "tungstensteel", "zinc" };
 

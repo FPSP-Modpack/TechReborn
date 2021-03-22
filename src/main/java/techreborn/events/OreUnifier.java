@@ -1,5 +1,7 @@
 package techreborn.events;
 
+import java.util.HashMap;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.block.Block;
@@ -8,8 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import reborncore.common.util.ItemUtils;
 import techreborn.config.ConfigTechReborn;
-
-import java.util.HashMap;
 
 public class OreUnifier {
 

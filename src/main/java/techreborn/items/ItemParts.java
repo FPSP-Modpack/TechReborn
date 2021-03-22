@@ -34,8 +34,9 @@ public class ItemParts extends Item {
 			"advancedCircuitBoard", "processorCircuitBoard", "energyFlowCircuit", "dataControlCircuit", "dataOrb",
 			"dataStorageCircuit", "diamondGrindingHead", "diamondSawBlade", "tungstenGrindingHead",
 			"cupronickelHeatingCoil", "nichromeHeatingCoil", "kanthalHeatingCoil", "ductTape", "lazuriteChunk",
-			"iridiumAlloyIngot", "rockCutterBlade", "superConductor", "destructoPack", "massHoleDevice",
-			"computerMonitor", "machineParts" };
+			"iridiumAlloyIngot", "superConductor", "destructoPack", "massHoleDevice",
+			"computerMonitor", "machineParts", "conveyorModule", "copperCredit", "silverCredit", "goldCredit",
+			"diamondCredit" };
 
 	private IIcon[] textures;
 

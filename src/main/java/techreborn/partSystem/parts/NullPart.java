@@ -4,6 +4,9 @@
 
 package techreborn.partSystem.parts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,9 +14,6 @@ import reborncore.common.misc.vecmath.Vecs3d;
 import reborncore.common.misc.vecmath.Vecs3dCube;
 import techreborn.partSystem.IModPart;
 import techreborn.partSystem.ModPart;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by mark on 11/12/14.

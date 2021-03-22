@@ -1,6 +1,9 @@
 //Copy and pasted from https://github.com/Chicken-Bones/NotEnoughItems/blob/master/src/codechicken/nei/recipe/ShapedRecipeHandler.java
 package techreborn.compat.nei;
 
+import java.awt.Rectangle;
+import java.util.List;
+
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.recipe.ShapedRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -10,9 +13,6 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import techreborn.api.RollingMachineRecipe;
 import techreborn.client.gui.GuiRollingMachine;
-
-import java.awt.*;
-import java.util.List;
 
 public class ShapedRollingMachineHandler extends ShapedRecipeHandler {
 
@@ -41,7 +41,7 @@ public class ShapedRollingMachineHandler extends ShapedRecipeHandler {
     public void loadCraftingRecipes(String outputId, Object... results) {
         if (outputId.equals("rollingcrafting")
                 && getClass() == ShapedRollingMachineHandler.class) {
-            for (IRecipe irecipe : (List<IRecipe>) RollingMachineRecipe.instance
+            for (IRecipe irecipe : RollingMachineRecipe.instance
                     .getRecipeList()) {
                 CachedShapedRecipe recipe = null;
                 if (irecipe instanceof ShapedRecipes)
@@ -62,7 +62,7 @@ public class ShapedRollingMachineHandler extends ShapedRecipeHandler {
 
     @Override
     public void loadCraftingRecipes(ItemStack result) {
-        for (IRecipe irecipe : (List<IRecipe>) RollingMachineRecipe.instance
+        for (IRecipe irecipe : RollingMachineRecipe.instance
                 .getRecipeList()) {
             if (NEIServerUtils.areStacksSameTypeCrafting(
                     irecipe.getRecipeOutput(), result)) {
@@ -83,7 +83,7 @@ public class ShapedRollingMachineHandler extends ShapedRecipeHandler {
 
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-        for (IRecipe irecipe : (List<IRecipe>) RollingMachineRecipe.instance
+        for (IRecipe irecipe : RollingMachineRecipe.instance
                 .getRecipeList()) {
             CachedShapedRecipe recipe = null;
             if (irecipe instanceof ShapedRecipes)

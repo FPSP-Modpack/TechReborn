@@ -1,17 +1,16 @@
 package techreborn.items;
 
+import java.security.InvalidParameterException;
+import java.util.List;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import techreborn.api.recipe.RecipeCrafter;
 import techreborn.api.upgrade.IMachineUpgrade;
 import techreborn.client.TechRebornCreativeTabMisc;
 import techreborn.init.ModItems;
-
-import java.security.InvalidParameterException;
-import java.util.List;
 
 public class ItemUpgrade extends ItemTR implements IMachineUpgrade {
 
@@ -57,7 +56,8 @@ public class ItemUpgrade extends ItemTR implements IMachineUpgrade {
     }
 
     // Adds Dusts SubItems To Creative Tab
-    public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
+    @Override
+	public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
         for (int meta = 0; meta < types.length; ++meta) {
             list.add(new ItemStack(item, 1, meta));
         }

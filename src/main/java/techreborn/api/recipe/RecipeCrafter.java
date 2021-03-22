@@ -1,13 +1,13 @@
 package techreborn.api.recipe;
 
+import java.util.ArrayList;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import reborncore.common.util.Inventory;
 import reborncore.common.util.ItemUtils;
 import techreborn.api.power.IEnergyInterfaceTile;
 import techreborn.tiles.TileMachineBase;
-
-import java.util.ArrayList;
 
 /**
  * Use this in your tile entity to craft things

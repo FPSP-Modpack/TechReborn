@@ -166,7 +166,7 @@ public class TileMatterFabricator extends TilePowerAcceptor implements IWrenchab
             for (int i = 0; i < 6; i++) {
                 ItemStack stack = inventory.getStackInSlot(i);
                 if (this.amplifier < 100000 && stack != null) {
-                    int amp = (int) ((long) (getValue(stack) / 32));
+                    int amp = (int) (getValue(stack) / 32);
                     if (ItemUtils.isItemEqual(stack, inventory.getStackInSlot(i), true, true)) {
                         if (canUseEnergy(1)) {
                             useEnergy(1);

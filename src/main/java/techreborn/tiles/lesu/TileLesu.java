@@ -1,13 +1,13 @@
 package techreborn.tiles.lesu;
 
 
+import java.util.ArrayList;
+
 import net.minecraftforge.common.util.ForgeDirection;
 import reborncore.common.misc.Functions;
 import reborncore.common.util.Inventory;
 import techreborn.config.ConfigTechReborn;
 import techreborn.powerSystem.TilePowerAcceptor;
-
-import java.util.ArrayList;
 
 public class TileLesu extends TilePowerAcceptor {//TODO wrench
 

@@ -1,5 +1,8 @@
 package techreborn.compat.recipes;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -8,6 +11,7 @@ import forestry.api.arboriculture.EnumWoodType;
 import forestry.api.arboriculture.TreeManager;
 import forestry.api.fuels.FuelManager;
 import forestry.api.fuels.GeneratorFuel;
+import forestry.plugins.PluginCore;
 import ic2.api.item.IC2Items;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -21,12 +25,10 @@ import techreborn.api.recipe.machines.IndustrialSawmillRecipe;
 import techreborn.compat.ICompatModule;
 import techreborn.config.ConfigTechReborn;
 
-import java.util.Iterator;
-import java.util.Map;
-
 public class RecipesForestry implements ICompatModule {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
+    	OreDictionary.registerOre("machineBasic", PluginCore.items.sturdyCasing);
     }
 
     @Override

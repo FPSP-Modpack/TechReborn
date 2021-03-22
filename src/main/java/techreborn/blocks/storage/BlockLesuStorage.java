@@ -399,6 +399,6 @@ public class BlockLesuStorage extends BlockMachineBase {
     }
 
     public boolean shouldConnectToBlock(IBlockAccess blockAccess, int x, int y, int z, Block block, int meta) {
-        return block == (Block) this;
+        return block == this;
     }
 }

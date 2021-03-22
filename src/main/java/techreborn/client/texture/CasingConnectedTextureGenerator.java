@@ -1,5 +1,10 @@
 package techreborn.client.texture;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -13,10 +18,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import reborncore.client.texture.ConnectedTexture;
 import techreborn.lib.ModInfo;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class CasingConnectedTextureGenerator extends TextureAtlasSprite {
 
@@ -119,7 +120,7 @@ public class CasingConnectedTextureGenerator extends TextureAtlasSprite {
         }
 
         type_image[0] = output_image;
-        this.loadSprite(type_image, animation, (float) Minecraft.getMinecraft().gameSettings.anisotropicFiltering > 1.0F);
+        this.loadSprite(type_image, animation, Minecraft.getMinecraft().gameSettings.anisotropicFiltering > 1.0F);
         return false;
     }
 

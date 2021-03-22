@@ -1,5 +1,7 @@
 package techreborn.client.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import techreborn.client.container.ContainerCentrifuge;
 import techreborn.tiles.TileCentrifuge;
-import org.lwjgl.opengl.GL11;
 
 public class GuiCentrifuge extends GuiContainer {
 
@@ -54,7 +55,8 @@ public class GuiCentrifuge extends GuiContainer {
         }
     }
 
-    protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
+    @Override
+	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
         String namePt1 = StatCollector.translateToLocal("tile.techreborn.industrialBlock.name");
         String namePt2 = StatCollector.translateToLocal("tile.techreborn.centrifuge.name").replace(namePt1 + " ", "");
         this.fontRendererObj.drawString(namePt1, 98, 6, 4210752);

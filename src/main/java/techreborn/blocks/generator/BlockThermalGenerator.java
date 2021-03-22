@@ -55,7 +55,8 @@ public class BlockThermalGenerator extends BlockMachineBase {
         this.iconBottom = icon.registerIcon("techreborn:machine/machine_bottom");
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int metadata) {
 
         return metadata == 0 && side == 3 ? this.iconFront

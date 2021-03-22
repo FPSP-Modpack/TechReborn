@@ -1,5 +1,7 @@
 package techreborn.client.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
@@ -7,15 +9,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.util.ForgeDirection;
 import reborncore.client.gui.GuiUtil;
+import reborncore.client.multiblock.MultiblockRenderEvent;
 import reborncore.client.multiblock.MultiblockSet;
 import reborncore.common.misc.Location;
 import techreborn.client.ClientMultiBlocks;
 import techreborn.client.container.ContainerVacuumFreezer;
 import techreborn.proxies.ClientProxy;
 import techreborn.tiles.TileVacuumFreezer;
-import org.lwjgl.opengl.GL11;
 
 public class GuiVacuumFreezer extends GuiContainer {
 
@@ -40,7 +41,7 @@ public class GuiVacuumFreezer extends GuiContainer {
         buttonList.add(button);
         super.initGui();
         ChunkCoordinates coordinates = new ChunkCoordinates(crafter.xCoord, crafter.yCoord - 5, crafter.zCoord);
-        if(coordinates.equals(ClientProxy.multiblockRenderEvent.anchor)){
+        if(coordinates.equals(MultiblockRenderEvent.anchor)){
             ClientProxy.multiblockRenderEvent.setMultiblock(null);
             button.displayString = "B";
         } else {
@@ -74,7 +75,8 @@ public class GuiVacuumFreezer extends GuiContainer {
         }
     }
 
-    protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
+    @Override
+	protected void drawGuiContainerForegroundLayer(int p_146979_1_, int p_146979_2_) {
         String name = StatCollector.translateToLocal("tile.techreborn.vacuumfreezer.name");
         this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
         this.fontRendererObj.drawString(I18n.format("container.inventory", new Object[0]), 8, this.ySize - 96 + 2, 4210752);
@@ -89,7 +91,7 @@ public class GuiVacuumFreezer extends GuiContainer {
                     MultiblockSet set = new MultiblockSet(ClientMultiBlocks.frezzer);
                     ClientProxy.multiblockRenderEvent.setMultiblock(set);
                     ClientProxy.multiblockRenderEvent.partent = new Location(crafter.xCoord, crafter.yCoord, crafter.zCoord, crafter.getWorldObj());
-                    ClientProxy.multiblockRenderEvent.anchor = new ChunkCoordinates(crafter.xCoord , crafter.yCoord -5 , crafter.zCoord);
+                    MultiblockRenderEvent.anchor = new ChunkCoordinates(crafter.xCoord , crafter.yCoord -5 , crafter.zCoord);
                 }
                 button.displayString = "A";
             } else {

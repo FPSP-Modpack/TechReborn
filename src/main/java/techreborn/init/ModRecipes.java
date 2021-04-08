@@ -229,17 +229,6 @@ public class ModRecipes {
                 'L', "chunkLazurite",
                 'C', "circuitBasic");
         
-        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.coolantHe180k),
-        		"TTT", "CCC", "TTT",
-        		'T', "ingotTin",
-        		'C', ModItems.coolantNaK60k);
-        
-        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.coolantNaK360k),
-        		"TCT", "TPT", "TCT",
-        		'T', "ingotTin",
-        		'C', ModItems.coolantNaK180k,
-        		'P', "plateCopper");
-        
         ItemStack holyPlanks = ItemPlates.getPlateByName("wood");
         holyPlanks.addEnchantment(Enchantment.smite, 10);
         holyPlanks.setStackDisplayName("The holy Planks of Sengir");

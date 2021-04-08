@@ -562,13 +562,6 @@ public class RecipesIC2 implements ICompatModule {
         		'T', "plateTungsten",
         		'S', "plateSteel",
         		'B', "blockSteel");
-
-        CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.coolantNaK60k),
-                "TST", "PCP", "TST",
-                'T', "ingotTin",
-                'S', ItemCells.getCellByName("sodium"),
-                'P', ItemCells.getCellByName("potassium"),
-                'C', IC2Items.getItem("reactorCoolantSimple"));
         
         CraftingHelper.addShapedOreRecipe(new ItemStack(ModItems.cellThorium2),
         		"TCT",

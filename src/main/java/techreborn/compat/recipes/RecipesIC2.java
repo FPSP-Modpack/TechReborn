@@ -634,14 +634,14 @@ public class RecipesIC2 implements ICompatModule {
         //Assembling Machine
         RecipeHandler.addRecipe(new AssemblingMachineRecipe(ItemParts.getPartByName("processorCircuitBoard"), IC2Items.getItem("lapotronCrystal"), ItemParts.getPartByName("energyFlowCircuit"), 3200, 4));
         RecipeHandler.addRecipe(new AssemblingMachineRecipe(ItemParts.getPartByName("processorCircuitBoard"), ItemParts.getPartByName("dataStorageCircuit"), ItemParts.getPartByName("dataControlCircuit"), 3200, 4));
-        RecipeHandler.addRecipe(new AssemblingMachineRecipe(new ItemStack(Items.emerald, 8), IC2Items.getItem("advancedCircuit"), ItemParts.getPartByName("dataStorageCircuit", 4), 3200, 4));
+        RecipeHandler.addRecipe(new AssemblingMachineRecipe(new ItemStack(Items.emerald, 8), IC2Items.getItem("advancedCircuit"), ItemParts.getPartByName("dataStorageCircuit", 4), 3200, 4, false));
         RecipeHandler.addRecipe(new AssemblingMachineRecipe(ItemGems.getGemByName("olivine", 8), IC2Items.getItem("advancedCircuit"), ItemParts.getPartByName("dataStorageCircuit", 4), 3200, 8));
         RecipeHandler.addRecipe(new AssemblingMachineRecipe(ItemDusts.getDustByName("emerald", 8), IC2Items.getItem("advancedCircuit"), ItemParts.getPartByName("dataStorageCircuit", 4), 3200, 4));
         RecipeHandler.addRecipe(new AssemblingMachineRecipe(ItemDusts.getDustByName("olivine", 8), IC2Items.getItem("advancedCircuit"), ItemParts.getPartByName("dataStorageCircuit", 4), 3200, 4));
         RecipeHandler.addRecipe(new AssemblingMachineRecipe(ItemPlates.getPlateByName("iron", 2), IC2Items.getItem("electronicCircuit"), ItemParts.getPartByName("machineParts", 4), 800, 16));
         RecipeHandler.addRecipe(new AssemblingMachineRecipe(ItemPlates.getPlateByName("aluminium", 2), IC2Items.getItem("electronicCircuit"), ItemParts.getPartByName("machineParts", 3), 800, 16));
         RecipeHandler.addRecipe(new AssemblingMachineRecipe(new ItemStack(Items.dye, 1, 4), new ItemStack(Items.glowstone_dust), ItemParts.getPartByName("advancedCircuitParts", 2), 800, 2, false));
-        RecipeHandler.addRecipe(new AssemblingMachineRecipe(ItemDusts.getDustByName("lazurite"), new ItemStack(Items.glowstone_dust), ItemParts.getPartByName("advancedCircuitParts", 2), 800, 2));
+        RecipeHandler.addRecipe(new AssemblingMachineRecipe(ItemDusts.getDustByName("lazurite"), new ItemStack(Items.glowstone_dust), ItemParts.getPartByName("advancedCircuitParts", 2), 800, 2, false));
         RecipeHandler.addRecipe(new AssemblingMachineRecipe(ItemPlates.getPlateByName("aluminium", 8), ItemParts.getPartByName("machineParts"), BlockMachineFrame.getFrameByName("aluminium", 1), 400, 8));
         RecipeHandler.addRecipe(new AssemblingMachineRecipe(ItemPlates.getPlateByName("bronze", 8), ItemParts.getPartByName("machineParts"), BlockMachineFrame.getFrameByName("bronze", 1), 400, 8));
         RecipeHandler.addRecipe(new AssemblingMachineRecipe(ItemPlates.getPlateByName("brass", 8), ItemParts.getPartByName("machineParts"), BlockMachineFrame.getFrameByName("brass", 1), 400, 8));
@@ -685,8 +685,8 @@ public class RecipesIC2 implements ICompatModule {
         GameRegistry.addSmelting(Items.slime_ball, IC2Items.getItem("resin"), 1F);
 
         //Saw mill
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(IC2Items.getItem("rubberWood"), null, new FluidStack(WATER, 1000), IC2Items.getItem("resin"), ItemDusts.getDustByName("sawDust", 16), null, 200, 30, true));
-        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(IC2Items.getItem("rubberWood"), IC2Items.getItem("waterCell"), null, IC2Items.getItem("resin"), ItemDusts.getDustByName("sawDust", 16), IC2Items.getItem("cell"), 200, 30, true));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(IC2Items.getItem("rubberWood"), null, new FluidStack(WATER, 1000), IC2Items.getItem("resin"), ItemDusts.getDustByName("sawDust", 16), null, 200, 30, false));
+        RecipeHandler.addRecipe(new IndustrialSawmillRecipe(IC2Items.getItem("rubberWood"), IC2Items.getItem("waterCell"), null, IC2Items.getItem("resin"), ItemDusts.getDustByName("sawDust", 16), IC2Items.getItem("cell"), 200, 30, false));
         if(Loader.isModLoaded("ProjRed|Core")) {
         	ItemStack boule = GameRegistry.findItemStack("ProjRed|Core", "projectred.core.part", 1);
         	ItemStack silicon = boule.copy();
@@ -777,7 +777,7 @@ public class RecipesIC2 implements ICompatModule {
         RecipeHandler.addRecipe(new CentrifugeRecipe(new ItemStack(Items.redstone, 10), new ItemStack(IC2Items.getItem("cell").getItem(), 4), ItemCells.getCellByName("silicon", 1), ItemDusts.getDustByName("pyrite", 5), ItemDusts.getDustByName("ruby", 1), ItemCells.getCellByName("mercury", 3), 7000, 5));
         RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("endstone", 16), new ItemStack(IC2Items.getItem("cell").getItem(), 2), ItemCells.getCellByName("helium3", 1), ItemCells.getCellByName("helium"), ItemDustsSmall.getSmallDustByName("Tungsten", 1), new ItemStack(Blocks.sand, 12), 4800, 5));
         RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("redrock", 4), null, ItemDusts.getDustByName("calcite", 2), ItemDusts.getDustByName("flint", 1), IC2Items.getItem("clayDust"), null, 100, 5));
-        RecipeHandler.addRecipe(new CentrifugeRecipe(IC2Items.getItem("lapiDust"), null, ItemDusts.getDustByName("lazurite", 3), ItemDustsSmall.getSmallDustByName("sodalite", 2), ItemDustsSmall.getSmallDustByName("pyrite"), ItemDustsSmall.getSmallDustByName("calcite"), 1500, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(IC2Items.getItem("lapiDust"), null, ItemDusts.getDustByName("lazurite", 3), ItemDustsSmall.getSmallDustByName("sodalite", 2), ItemDustsSmall.getSmallDustByName("pyrite"), ItemDustsSmall.getSmallDustByName("calcite"), 1500, 5, false));
         RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("netherrack", 16), null, new ItemStack(Items.redstone), new ItemStack(IC2Items.getItem("sulfurDust").getItem(), 4, 13), IC2Items.getItem("coalDust"), new ItemStack(Items.gold_nugget), 2400, 5));
 
         //Deuterium/Tritium
@@ -1100,7 +1100,7 @@ public class RecipesIC2 implements ICompatModule {
         		new ItemStack(Items.bucket),
         		null,
         		null,
-        		128, 128));
+        		128, 128, false));
         
         RecipeHandler.addRecipe(new IndustrialElectrolyzerRecipe(
         		ItemDusts.getDustByName("cinnabar", 2),
@@ -1127,7 +1127,7 @@ public class RecipesIC2 implements ICompatModule {
         		new ItemStack(IC2Items.getItem("cell").getItem(), 5, 1),
         		null,
         		null,
-        		210, 32));
+        		210, 32, false));
         
         RecipeHandler.addRecipe(new IndustrialElectrolyzerRecipe(
         		ItemDusts.getDustByName("coal"),
@@ -1136,7 +1136,7 @@ public class RecipesIC2 implements ICompatModule {
         		null,
         		null,
         		null,
-        		40, 50));
+        		40, 50, false));
         
         RecipeHandler.addRecipe(new IndustrialElectrolyzerRecipe(
         		ItemDusts.getDustByName("ashes", 2),
@@ -1145,7 +1145,7 @@ public class RecipesIC2 implements ICompatModule {
         		null,
         		null,
         		null,
-        		25, 50));
+        		25, 50, false));
         
         RecipeHandler.addRecipe(new IndustrialElectrolyzerRecipe(
         		ItemDusts.getDustByName("charcoal"),
@@ -1154,7 +1154,7 @@ public class RecipesIC2 implements ICompatModule {
         		null,
         		null,
         		null,
-        		20, 50));
+        		20, 50, false));
         
         RecipeHandler.addRecipe(new IndustrialElectrolyzerRecipe(
         		ItemDusts.getDustByName("calcite", 10),
@@ -1190,7 +1190,7 @@ public class RecipesIC2 implements ICompatModule {
         		ItemCells.getCellByName("silicon", 3),
         		ItemCells.getCellByName("calcium", 4),
         		ItemCells.getCellByName("sodium", 4),
-        		1475, 100));
+        		1475, 100, false));
         
         RecipeHandler.addRecipe(new IndustrialElectrolyzerRecipe(
         		ItemDusts.getDustByName("bauxite", 12),
@@ -1218,7 +1218,7 @@ public class RecipesIC2 implements ICompatModule {
         		ItemDusts.getDustByName("aluminium", 3),
         		ItemCells.getCellByName("silicon", 3),
         		ItemCells.getCellByName("chlorine"),
-        		1350, 90));
+        		1350, 90, false));
         
         RecipeHandler.addRecipe(new IndustrialElectrolyzerRecipe(
         		ItemDusts.getDustByName("flint", 8),
@@ -1394,7 +1394,7 @@ public class RecipesIC2 implements ICompatModule {
                 null,
                 null,
                 null,
-                20, 30
+                20, 30, false
         ));
         
         RecipeHandler.addRecipe(new IndustrialElectrolyzerRecipe(

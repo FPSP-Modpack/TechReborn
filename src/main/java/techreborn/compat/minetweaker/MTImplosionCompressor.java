@@ -24,6 +24,17 @@ public class MTImplosionCompressor extends MTGeneric {
     }
 
     @ZenMethod
+    public static void addRecipe(IItemStack output1, IItemStack output2, IIngredient input1, IIngredient input2, int ticktime, int euTick, boolean useOredict) {
+        ItemStack oInput1 = (ItemStack) MinetweakerCompat.toObject(input1);
+        ItemStack oInput2 = (ItemStack) MinetweakerCompat.toObject(input2);
+
+
+        ImplosionCompressorRecipe r = new ImplosionCompressorRecipe(oInput1, oInput2, MinetweakerCompat.toStack(output1), MinetweakerCompat.toStack(output2), ticktime, euTick, useOredict);
+
+        addRecipe(r);
+    }
+
+    @ZenMethod
     public static void removeInputRecipe(IIngredient iIngredient) {
         MineTweakerAPI.apply(new RemoveInput(iIngredient, getMachineName()));
     }

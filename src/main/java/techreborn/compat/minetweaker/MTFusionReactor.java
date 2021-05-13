@@ -88,7 +88,7 @@ public class MTFusionReactor {
         @Override
         public void apply() {
             for (FusionReactorRecipe recipeType : FusionReactorRecipeHelper.reactorRecipes) {
-                if (ItemUtils.isItemEqual(recipeType.getOutput(), output, true, false)) {
+                if (ItemUtils.isItemEqual(recipeType.getOutput(), output, true, false, false)) {
                     removedRecipes.add(recipeType);
                     FusionReactorRecipeHelper.reactorRecipes.remove(recipeType);
                     break;

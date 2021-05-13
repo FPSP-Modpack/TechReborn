@@ -16,11 +16,13 @@ public class AssemblingMachineRecipeHandler extends GenericRecipeHander implemen
     public void addPositionedStacks(List<PositionedStack> input, List<PositionedStack> outputs, IBaseRecipeType recipeType) {
         int offset = 4;
         if (recipeType.getInputs().size() > 0) {
-            PositionedStack pStack = new PositionedStack(ItemUtils.getStackWithAllOre(recipeType.getInputs().get(0)), 47 - offset, 17 - offset, false);
+    		Object iStack = recipeType.useOreDic() ? ItemUtils.getStackWithAllOre(recipeType.getInputs().get(0)) : recipeType.getInputs().get(0);
+            PositionedStack pStack = new PositionedStack(iStack, 47 - offset, 17 - offset, false);
             input.add(pStack);
         }
         if (recipeType.getInputs().size() > 1) {
-            PositionedStack pStack2 = new PositionedStack(ItemUtils.getStackWithAllOre(recipeType.getInputs().get(1)), 65 - offset, 17 - offset, false);
+    		Object iStack = recipeType.useOreDic() ? ItemUtils.getStackWithAllOre(recipeType.getInputs().get(1)) : recipeType.getInputs().get(1);
+            PositionedStack pStack2 = new PositionedStack(iStack, 65 - offset, 17 - offset, false);
             input.add(pStack2);
         }
 

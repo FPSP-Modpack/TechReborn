@@ -21,6 +21,14 @@ public class MTPlateCuttingMachine extends MTGeneric {
     }
 
     @ZenMethod
+    public static void addRecipe(IItemStack output, IIngredient input1, int ticktime, int euTick, boolean useOredict) {
+        ItemStack oInput1 = (ItemStack) MinetweakerCompat.toObject(input1);
+        PlateCuttingMachineRecipe r = new PlateCuttingMachineRecipe(oInput1, MinetweakerCompat.toStack(output), ticktime, euTick, useOredict);
+
+        addRecipe(r);
+    }
+
+    @ZenMethod
     public static void removeInputRecipe(IIngredient iIngredient) {
         MineTweakerAPI.apply(new RemoveInput(iIngredient, getMachineName()));
     }

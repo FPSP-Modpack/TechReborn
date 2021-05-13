@@ -74,7 +74,7 @@ public class MTGeneric {
         public void apply() {
             for (IBaseRecipeType recipeType : RecipeHandler.getRecipeClassFromName(name)) {
                 for (ItemStack stack : recipeType.getOutputs()) {
-                    if (ItemUtils.isItemEqual(stack, output, true, false)) {
+                    if (ItemUtils.isItemEqual(stack, output, true, false, recipeType.useOreDic())) {
                         removedRecipes.add((BaseRecipe) recipeType);
                         RecipeHandler.recipeList.remove(recipeType);
                         break;

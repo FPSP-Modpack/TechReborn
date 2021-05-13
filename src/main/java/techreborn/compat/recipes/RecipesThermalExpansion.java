@@ -171,7 +171,7 @@ public class RecipesThermalExpansion implements ICompatModule {
 	}
 	
 	static void addCentrifugeRecipes() {
-        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("darkAshes", 2), null, ItemDusts.getDustByName("ashes", 2), TEItems.slag, null, null, 240, 5));
+        RecipeHandler.addRecipe(new CentrifugeRecipe(ItemDusts.getDustByName("darkAshes", 2), null, ItemDusts.getDustByName("ashes", 2), TEItems.slag, null, null, 240, 5, false));
 	}
 	
 	static void addInductionSemlterRecipes() {

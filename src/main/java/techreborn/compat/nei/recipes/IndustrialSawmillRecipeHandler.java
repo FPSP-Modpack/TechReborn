@@ -11,6 +11,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import reborncore.client.gui.GuiUtil;
+import reborncore.common.util.ItemUtils;
 import techreborn.api.recipe.IBaseRecipeType;
 import techreborn.api.recipe.machines.IndustrialSawmillRecipe;
 import techreborn.client.gui.GuiIndustrialSawmill;
@@ -21,12 +22,14 @@ public class IndustrialSawmillRecipeHandler extends GenericRecipeHander implemen
     public void addPositionedStacks(List<PositionedStack> input, List<PositionedStack> outputs, IBaseRecipeType recipeType) {
         int offset = 4;
         if (recipeType.getInputs().size() > 0) {
-            PositionedStack pStack = new PositionedStack(recipeType.getInputs().get(0), 32 - offset, 26 - offset, false);
+    		Object iStack = recipeType.useOreDic() ? ItemUtils.getStackWithAllOre(recipeType.getInputs().get(0)) : recipeType.getInputs().get(0);
+            PositionedStack pStack = new PositionedStack(iStack, 32 - offset, 26 - offset, false);
             input.add(pStack);
         }
 
         if (recipeType.getInputs().size() > 1) {
-            PositionedStack pStack2 = new PositionedStack(recipeType.getInputs().get(1), 32 - offset, 44 - offset, false);
+    		Object iStack = recipeType.useOreDic() ? ItemUtils.getStackWithAllOre(recipeType.getInputs().get(1)) : recipeType.getInputs().get(1);
+            PositionedStack pStack2 = new PositionedStack(iStack, 32 - offset, 44 - offset, false);
             input.add(pStack2);
         }
 

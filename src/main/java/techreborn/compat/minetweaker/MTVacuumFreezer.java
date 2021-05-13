@@ -21,6 +21,14 @@ public class MTVacuumFreezer extends MTGeneric {
     }
 
     @ZenMethod
+    public static void addRecipe(IItemStack output, IIngredient input, int ticktime, int euTick, boolean useOredict) {
+        ItemStack oInput1 = (ItemStack) MinetweakerCompat.toObject(input);
+
+        VacuumFreezerRecipe r = new VacuumFreezerRecipe(oInput1, MinetweakerCompat.toStack(output), ticktime, euTick, useOredict);
+        addRecipe(r);
+    }
+
+    @ZenMethod
     public static void removeInputRecipe(IIngredient iIngredient) {
         MineTweakerAPI.apply(new RemoveInput(iIngredient, getMachineName()));
     }

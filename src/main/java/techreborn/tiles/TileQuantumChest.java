@@ -59,7 +59,7 @@ public class TileQuantumChest extends TileMachineBase implements IInventory,
 					storedItem = getStackInSlot(0);
 					setInventorySlotContents(0, null);
 				} 
-				else if (ItemUtils.isItemEqual(storedItem, getStackInSlot(0), true, true)) 
+				else if (ItemUtils.isItemEqual(storedItem, getStackInSlot(0), true, true, false)) 
 				{
 					if (storedItem.stackSize <= storage - getStackInSlot(0).stackSize) 
 					{
@@ -76,7 +76,7 @@ public class TileQuantumChest extends TileMachineBase implements IInventory,
 				setInventorySlotContents(1, itemStack);
 				storedItem.stackSize -= itemStack.getMaxStackSize();
 			} 
-			else if (ItemUtils.isItemEqual(getStackInSlot(1), storedItem, true, true)) 
+			else if (ItemUtils.isItemEqual(getStackInSlot(1), storedItem, true, true, false)) 
 			{
 				int wanted = getStackInSlot(1).getMaxStackSize() - getStackInSlot(1).stackSize;
 				if (storedItem.stackSize >= wanted) 

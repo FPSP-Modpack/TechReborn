@@ -32,7 +32,7 @@ public class MTRollingMachine {
     public static void removeRecipe(IItemStack output) {
         List<IRecipe> toRemove = new ArrayList<>();
         for(IRecipe recipe : RollingMachineRecipe.instance.getRecipeList()){
-            if(ItemUtils.isItemEqual(recipe.getRecipeOutput(), MinetweakerCompat.toStack(output), true, false)){
+            if(ItemUtils.isItemEqual(recipe.getRecipeOutput(), MinetweakerCompat.toStack(output), true, false, false)){
                 toRemove.add(recipe);
             }
         }

@@ -16,7 +16,8 @@ public class VacuumFreezerRecipeHandler extends GenericRecipeHander implements I
     @Override
     public void addPositionedStacks(List<PositionedStack> input, List<PositionedStack> outputs, IBaseRecipeType recipeType) {
         int offset = 4;
-        PositionedStack pStack = new PositionedStack(ItemUtils.getStackWithAllOre(recipeType.getInputs().get(0)), 56 - offset, 34 - offset, false);
+		Object iStack = recipeType.useOreDic() ? ItemUtils.getStackWithAllOre(recipeType.getInputs().get(0)) : recipeType.getInputs().get(0);
+        PositionedStack pStack = new PositionedStack(iStack, 56 - offset, 34 - offset, false);
         input.add(pStack);
 
         PositionedStack pStack3 = new PositionedStack(recipeType.getOutput(0), 116 - offset, 35 - offset, false);

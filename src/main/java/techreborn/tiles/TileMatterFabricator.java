@@ -167,7 +167,7 @@ public class TileMatterFabricator extends TilePowerAcceptor implements IWrenchab
                 ItemStack stack = inventory.getStackInSlot(i);
                 if (this.amplifier < 100000 && stack != null) {
                     int amp = (int) (getValue(stack) / 32);
-                    if (ItemUtils.isItemEqual(stack, inventory.getStackInSlot(i), true, true)) {
+                    if (ItemUtils.isItemEqual(stack, inventory.getStackInSlot(i), true, true, false)) {
                         if (canUseEnergy(1)) {
                             useEnergy(1);
                             this.amplifier += amp;
@@ -198,14 +198,14 @@ public class TileMatterFabricator extends TilePowerAcceptor implements IWrenchab
     }
 
     private boolean spaceForOutput() {
-        return inventory.getStackInSlot(6) == null || ItemUtils.isItemEqual(inventory.getStackInSlot(6), new ItemStack(ModItems.uuMatter), true, true) && inventory.getStackInSlot(6).stackSize < 64;
+        return inventory.getStackInSlot(6) == null || ItemUtils.isItemEqual(inventory.getStackInSlot(6), new ItemStack(ModItems.uuMatter), true, true, false) && inventory.getStackInSlot(6).stackSize < 64;
     }
 
     private void addOutputProducts() {
 
         if (inventory.getStackInSlot(6) == null) {
             inventory.setInventorySlotContents(6, new ItemStack(ModItems.uuMatter));
-        } else if (ItemUtils.isItemEqual(inventory.getStackInSlot(6), new ItemStack(ModItems.uuMatter), true, true)) {
+        } else if (ItemUtils.isItemEqual(inventory.getStackInSlot(6), new ItemStack(ModItems.uuMatter), true, true, false)) {
             inventory.getStackInSlot(6).stackSize = Math.min(64, 1 + inventory.getStackInSlot(6).stackSize);
         }
     }

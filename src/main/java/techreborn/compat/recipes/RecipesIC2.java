@@ -967,7 +967,7 @@ public class RecipesIC2 implements ICompatModule {
         }
         
         //Sheldonite Ore
-        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("sheldonite"), IC2Items.getItem("waterCell"), null, ItemDusts.getDustByName("platinum", 3), ItemDusts.getDustByName("nickel"), ItemNuggets.getNuggetByName("iridium", 2), IC2Items.getItem("cell"), 100, 128));
+        RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("sheldonite"), IC2Items.getItem("waterCell"), null, ItemDusts.getDustByName("platinum", 2), ItemDusts.getDustByName("nickel"), ItemNuggets.getNuggetByName("iridium", 2), IC2Items.getItem("cell"), 100, 128));
         RecipeHandler.addRecipe(new GrinderRecipe(BlockOre.getOreByName("sheldonite"), ItemCells.getCellByName("mercury"), null, ItemDusts.getDustByName("platinum", 3), ItemDusts.getDustByName("nickel"), ItemNuggets.getNuggetByName("iridium", 2), IC2Items.getItem("cell"), 100, 128));
 
         //Electrotine Ore

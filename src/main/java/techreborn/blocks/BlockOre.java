@@ -86,7 +86,7 @@ public class BlockOre extends Block {
 		if (metadata == RecipeUtils.getArrayPos(types, "Sodalite")) {
 			OreDrop sodalite = new OreDrop(ItemDusts.getDustByName("sodalite", 6),
 					ConfigTechReborn.FortuneSecondaryOreMultiplierPerLevel);
-			OreDrop aluminum = new OreDrop(ItemDusts.getDustByName("aluminum"), 0.50);
+			OreDrop aluminum = new OreDrop(ItemDusts.getDustByName("aluminium"), 0.50);
 			OreDropSet set = new OreDropSet(sodalite, aluminum);
 			return set.drop(fortune, world.rand);
 		}
